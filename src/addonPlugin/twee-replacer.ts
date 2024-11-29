@@ -9,6 +9,11 @@ export const TweeReplacer: ModBootJsonAddonPlugin = {
       "passage": "StoryCaption",
       "findString": "<<if $options.sidebarStats isnot \"disabled\">>",
       "replace": "<<SpellBookMobile>><<if $options.sidebarStats isnot \"disabled\">>"
+    },
+    {
+      "passage": "overlayReplace",
+      "findString": "<<switch _key>>",
+      "replaceFile": "additionFile/overlayReplace.txt"
     }
   ],
 };

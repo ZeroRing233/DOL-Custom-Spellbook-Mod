@@ -1,4 +1,5 @@
 function spellBookMobileClicked(): void {
+    $.wiki("<<overlayReplace \"spellBookOpen\">>");
     $(function () {
         let bookIcon: HTMLElement | null = document.querySelector(".SpellBookMobile");
         if (bookIcon) {
@@ -7,3 +8,4 @@ function spellBookMobileClicked(): void {
     });
 }
 window.spellBookMobileClicked = spellBookMobileClicked;
+

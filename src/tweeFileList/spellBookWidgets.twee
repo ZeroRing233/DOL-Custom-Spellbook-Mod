@@ -1,4 +1,25 @@
 :: Spell Book Widgets [widget]
 <<widget "SpellBookMobile">>
+    你如果爆红我会很伤心
     <input type="button" class="SpellBookMobile" value="" onclick="spellBookMobileClicked()">
+<</widget>>
+
+<<widget "spellBookTitle">>
+    <<setupTabs>>
+    <div id="overlayTabs" class="tab">
+		<<closeButtonMobile>>
+		<<button "言灵目录">>
+			<<toggleTab>>
+			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
+		<</button>>
+        <<button "默认言灵集">>
+			<<toggleTab>>
+			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
+		<</button>>
+	</div>
+	<<closeButton>>
+<</widget>>
+
+<<widget "spellBookOpen">>
+    这只是一个魔法书
 <</widget>>

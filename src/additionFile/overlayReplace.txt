@@ -1,0 +1,5 @@
+<<switch _key>>
+    <<run alert("这段执行了");>>
+    <<case "spellBookOpen">>
+	    <<replace #customOverlayTitle>><<spellBookTitle>><</replace>>
+	    <<replace #customOverlayContent>><<spellBookOpen>><</replace>>

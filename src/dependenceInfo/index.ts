@@ -1,4 +1,4 @@
-import type { DependenceInfo } from "../types/boot.types.ts";
+import type { DependenceInfo } from "../types/boot.types";
 
 export const dependenceInfo: DependenceInfo[] = [
   {

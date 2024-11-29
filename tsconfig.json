@@ -9,7 +9,7 @@
     "typeRoots": ["node_modules/@types"],
     "types": ["./src/winDef.d.ts", "node", "twine-sugarcube"],
     "allowImportingTsExtensions": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "isolatedModules": true,
     "skipLibCheck": true

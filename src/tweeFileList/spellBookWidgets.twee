@@ -1,0 +1,4 @@
+:: Spell Book Widgets [widget]
+<<widget "SpellBookMobile">>
+    <input type="button" class="SpellBookMobile" value="" onclick="spellBookMobileClicked()">
+<</widget>>

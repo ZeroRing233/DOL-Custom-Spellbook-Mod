@@ -2,6 +2,8 @@
 .DS_Store
 *.local
 *.log*
+README的副本.md
+test.html
 
 # Dist
 node_modules

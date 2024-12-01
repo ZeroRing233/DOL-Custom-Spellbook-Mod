@@ -1,6 +1,5 @@
 :: Spell Book Widgets [widget]
 <<widget "SpellBookMobile">>
-    你如果爆红我会很伤心
     <input type="button" class="SpellBookMobile" value="" onclick="spellBookMobileClicked()">
 <</widget>>
 
@@ -14,7 +13,7 @@
 		<</button>>
         <<button "默认言灵集">>
 			<<toggleTab>>
-			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
+			<<replace #customOverlayContent>><<spellBookDefault>><</replace>>
 		<</button>>
 	</div>
 	<<closeButton>>
@@ -22,4 +21,15 @@
 
 <<widget "spellBookOpen">>
     这只是一个魔法书
+<</widget>>
+
+<<widget "spellBookDefault">>
+	导出所有 跨存档保存 导入所有
+	 <<if $cccheat.length != 0>>
+        <<for _ccloopcounter to 0; _ccloopcounter lt $cccheat.length; _ccloopcounter++>>
+            <<print "(" + (_ccloopcounter + 1) + ") ">>
+            <<print $cccheat[_ccloopcounter]>>
+			<br>
+        <</for>>
+    <</if>>
 <</widget>>

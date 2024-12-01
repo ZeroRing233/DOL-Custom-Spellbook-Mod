@@ -1,4 +1,4 @@
-export {};
+export { };
 
 declare global {
   interface Window {
@@ -24,6 +24,21 @@ declare global {
       MacroRef: typeof Macro,
       ScriptingRef: typeof Scripting,
     ) => void;
+    // 自定义函数
+    spellBookMobileClicked: () => void;
+  }
+
+  interface V {
+    spellBookOpening?: boolean; 
+  }
+  declare var V: V;
+
+  class Renderer {
+    static lastModel?: any; // Assuming lastModel can be null or undefined
+  
+    static refresh(model: any): void {
+      // ... implementation ...
+    }
   }
 
   const Wikifier: WikifierAPI;

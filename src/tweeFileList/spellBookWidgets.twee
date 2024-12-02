@@ -20,12 +20,13 @@
 <</widget>>
 
 <<widget "spellBookOpen">>
-    这只是一个魔法书
+    这只是一个魔法书，细节等会再说。
 <</widget>>
 
 <<widget "spellBookDefault">>
 	导出所有 跨存档保存 导入所有
-	 <<if $cccheat.length != 0>>
+	<input type="button" class="saveMenuButton" value="跨存档保存" onclick="saveDataToIndexdb($cccheat)">
+	<<if $cccheat.length != 0>>
         <<for _ccloopcounter to 0; _ccloopcounter lt $cccheat.length; _ccloopcounter++>>
             <<print "(" + (_ccloopcounter + 1) + ") ">>
             <<print $cccheat[_ccloopcounter]>>

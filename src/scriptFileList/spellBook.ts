@@ -1,3 +1,4 @@
+import { SpellbookDB } from './SpellbookDB';
 import Sortable from 'sortablejs'
 console.log('Sortable导入成功' + Sortable);
 
@@ -24,4 +25,16 @@ function spellBookMobileClicked(): void {
     });
 }
 window.spellBookMobileClicked = spellBookMobileClicked;
+
+
+async function saveDataToIndexDB(cccheat) {
+    // TODO: 重构该函数，同步存档和indexdb中的数据
+    const db = new SpellbookDB();
+    let item: any = {}
+    item.name = "默认言灵集";
+    item.content = cccheat;
+    const addedItem = await db.addItem(item);
+    console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
+}
+window.saveDataToIndexDB = saveDataToIndexDB;
 

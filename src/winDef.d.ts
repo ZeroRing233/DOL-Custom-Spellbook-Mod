@@ -26,16 +26,18 @@ declare global {
     ) => void;
     // 自定义函数
     spellBookMobileClicked: () => void;
+    saveDataToIndexDB: (data: any) => any;
   }
 
+  // AI告诉我要这样改
   interface V {
-    spellBookOpening?: boolean; 
+    spellBookOpening?: boolean;
   }
   declare var V: V;
 
   class Renderer {
     static lastModel?: any; // Assuming lastModel can be null or undefined
-  
+
     static refresh(model: any): void {
       // ... implementation ...
     }

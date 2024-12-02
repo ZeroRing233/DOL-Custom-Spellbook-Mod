@@ -10,6 +10,8 @@
     },
     "dependencies": {
         "dayjs": "^1.11.13",
+        "idb": "^8.0.0",
+        "idb-keyval": "^6.2.1",
         "jquery": "^3.7.1",
         "libsodium-wrappers-sumo": "^0.7.15",
         "lodash-es": "^4.17.21",

@@ -2,18 +2,13 @@ import { IDBPDatabase, openDB } from 'idb';
 
 // 非常简陋的idb增删改查，如有问题，请尽情吐槽
 
-interface SpellbookItem {
-    uuid: string;
-    [key: string]: any;
-}
-
 export class SpellbookDB {
     private dbPromise: Promise<IDBPDatabase<String>>;
 
     constructor() {
         this.dbPromise = openDB('spellbook', 1, {
             upgrade(db) {
-                db.createObjectStore('mystore', { keyPath: 'uuid' });
+                db.createObjectStore('mystore', { keyPath: 'id' });
             },
         });
     }
@@ -22,9 +17,12 @@ export class SpellbookDB {
         const db = await this.dbPromise;
         const tx = db.transaction('mystore', 'readwrite');
         const store = tx.objectStore('mystore');
-        const uuid = this.generateUUID();
-        newItem.uuid = uuid;
-        await store.add(newItem);
+        if (!newItem.uuid) {
+            const uuid = this.generateUUID();
+            newItem.uuid = uuid;
+        }
+        const newItemStr = JSON.stringify(newItem);
+        await store.add(newItemStr, newItem.uuid);
         await tx.done;
         return newItem;
     }
@@ -33,7 +31,10 @@ export class SpellbookDB {
         const db = await this.dbPromise;
         const tx = db.transaction('mystore', 'readonly');
         const store = tx.objectStore('mystore');
-        const item = await store.get(id);
+        console.log("getItem中的uuid是" + id);
+        const itemString = await store.get(id);
+        const item: SpellbookItem = JSON.parse(itemString);
+        console.log("getItem中的item是" + JSON.stringify(item))
         await tx.done;
         return item;
     }

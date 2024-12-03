@@ -7,7 +7,7 @@
     <<setupTabs>>
     <div id="overlayTabs" class="tab">
 		<<closeButtonMobile>>
-		<<button "言灵目录">>
+		<<button "封面">>
 			<<toggleTab>>
 			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
 		<</button>>
@@ -20,16 +20,44 @@
 <</widget>>
 
 <<widget "spellBookOpen">>
-    这只是一个魔法书，细节等会再说。
+	<<initSpellBook>>
+    这只是一个魔法书，细节等会再说。(添加言灵集功能，导出功能)
+	* 初次加载时，默认言灵集的数据为当前侧边栏设定的言灵集，之后可以自定义。
+	(为简化逻辑，目前所有操作均以言灵集为单位，逃)
+<</widget>>
+
+<<widget "initSpellBook">>
+	<<if $spellBook is undefined>>
+		<<set $spellBook to {}>>
+	<</if>>
+	/% 能从IndexDB找到，就用，否则就从其他地方找 %/
+	<<if $spellBook["default"] is undefined>>
+		<<set $spellBook["default"] to {name:"默认言灵集", uuid:"dafault", content:[]}>>
+		<<run getDataFromIndexDB("default")>>
+		<<if _currContent isnot null>>
+			<<set $spellBook["default"].content to _currContent>>
+		<<elseif $cccheat and $cccheat.length gt 0>>
+			<<set $spellBook["default"].content to $cccheat>>
+		<</if>>
+	<</if>>
+	<<if $cccheatList is undefined>>
+		<<set $cccheatList to ["default"]>>
+	<</if>>
 <</widget>>
 
 <<widget "spellBookDefault">>
-	导出所有 跨存档保存 导入所有
-	<input type="button" class="saveMenuButton" value="跨存档保存" onclick="saveDataToIndexdb($cccheat)">
-	<<if $cccheat.length != 0>>
-        <<for _ccloopcounter to 0; _ccloopcounter lt $cccheat.length; _ccloopcounter++>>
-            <<print "(" + (_ccloopcounter + 1) + ") ">>
-            <<print $cccheat[_ccloopcounter]>>
+	<<set _name to $spellBook["default"].name>>
+	<<set _content to $spellBook["default"].content>>
+	<input type="button" value="在侧边栏显示该言灵集的内容" class="saveMenuButton">
+	<br>
+	<input type="button" value="导出言灵集数据" class="saveMenuButton">
+	<br>
+	<input type="button" class="saveMenuButton" value="跨存档保存该言灵集" onclick="saveDataToIndexDB(T.name,T.content,true)">
+	<br><br>
+	<<if _content.length != 0>>
+        <<for _i to 0; _i lt _content.length; _i++>>
+            <<print "(" + (_i + 1) + ") ">>
+            <<print _content[_i]>>
 			<br>
         <</for>>
     <</if>>

@@ -20,6 +20,7 @@ function spellBookMobileClicked(): void {
     $(function () {
         let bookIcon: HTMLElement | null = document.querySelector(".SpellBookMobile");
         if (bookIcon) {
+            // 之后应该会改的，别吐槽
             bookIcon.style.backgroundImage = "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGZpbGw9IiNDNzlGRUYiIGQ9Ik0xNSA0LjdWNGE2LjggNi44IDAgMCAwLTQuNDg0LTEuOTk5YTIuODQgMi44NCAwIDAgMC0yLjUxMy45OTVhMy4wMiAzLjAyIDAgMCAwLTIuNTE1LS45OTVBNi44IDYuOCAwIDAgMCAxIDR2LjdMMCA1djEwbDYuNy0xLjRsLjMuNGgybC4zLS40TDE2IDE1VjV6bS05LjUyIDYuNjFhOC4yIDguMiAwIDAgMC0zLjUyNi45MDJMMiA0LjQyQTUuMjIgNS4yMiAwIDAgMSA1LjM2OSAzYTQuNTUgNC41NSAwIDAgMSAyLjE1OS43MDFsLS4wMTkgNy44NjlhNi42IDYuNiAwIDAgMC0yLjAzOS0uMjU5em04LjUyLjg4YTguMSA4LjEgMCAwIDAtMy40NjgtLjg4bC0uMTYxLS4wMDJjLS42NiAwLTEuMjk3LjA5Ni0xLjg5OS4yNzRsLjA0Ny03LjkwMmE0LjUgNC41IDAgMCAxIDIuMDk2LS42NzlhNS4yMiA1LjIyIDAgMCAxIDMuMzg2IDEuNDIybC0uMDAzIDcuNzY4eiIvPjwvc3ZnPg==')";
         }
     });
@@ -27,14 +28,30 @@ function spellBookMobileClicked(): void {
 window.spellBookMobileClicked = spellBookMobileClicked;
 
 
-async function saveDataToIndexDB(cccheat) {
-    // TODO: 重构该函数，同步存档和indexdb中的数据
+async function saveDataToIndexDB(name: string, content: string[], isDefault: boolean) {
+    console.log("获取的值是：" + name + "获取的内容是：" + content + "是否default" + isDefault);
     const db = new SpellbookDB();
-    let item: any = {}
-    item.name = "默认言灵集";
-    item.content = cccheat;
+    let item: SpellbookItem = {};
+    if (isDefault) {
+        item.uuid = "dafault";
+    }
+    item.name = name;
+    item.content = content;
     const addedItem = await db.addItem(item);
     console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
+    V.spellBook[addedItem.uuid] = addedItem;
 }
 window.saveDataToIndexDB = saveDataToIndexDB;
 
+async function getDataFromIndexDB(uuid: string): Promise<void> {
+    const db = new SpellbookDB();
+    try {
+        const result: SpellbookItem | undefined = await db.getItem(uuid);
+        console.log("获取到的result是" + JSON.stringify(result));
+        T.currContent = result?.content || null; // Use optional chaining and nullish coalescing
+    } catch (error) {
+        console.error('Error retrieving data from IndexDB:', error);
+        T.currContent = null;
+    }
+}
+window.getDataFromIndexDB = getDataFromIndexDB;

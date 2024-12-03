@@ -26,14 +26,28 @@ declare global {
     ) => void;
     // 自定义函数
     spellBookMobileClicked: () => void;
-    saveDataToIndexDB: (data: any) => any;
+    saveDataToIndexDB: (name: string, content: string[], isDefault: false) => void;
+    getDataFromIndexDB: (uuid: string) => void;
   }
 
-  // AI告诉我要这样改
+  // 存档内新增数据
   interface V {
-    spellBookOpening?: boolean;
+    spellBookOpening?: boolean; // 判断当前魔法书是否打开
+    spellBook?: { [key: string]: SpellbookItem }; // 魔法书的主要数据
+    cccheatList?: string[] //需要展示在侧边栏的言灵集（搭配其他模组使用）
   }
   declare var V: V;
+
+  interface T {
+    currContent?: string[] //当前言灵集的内容
+  }
+  declare var T: T;
+
+  interface SpellbookItem {
+    uuid?: string;
+    name?: string;
+    content?: string[];
+  }
 
   class Renderer {
     static lastModel?: any; // Assuming lastModel can be null or undefined

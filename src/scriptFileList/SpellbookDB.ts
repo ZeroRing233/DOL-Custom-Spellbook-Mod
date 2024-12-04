@@ -8,7 +8,7 @@ export class SpellbookDB {
     constructor() {
         this.dbPromise = openDB('spellbook', 1, {
             upgrade(db) {
-                db.createObjectStore('mystore', { keyPath: 'id' });
+                db.createObjectStore('mystore', { keyPath: 'uuid' });
             },
         });
     }
@@ -21,9 +21,9 @@ export class SpellbookDB {
             const uuid = this.generateUUID();
             newItem.uuid = uuid;
         }
-        const newItemStr = JSON.stringify(newItem);
-        await store.add(newItemStr, newItem.uuid);
+        await store.add(newItem);
         await tx.done;
+        console.log("addItem中的item是" + JSON.stringify(newItem));
         return newItem;
     }
 
@@ -32,8 +32,7 @@ export class SpellbookDB {
         const tx = db.transaction('mystore', 'readonly');
         const store = tx.objectStore('mystore');
         console.log("getItem中的uuid是" + id);
-        const itemString = await store.get(id);
-        const item: SpellbookItem = JSON.parse(itemString);
+        const item = await store.get(id);
         console.log("getItem中的item是" + JSON.stringify(item))
         await tx.done;
         return item;
@@ -73,5 +72,5 @@ export class SpellbookDB {
         });
     }
 }
-// addItem().then(() => getItem(1)).then(() => deleteItem(1));
 
+// addItem().then(() => getItem(1)).then(() => deleteItem(1));

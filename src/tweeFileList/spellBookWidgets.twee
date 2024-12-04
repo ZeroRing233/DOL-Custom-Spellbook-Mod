@@ -30,16 +30,11 @@
 	<<if $spellBook is undefined>>
 		<<set $spellBook to {}>>
 	<</if>>
-	/% 能从IndexDB找到，就用，否则就从其他地方找 %/
+	/% 能从IndexDB找到，就用，否则就从cccheat找，都没有则为空数组 %/
 	<<if $spellBook["default"] is undefined>>
-		<<set $spellBook["default"] to {name:"默认言灵集", uuid:"dafault", content:[]}>>
-		<<run getDataFromIndexDB("default")>>
-		<<if _currContent isnot null>>
-			<<set $spellBook["default"].content to _currContent>>
-		<<elseif $cccheat and $cccheat.length gt 0>>
-			<<set $spellBook["default"].content to $cccheat>>
-		<</if>>
+		<<run initDefaultSpellBook();>>
 	<</if>>
+	/% cccheat变量应该包含哪些言灵集 %/
 	<<if $cccheatList is undefined>>
 		<<set $cccheatList to ["default"]>>
 	<</if>>

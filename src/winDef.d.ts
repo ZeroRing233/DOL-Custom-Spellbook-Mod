@@ -26,8 +26,10 @@ declare global {
     ) => void;
     // 自定义函数
     spellBookMobileClicked: () => void;
+    initDefaultSpellBook: () => void;
     saveDataToIndexDB: (name: string, content: string[], isDefault: false) => void;
-    getDataFromIndexDB: (uuid: string) => void;
+    getDataFromIndexDB: (uuid: string) => Promise<string[] | null>;
+    myIndexDBTest: () => void;
   }
 
   // 存档内新增数据
@@ -35,6 +37,7 @@ declare global {
     spellBookOpening?: boolean; // 判断当前魔法书是否打开
     spellBook?: { [key: string]: SpellbookItem }; // 魔法书的主要数据
     cccheatList?: string[] //需要展示在侧边栏的言灵集（搭配其他模组使用）
+    cccheat?: string[] // 展示在侧边栏的模组列表，可能需与其他模组联动
   }
   declare var V: V;
 

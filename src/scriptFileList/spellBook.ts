@@ -43,15 +43,38 @@ async function saveDataToIndexDB(name: string, content: string[], isDefault: boo
 }
 window.saveDataToIndexDB = saveDataToIndexDB;
 
-async function getDataFromIndexDB(uuid: string): Promise<void> {
+async function getDataFromIndexDB(uuid: string): Promise<string[] | null> {
     const db = new SpellbookDB();
     try {
         const result: SpellbookItem | undefined = await db.getItem(uuid);
         console.log("获取到的result是" + JSON.stringify(result));
-        T.currContent = result?.content || null; // Use optional chaining and nullish coalescing
+        return result?.content || null;
     } catch (error) {
         console.error('Error retrieving data from IndexDB:', error);
-        T.currContent = null;
+        return null;
     }
 }
 window.getDataFromIndexDB = getDataFromIndexDB;
+
+function initDefaultSpellBook() {
+    V.spellBook["default"] = { name: "默认言灵集", uuid: "dafault", content: [] };
+    console.log("默认言灵集初始化开始");
+    getDataFromIndexDB(V.spellBook["default"].uuid).then((content) => {
+        if (content) {
+            V.spellBook["default"].content = content;
+            console.log("默认言灵集初始化来源为idb");
+        }
+        else if (V.cccheat && V.cccheat.length > 0) {
+            V.spellBook["default"].content = V.cccheat;
+            console.log("默认言灵集初始化来源为cccheat");
+        }
+    });
+}
+window.initDefaultSpellBook = initDefaultSpellBook;
+
+// justTest
+async function myIndexDBTest() {
+    saveDataToIndexDB("test", [], false);
+    getDataFromIndexDB("default").then((content) => T.currContent = content);
+}
+window.myIndexDBTest = myIndexDBTest;

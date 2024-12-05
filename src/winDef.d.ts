@@ -35,6 +35,7 @@ declare global {
     initDefaultSpellBook: () => void;
     saveDataToIndexDB: (spellbookItem: SpellbookItem) => void;
     myIndexDBTest: () => void;
+    exportSpellBookItem: (spellbookItem: SpellbookItem) => void;
   }
 
   // 存档内新增数据

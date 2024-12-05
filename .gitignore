@@ -3,6 +3,8 @@
 *.local
 *.log*
 README的副本.md
+言灵集.txt
+言灵集2.json
 test.html
 
 # Dist

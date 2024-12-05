@@ -1,5 +1,6 @@
 import { SpellbookDB } from './SpellbookDB';
-import Sortable from 'sortablejs'
+import { saveAs } from 'file-saver';
+import Sortable from 'sortablejs';
 console.log('Sortable导入成功' + Sortable);
 
 $(document).on(":oncloseoverlay", () => {
@@ -121,3 +122,46 @@ async function myIndexDBTest() {
     // 预留一下
 }
 window.myIndexDBTest = myIndexDBTest;
+
+async function exportSpellBookItem(spellbookItem: SpellbookItem) {
+    const { value: fileType } = await window.modSweetAlert2Mod.fire({
+        title: '导出言灵集【' + spellbookItem.name + '】为文件',
+        text: '请选择文件格式:',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true,
+        customClass: {
+            popup: 'swal2-grayed', // Apply the custom class to the popup
+            input: 'swal2-input-grayed' // Apply the custom class to input
+        },
+        input: 'radio',
+        inputOptions: {
+            '.txt': '文本文件 (.txt)',
+            '.json': 'JSON 文件 (.json)',
+        },
+        inputValidator: (value) => {
+            if (!value) {
+                return '请选择文件类型';
+            }
+        }
+    });
+    if (fileType) { // Check if the user selected a file type
+        try {
+            let dataToExport = JSON.stringify(spellbookItem, null, 2);
+            const blob = new Blob([dataToExport], { type: fileType === '.json' ? 'application/json' : 'text/plain' });
+            // const url = URL.createObjectURL(blob);
+            // const a = document.createElement("a");
+            // a.href = url;
+            // a.download = `${spellbookItem.name}${fileType}`;
+            // a.click();
+            // URL.revokeObjectURL(url);
+            const fileName = `${spellbookItem.name}${fileType}`;
+            saveAs(blob, fileName);
+        } catch (error) {
+            alert("导出失败: " + error);
+        }
+    }
+}
+window.exportSpellBookItem = exportSpellBookItem;

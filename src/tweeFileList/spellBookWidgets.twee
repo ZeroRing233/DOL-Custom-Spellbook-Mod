@@ -45,7 +45,7 @@
 	<<set _content to $spellBook["default"].content>>
 	<input type="button" value="在侧边栏显示该言灵集的内容" class="saveMenuButton">
 	<br>
-	<input type="button" value="导出言灵集数据" class="saveMenuButton">
+	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook['default'])">
 	<br>
 	<input type="button" class="saveMenuButton" value="跨存档保存该言灵集" onclick="saveDataToIndexDB(V.spellBook['default'])">
 	<br><br>

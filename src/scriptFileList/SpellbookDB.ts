@@ -46,13 +46,14 @@ export class SpellbookDB {
         await tx.done;
     }
 
-    async updateItem(updatedItem: SpellbookItem): Promise<void> {
+    async updateItem(updatedItem: SpellbookItem): Promise<SpellbookItem> {
         const db = await this.dbPromise;
         const tx = db.transaction('mystore', 'readwrite');
         const store = tx.objectStore('mystore');
         try {
             await store.put(updatedItem);
             await tx.done;
+            return updatedItem;
         } catch (error) {
             console.error('Error updating item:', error);
             throw error;

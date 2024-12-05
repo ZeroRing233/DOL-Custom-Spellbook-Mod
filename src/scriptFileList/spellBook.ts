@@ -28,40 +28,84 @@ function spellBookMobileClicked(): void {
 window.spellBookMobileClicked = spellBookMobileClicked;
 
 
-async function saveDataToIndexDB(name: string, content: string[], isDefault: boolean) {
-    console.log("获取的值是：" + name + "获取的内容是：" + content + "是否default" + isDefault);
+async function saveDataToIndexDB(spellbookItem: SpellbookItem) {
     const db = new SpellbookDB();
-    let item: SpellbookItem = {};
-    if (isDefault) {
-        item.uuid = "dafault";
+    console.log("需要保存的值是：" + spellbookItem.name + "需要保存的内容是：" + spellbookItem.content + "需要保存的uuid：" + spellbookItem.uuid);
+    let isUpdate = false;
+    if (spellbookItem.uuid) {
+        const result = await db.getItem(spellbookItem.uuid);
+        if (result && result.content !== null) {
+            isUpdate = true;
+            doItemUpdate(spellbookItem, db);
+        }
     }
-    item.name = name;
-    item.content = content;
-    const addedItem = await db.addItem(item);
-    console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
-    V.spellBook[addedItem.uuid] = addedItem;
+    if (!isUpdate) {
+        doItemSave(spellbookItem, db);
+    }
 }
 window.saveDataToIndexDB = saveDataToIndexDB;
 
-async function getDataFromIndexDB(uuid: string): Promise<string[] | null> {
-    const db = new SpellbookDB();
-    try {
-        const result: SpellbookItem | undefined = await db.getItem(uuid);
-        console.log("获取到的result是" + JSON.stringify(result));
-        return result?.content || null;
-    } catch (error) {
-        console.error('Error retrieving data from IndexDB:', error);
-        return null;
+async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
+    const result = await window.modSweetAlert2Mod.fire({
+        title: '检测到当前言灵集【' + spellbookItem.name + '】已存在',
+        text: '是否更新跨存档保存的言灵集？此操作将会**永久**地更新所有存档中的【' + spellbookItem.name + '】言灵集。',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true
+    });
+    if (result.isConfirmed) {
+        // 用户点击了确认按钮
+        try {
+            const updatedItem = await db.updateItem(spellbookItem);
+            console.log("更新成功，获取的updatedItem是" + JSON.stringify(updatedItem));
+            V.spellBook[updatedItem.uuid] = updatedItem;
+            window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
+        } catch (error) {
+            const errorMsg = JSON.stringify(error);
+            window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
+        }
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // 用户点击了取消按钮
+        window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
     }
 }
-window.getDataFromIndexDB = getDataFromIndexDB;
 
-function initDefaultSpellBook() {
+async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
+    const result = await window.modSweetAlert2Mod.fire({
+        title: '检测到当前言灵集【' + spellbookItem.name + '】尚未被保存过',
+        text: '是否跨存档保存该言灵集？此操作将会在所有存档中添加【' + spellbookItem.name + '】言灵集。',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true
+    });
+    if (result.isConfirmed) {
+        // 用户点击了确认按钮
+        try {
+            const addedItem = await db.addItem(spellbookItem);
+            console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
+            V.spellBook[addedItem.uuid] = addedItem;
+            window.modSweetAlert2Mod.fire('已保存', '当前言灵集已被保存', 'success');
+        } catch (error) {
+            const errorMsg = JSON.stringify(error);
+            window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
+        }
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // 用户点击了取消按钮
+        window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+    }
+}
+
+function initDefaultSpellBook(): void {
+    const db = new SpellbookDB();
     V.spellBook["default"] = { name: "默认言灵集", uuid: "dafault", content: [] };
     console.log("默认言灵集初始化开始");
-    getDataFromIndexDB(V.spellBook["default"].uuid).then((content) => {
-        if (content) {
-            V.spellBook["default"].content = content;
+    db.getItem(V.spellBook["default"].uuid).then((result) => {
+        if (result && result.content !== null) {
+            V.spellBook["default"].content = result.content;
             console.log("默认言灵集初始化来源为idb");
         }
         else if (V.cccheat && V.cccheat.length > 0) {
@@ -74,7 +118,6 @@ window.initDefaultSpellBook = initDefaultSpellBook;
 
 // justTest
 async function myIndexDBTest() {
-    saveDataToIndexDB("test", [], false);
-    getDataFromIndexDB("default").then((content) => T.currContent = content);
+    // 预留一下
 }
 window.myIndexDBTest = myIndexDBTest;

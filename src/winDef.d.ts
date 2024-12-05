@@ -18,6 +18,11 @@ declare global {
     get: (name: string) => any;
   };
 
+  interface Swal {
+    DismissReason: any;
+  }
+  declare var Swal: Swal;
+
   interface Window {
     aaaaabbbbbccccc: (key: string) => string;
     ModWebpackExampleTs_patchLinkButton: (
@@ -25,10 +30,10 @@ declare global {
       ScriptingRef: typeof Scripting,
     ) => void;
     // 自定义函数
+    modSweetAlert2Mod: any;
     spellBookMobileClicked: () => void;
     initDefaultSpellBook: () => void;
-    saveDataToIndexDB: (name: string, content: string[], isDefault: false) => void;
-    getDataFromIndexDB: (uuid: string) => Promise<string[] | null>;
+    saveDataToIndexDB: (spellbookItem: SpellbookItem) => void;
     myIndexDBTest: () => void;
   }
 

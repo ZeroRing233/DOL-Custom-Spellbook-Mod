@@ -36,6 +36,8 @@ declare global {
     saveDataToIndexDB: (spellbookItem: SpellbookItem) => void;
     myIndexDBTest: () => void;
     exportSpellBookItem: (spellbookItem: SpellbookItem) => void;
+    // 测试内容
+    exportToDiskTest1: () => void;
   }
 
   // 存档内新增数据
@@ -69,6 +71,16 @@ declare global {
   const Wikifier: WikifierAPI;
   const Scripting: ScriptingAPI;
 
+  // 导出存档测试内容，之后需要删除
+  interface LZString {
+    compressToBase64: any;
+  }
+  declare var LZString: LZString;
+
+  let State: {
+    marshalForSave: any;
+    deltaEncode: any;
+  }
 }
 
 export interface WikifierAPI {

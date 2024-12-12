@@ -1,0 +1,13 @@
+捞一下这个问题，下面是详细描述：
+我遇到了一个安卓端文件导出问题。使用 FileSaver.js 的 saveAs(blob, filename) 函数在 PC 端可以正常导出数据，但在安卓端点击导出按钮后没有任何反应。我已经确认安卓端在调用 saveAs 函数之前能够获取正确的文件名和 Blob 数据，并且在手机调试工具中也没有任何错误信息输出。
+
+因为原版游戏中也有类似的导出存档功能，并且在 528 版本中修复了安卓端的导出问题。如果能确定我的问题与原版问题一致，就可以参考其修复方案。
+
+然而，我在源码仓库 (degrees-of-lewdity/gamebase-systemoverlays/saves-export-import.twee) 和 SugarCube 仓库 (sugarcube-2_Vrelnir) 中查找相关修改后，并未发现任何与安卓端导出功能相关的改动（我的查找过程具体如下）：
+源码仓库的导出界面已有一年未更新，其导出方法为 SugarCube.Save.export。
+SugarCube 仓库中 idb_backend.js 两月前的一次修改将 exportButton.onclick => Save.export; 改为 exportButton.onclick = () => Save.export();，但这似乎是为了解决文件名问题，而非导出功能本身。
+SugarCube 仓库中 save.js 的 exportToDisk(filename, metadata) 函数负责导出功能的具体实现，该函数同样调用 saveAs(blob, filename) 进行导出，近期也没有任何改动。
+
+总之，我现在好像有点被这个问题卡住了，需要想办法抢救一下...
+
+

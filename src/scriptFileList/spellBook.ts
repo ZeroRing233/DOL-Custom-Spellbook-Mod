@@ -158,6 +158,8 @@ async function exportSpellBookItem(spellbookItem: SpellbookItem) {
             // a.click();
             // URL.revokeObjectURL(url);
             const fileName = `${spellbookItem.name}${fileType}`;
+            alert("能够获取到fileName：" + fileName + "能够获取到blob：" + blob);
+            // 死马当活马医一下
             saveAs(blob, fileName);
         } catch (error) {
             alert("导出失败: " + error);
@@ -165,3 +167,44 @@ async function exportSpellBookItem(spellbookItem: SpellbookItem) {
     }
 }
 window.exportSpellBookItem = exportSpellBookItem;
+
+// 测试的专用分界线
+function exportToDiskTest1() {
+    alert("函数被调用");
+    const saveName = "justTest";
+    const supplemental = {}; // lazy equality for null
+    const data = LZString.compressToBase64(JSON.stringify(_marshal(supplemental, { type: 'disk' })));
+    const saveObj = data + LZString.compressToBase64(JSON.stringify({ [SugarCube.Story.domId]: data.length }));
+    saveAs(new Blob([saveObj], { type: 'text/plain;charset=UTF-8' }), saveName);
+    // const saveName = 'justTest';
+    // const data = [];
+    // const saveObj = data + LZString.compressToBase64(JSON.stringify({ [Story.domId]: data.length }));
+    // saveAs(new Blob([saveObj], { type: 'text/plain;charset=UTF-8' }), saveName);
+}
+window.exportToDiskTest1 = exportToDiskTest1;
+
+// const _onSaveHandlers = new Set();
+
+function _marshal(supplemental, details) {
+
+    if (supplemental != null && typeof supplemental !== 'object') { // lazy equality for null
+        throw new Error('supplemental parameter must be an object');
+    }
+
+    const saveObj = Object.assign({}, supplemental, {
+        id    : Config.saves.id,
+        state : State.marshalForSave(),
+        idx   : supplemental?.idx || 1
+    });
+
+    if (Config.saves.version) {
+        saveObj.version = Config.saves.version;
+    }
+
+    // _onSaveHandlers.forEach(fn => fn(saveObj, details));
+
+    saveObj.state.delta = State.deltaEncode(saveObj.state.history);
+    delete saveObj.state.history;
+
+    return saveObj;
+}

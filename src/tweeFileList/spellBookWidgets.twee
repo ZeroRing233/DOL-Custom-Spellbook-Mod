@@ -47,7 +47,12 @@
 	<br>
 	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook['default'])">
 	<br>
+	<<set _exportName to "'degrees-of-lewdity"+($saveName isnot ''?'-'+$saveName:'')+ "'">>
 	<input type="button" class="saveMenuButton" value="跨存档保存该言灵集" onclick="saveDataToIndexDB(V.spellBook['default'])">
+	<br>
+	<input type="button" class="saveMenuButton" value="Save to file" @onclick="'SugarCube.Save.export('+_exportName+')'">
+	<br>
+	<input type="button" class="saveMenuButton" value="测试导出存档功能-528" onclick="exportToDiskTest1()">
 	<br><br>
 	<<if _content.length != 0>>
         <<for _i to 0; _i lt _content.length; _i++>>

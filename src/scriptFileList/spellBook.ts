@@ -1,7 +1,6 @@
 import { SpellbookDB } from './SpellbookDB';
 import { saveAs } from 'file-saver';
 import Sortable from 'sortablejs';
-console.log('Sortable导入成功' + Sortable);
 
 $(document).on(":oncloseoverlay", () => {
     if (V.spellBookOpening) {
@@ -37,16 +36,16 @@ async function saveDataToIndexDB(spellbookItem: SpellbookItem) {
         const result = await db.getItem(spellbookItem.uuid);
         if (result && result.content !== null) {
             isUpdate = true;
-            doItemUpdate(spellbookItem, db);
+            confirmItemUpdate(spellbookItem, db);
         }
     }
     if (!isUpdate) {
-        doItemSave(spellbookItem, db);
+        confirmItemSave(spellbookItem, db);
     }
 }
 window.saveDataToIndexDB = saveDataToIndexDB;
 
-async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
+async function confirmItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
     const result = await window.modSweetAlert2Mod.fire({
         title: '检测到当前言灵集【' + spellbookItem.name + '】已存在',
         text: '是否更新跨存档保存的言灵集？此操作将会**永久**地更新所有存档中的【' + spellbookItem.name + '】言灵集。',
@@ -58,22 +57,26 @@ async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
     });
     if (result.isConfirmed) {
         // 用户点击了确认按钮
-        try {
-            const updatedItem = await db.updateItem(spellbookItem);
-            console.log("更新成功，获取的updatedItem是" + JSON.stringify(updatedItem));
-            V.spellBook[updatedItem.uuid] = updatedItem;
-            window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
-        } catch (error) {
-            const errorMsg = JSON.stringify(error);
-            window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
-        }
+        doItemUpdate(spellbookItem, db);
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         // 用户点击了取消按钮
         window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
     }
 }
 
-async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
+async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
+    try {
+        const updatedItem = await db.updateItem(spellbookItem);
+        console.log("更新成功，获取的updatedItem是" + JSON.stringify(updatedItem));
+        V.spellBook[updatedItem.uuid] = updatedItem;
+        window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
+    } catch (error) {
+        const errorMsg = JSON.stringify(error);
+        window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
+    }
+}
+
+async function confirmItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
     const result = await window.modSweetAlert2Mod.fire({
         title: '检测到当前言灵集【' + spellbookItem.name + '】尚未被保存过',
         text: '是否跨存档保存该言灵集？此操作将会在所有存档中添加【' + spellbookItem.name + '】言灵集。',
@@ -85,24 +88,28 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
     });
     if (result.isConfirmed) {
         // 用户点击了确认按钮
-        try {
-            const addedItem = await db.addItem(spellbookItem);
-            console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
-            V.spellBook[addedItem.uuid] = addedItem;
-            window.modSweetAlert2Mod.fire('已保存', '当前言灵集已被保存', 'success');
-        } catch (error) {
-            const errorMsg = JSON.stringify(error);
-            window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
-        }
+        doItemSave(spellbookItem, db);
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         // 用户点击了取消按钮
         window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
     }
 }
 
+async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
+    try {
+        const addedItem = await db.addItem(spellbookItem);
+        console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
+        V.spellBook[addedItem.uuid] = addedItem;
+        window.modSweetAlert2Mod.fire('已保存', '当前言灵集已被保存', 'success');
+    } catch (error) {
+        const errorMsg = JSON.stringify(error);
+        window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
+    }
+}
+
 function initDefaultSpellBook(): void {
     const db = new SpellbookDB();
-    V.spellBook["default"] = { name: "默认言灵集", uuid: "dafault", content: [] };
+    V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [] };
     console.log("默认言灵集初始化开始");
     db.getItem(V.spellBook["default"].uuid).then((result) => {
         if (result && result.content !== null) {
@@ -160,8 +167,100 @@ async function exportSpellBookItem(spellbookItem: SpellbookItem) {
             const fileName = `${spellbookItem.name}${fileType}`;
             saveAs(blob, fileName);
         } catch (error) {
-            alert("导出失败: " + error);
+            window.modSweetAlert2Mod.fire('导出失败', error, 'error')
         }
     }
 }
 window.exportSpellBookItem = exportSpellBookItem;
+
+function getSpellBookItem(spellbookItem: SpellbookItem) {
+    const input: any = document.getElementById("bookItemInput");
+    input.value = JSON.stringify(spellbookItem);
+}
+window.getSpellBookItem = getSpellBookItem;
+
+// 加载言灵集
+function loadSpellBookItem() {
+    const input: any = document.getElementById("bookItemInput");
+    const result = input.value;
+    if (result === null) {
+        alert("加载言灵集数据失败！无法获取言灵集");
+        return;
+    }
+    try {
+        let spellBookItem: SpellbookItem = JSON.parse(result);
+        if (checkSpellBookItemContent(spellBookItem)) {
+            checkSpellBookItemExists(spellBookItem);
+        }
+    }
+    catch (error) {
+        alert("加载言灵集失败: " + error);
+    }
+}
+window.loadSpellBookItem = loadSpellBookItem;
+
+function checkSpellBookItemContent(spellBookItem: SpellbookItem): boolean {
+    if (!spellBookItem.uuid) {
+        alert("加载言灵集失败!请确认言灵集的uuid");
+        return false;
+    }
+    if (!spellBookItem.name) {
+        alert("加载言灵集失败!请确认言灵集的名称");
+        return false;
+    }
+    if (!spellBookItem.content) {
+        alert("加载言灵集失败!请确认言灵集的内容");
+        return false;
+    }
+    return true;
+}
+
+async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
+    try {
+        const db = new SpellbookDB();
+        const result = await db.getItem(spellBookItem.uuid);
+        // 情况一：当前言灵集存在于indexDB中
+        if (result && result.content !== null) {
+            const confirmResult = await window.modSweetAlert2Mod.fire({
+                title: '检测到待加载言灵集【' + spellBookItem.name + '】已在**所有**存档中存在',
+                text: '是否仍加载该言灵集？该操作将会覆盖**所有**存档中的【' + spellBookItem.name + '】',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                reverseButtons: true
+            });
+            if (confirmResult.isConfirmed) {
+                doItemUpdate(spellBookItem, db);
+            } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
+                // 处理取消逻辑 (可选)
+                window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+            }
+        }
+        // 情况二：当前言灵集存在于存档中
+        else if (V.spellBook[spellBookItem.uuid] && V.spellBook[spellBookItem.uuid].content != null) {
+            const confirmResult = await window.modSweetAlert2Mod.fire({
+                title: '检测到待加载言灵集【' + spellBookItem.name + '】已在当前存档中存在',
+                text: '是否仍加载该言灵集？该操作将会覆盖当前存档中的【' + spellBookItem.name + '】',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                reverseButtons: true
+            });
+            if (confirmResult.isConfirmed) {
+                V.spellBook[spellBookItem.uuid] = spellBookItem;
+                window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
+            } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
+                window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+            }
+        }
+        // 情况三：新增言灵集（感觉并不需要确认弹窗）
+        else {
+            V.spellBook[spellBookItem.uuid] = spellBookItem;
+            window.modSweetAlert2Mod.fire('加载成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
+        }
+    } catch (error) {
+        console.error("处理言灵集时出错:", error);
+    }
+}

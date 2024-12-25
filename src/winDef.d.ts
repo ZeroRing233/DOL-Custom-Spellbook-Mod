@@ -40,14 +40,18 @@ declare global {
     getIdbSpellBookItems: (spellbookItem: SpellbookItem) => void;
     getSpellBookItem: (spellbookItem: SpellbookItem) => void;
     loadSpellBookItem: () => void;
+    mutableSpellBookItem: () => void;
+    immutableSpellBookItem: () => void;
+    zoom: (number) => void;// zoom为原有函数
   }
 
   // 存档内新增数据
   interface V {
     spellBookOpening?: boolean; // 判断当前魔法书是否打开
     spellBook?: { [key: string]: SpellbookItem }; // 魔法书的主要数据
-    cccheatList?: string[] //需要展示在侧边栏的言灵集（搭配其他模组使用）
-    cccheat?: string[] // 展示在侧边栏的模组列表，可能需与其他模组联动
+    cccheatList?: string[]; //需要展示在侧边栏的言灵集（搭配其他模组使用）
+    cccheat?: string[]; // 展示在侧边栏的模组列表，可能需与其他模组联动
+    options: any
   }
   declare var V: V;
 

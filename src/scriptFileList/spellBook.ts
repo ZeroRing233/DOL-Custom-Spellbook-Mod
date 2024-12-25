@@ -1,6 +1,6 @@
 import { SpellbookDB } from './SpellbookDB';
 import { saveAs } from 'file-saver';
-import Sortable from 'sortablejs';
+import { Sortable } from 'sortablejs';
 
 $(document).on(":oncloseoverlay", () => {
     if (V.spellBookOpening) {
@@ -288,3 +288,27 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
         console.error("处理言灵集时出错:", error);
     }
 }
+
+function mutableSpellBookItem() {
+    $.wiki("<<replace #spellBookItemList>><<mutableSpellBookItem>><</replace>>");
+    $(function () {
+        window.zoom(100);
+        var el = document.getElementById('sortable-list');
+        if (SugarCube.Browser.isMobile.any()) {
+            Sortable.create(el, {
+                delay: 500 // 移动端需长按0.5秒
+            });
+        } else {
+            Sortable.create(el);
+        }
+    });
+}
+window.mutableSpellBookItem = mutableSpellBookItem;
+
+function immutableSpellBookItem() {
+    $.wiki("<<replace #spellBookItemList>><<immutableSpellBookItem>><</replace>>");
+    $(function () {
+        window.zoom(V.options.zoom);
+    });
+}
+window.immutableSpellBookItem = immutableSpellBookItem;

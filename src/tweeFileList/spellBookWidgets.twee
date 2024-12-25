@@ -54,11 +54,32 @@
 	<br>
 	<input type="button" value="在侧边栏显示该言灵集的内容" class="saveMenuButton">
 	<br><br>
-	<<if _content.length != 0>>
-        <<for _i to 0; _i lt _content.length; _i++>>
-            <<print "(" + (_i + 1) + ") ">>
-            <<print _content[_i]>>
-			<br>
-        <</for>>
-    <</if>>
+	言灵集列表：
+	<br>
+	<input type="radio" id="view-mode" name="mode" value="view" checked>
+	<label for="view-mode" onclick="immutableSpellBookItem()">浏览/执行模式</label>
+	<input type="radio" id="edit-mode" name="mode" value="edit">
+	<label for="edit-mode" onclick="mutableSpellBookItem()">编辑模式</label>
+	<div id="spellBookItemList"><<immutableSpellBookItem>></div>
+<</widget>>
+
+<<widget "mutableSpellBookItem">>
+	<<if SugarCube.Browser.isMobile.any()>>
+		<span class="gold">*(移动端）长按拖动言灵进行排序，选中言灵进行编辑，点击垃圾桶进行删除。</span>
+	<<else>>
+		<span class="gold">*拖动言灵进行排序，选中言灵进行编辑，点击垃圾桶进行删除。</span>
+	<</if>>
+	<ol id="sortable-list">
+		<<for _i to 0; _i lt _content.length; _i++>>
+			<li><<print _content[_i]>></li>
+		<</for>>
+	</ol>
+<</widget>>
+
+<<widget "immutableSpellBookItem">>
+	<ol>
+		<<for _i to 0; _i lt _content.length; _i++>>
+			<li><<print _content[_i]>></li>
+		<</for>>
+	</ol>
 <</widget>>

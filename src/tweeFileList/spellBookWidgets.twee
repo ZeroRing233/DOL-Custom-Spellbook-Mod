@@ -11,16 +11,21 @@
 			<<toggleTab>>
 			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
 		<</button>>
-        <<button "默认言灵集">>
-			<<toggleTab>>
-			<<replace #customOverlayContent>><<spellBookDefault>><</replace>>
-		<</button>>
+		<<set _keys to Object.keys($spellBook)>>
+		<<for _key range _keys>>
+			<<set _spellBookItem to $spellBook[_key]>>
+			<<button _spellBookItem.name>>
+				<<toggleTab>>
+				<<replace #customOverlayContent>><<spellBookItem _key>><</replace>>
+			<</button>>
+		<</for>>
 	</div>
 	<<closeButton>>
 <</widget>>
 
 <<widget "spellBookOpen">>
 	<<initSpellBook>>
+	<<run getIdbSpellBookItems();>>
     这只是一个魔法书，细节等会再说。(添加言灵集功能，导出功能)
 	* 初次加载时，默认言灵集的数据为当前侧边栏设定的言灵集，之后可以自定义。
 	(为简化逻辑，目前所有操作均以言灵集为单位，逃)
@@ -40,12 +45,13 @@
 	<</if>>
 <</widget>>
 
-<<widget "spellBookDefault">>
-	<<set _name to $spellBook["default"].name>>
-	<<set _content to $spellBook["default"].content>>
+<<widget "spellBookItem">>
+	<<set _key to _args[0]>>
+	<<set _name to $spellBook[_key].name>>
+	<<set _content to $spellBook[_key].content>>
 	<span class="blue">安卓端暂不支持此功能，如果您知道原版游戏在安卓端导出存档文件的实现方式，请联系作者，感激不尽！</span>
 	<br>
-	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook['default'])">
+	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook[T.key])">
 	<br>
 	为安卓端准备的导入/导出言灵集功能，使用方式与原版的导出/加载存档码一致。
 	<textarea id="bookItemInput" rows="4" cols="40"><<if _presetData>>_presetData<</if>></textarea>
@@ -53,11 +59,11 @@
 	<input type="button" class="saveMenuButton" value="清除文本框" onclick="clearTextBox('bookItemInput')"/>
 	<input type="button" class="saveMenuButton" value="上移至文本框顶部" onclick="topTextArea('bookItemInput')"/>
 	<input type="button" class="saveMenuButton" value="下移至文本框底部" onclick="bottomTextArea('bookItemInput')"/>
-	<input type="button" value="获取言灵集数据" class="saveMenuButton" onclick="getSpellBookItem(V.spellBook['default'])">
+	<input type="button" value="获取言灵集数据" class="saveMenuButton" onclick="getSpellBookItem(V.spellBook[T.key])">
 	<input id="CopyTextArea" class="saveMenuButton" type="button" value="复制言灵集" onclick="copySavedata('bookItemInput')">
 	<input id="CopyTextArea" class="saveMenuButton" type="button" value="加载言灵集" onclick="loadSpellBookItem()">
 	<br><br>
-	<input type="button" class="saveMenuButton" value="跨存档保存该言灵集" onclick="saveDataToIndexDB(V.spellBook['default'])">
+	<input type="button" class="saveMenuButton" value="跨存档保存该言灵集" onclick="saveDataToIndexDB(V.spellBook[T.key])">
 	<br>
 	<input type="button" value="在侧边栏显示该言灵集的内容" class="saveMenuButton">
 	<br><br>

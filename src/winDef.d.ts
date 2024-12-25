@@ -33,9 +33,11 @@ declare global {
     modSweetAlert2Mod: any;
     spellBookMobileClicked: () => void;
     initDefaultSpellBook: () => void;
+    getAllSpellBookItems: () => void;
     saveDataToIndexDB: (spellbookItem: SpellbookItem) => void;
     myIndexDBTest: () => void;
     exportSpellBookItem: (spellbookItem: SpellbookItem) => void;
+    getIdbSpellBookItems: (spellbookItem: SpellbookItem) => void;
     getSpellBookItem: (spellbookItem: SpellbookItem) => void;
     loadSpellBookItem: () => void;
   }

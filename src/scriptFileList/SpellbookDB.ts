@@ -1,7 +1,8 @@
 import { IDBPDatabase, openDB } from 'idb';
+import { createStore, UseStore, values } from 'idb-keyval';
 
 // 非常简陋的idb增删改查，如有问题，请尽情吐槽
-
+// idb-keyval是之后引入的，所以只在部分函数中用到，作者就是这么懒惰（）
 export class SpellbookDB {
     private dbPromise: Promise<IDBPDatabase<String>>;
 
@@ -11,6 +12,12 @@ export class SpellbookDB {
                 db.createObjectStore('mystore', { keyPath: 'uuid' });
             },
         });
+    }
+
+    async getAllData() {
+        const store: UseStore = createStore('spellbook', 'mystore');
+        const allData = await values(store); // 正确的调用方式
+        return allData;
     }
 
     async addItem(newItem: SpellbookItem): Promise<SpellbookItem> {

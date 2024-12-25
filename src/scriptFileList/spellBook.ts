@@ -124,6 +124,17 @@ function initDefaultSpellBook(): void {
 }
 window.initDefaultSpellBook = initDefaultSpellBook;
 
+// 获取idb存档内的言灵集，如果存在则直接覆盖
+async function getIdbSpellBookItems() {
+    const db = new SpellbookDB();
+    const idbData: SpellbookItem[] = await db.getAllData();
+    console.log("从indexDB获取到的数据是" + JSON.stringify(idbData));
+    for (let idbItem of idbData) {
+        V.spellBook[idbItem.uuid] = idbItem;
+    }
+}
+window.getIdbSpellBookItems = getIdbSpellBookItems;
+
 // justTest
 async function myIndexDBTest() {
     // 预留一下

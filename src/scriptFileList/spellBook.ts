@@ -14,8 +14,10 @@ $(document).on(":oncloseoverlay", () => {
     Renderer.refresh(Renderer.lastModel);
 });
 
-function spellBookMobileClicked(): void {
+async function spellBookMobileClicked() {
     V.spellBookOpening = true;
+    await initSpellBook();
+    await getIdbSpellBookItems();
     $.wiki("<<overlayReplace \"spellBookOpen\">>");
     $(function () {
         let bookIcon: HTMLElement | null = document.querySelector(".SpellBookMobile");
@@ -27,6 +29,14 @@ function spellBookMobileClicked(): void {
 }
 window.spellBookMobileClicked = spellBookMobileClicked;
 
+async function initSpellBook() {
+    if (!V.spellBook) {
+        V.spellBook = {};
+    }
+    if (!V.spellBook.default) {
+        await initDefaultSpellBook();
+    }
+}
 
 async function saveDataToIndexDB(spellbookItem: SpellbookItem) {
     const db = new SpellbookDB();
@@ -107,22 +117,24 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
     }
 }
 
-function initDefaultSpellBook(): void {
-    const db = new SpellbookDB();
-    V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [] };
-    console.log("默认言灵集初始化开始");
-    db.getItem(V.spellBook["default"].uuid).then((result) => {
+async function initDefaultSpellBook() {
+    return new Promise<void>(async (resolve) => { // 使用 Promise 包裹，确保异步操作完成
+        const db = new SpellbookDB();
+        V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [] };
+        console.log("默认言灵集初始化开始");
+
+        const result = await db.getItem(V.spellBook["default"].uuid);
+
         if (result && result.content !== null) {
             V.spellBook["default"].content = result.content;
             console.log("默认言灵集初始化来源为idb");
-        }
-        else if (V.cccheat && V.cccheat.length > 0) {
+        } else if (V.cccheat && V.cccheat.length > 0) {
             V.spellBook["default"].content = V.cccheat;
             console.log("默认言灵集初始化来源为cccheat");
         }
+        resolve(); // 在所有异步操作完成后 resolve Promise
     });
 }
-window.initDefaultSpellBook = initDefaultSpellBook;
 
 // 获取idb存档内的言灵集，如果存在则直接覆盖
 async function getIdbSpellBookItems() {
@@ -189,6 +201,7 @@ function getSpellBookItem(spellbookItem: SpellbookItem) {
     input.value = JSON.stringify(spellbookItem);
 }
 window.getSpellBookItem = getSpellBookItem;
+
 
 // 加载言灵集
 function loadSpellBookItem() {

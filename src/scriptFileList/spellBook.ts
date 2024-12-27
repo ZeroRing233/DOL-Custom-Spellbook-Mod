@@ -296,10 +296,13 @@ function mutableSpellBookItem() {
         var el = document.getElementById('sortable-list');
         if (SugarCube.Browser.isMobile.any()) {
             Sortable.create(el, {
-                delay: 500 // 移动端需长按0.5秒
+                delay: 500, // 移动端需长按0.5秒
+                onEnd: handleSortEnd
             });
         } else {
-            Sortable.create(el);
+            Sortable.create(el, {
+                onEnd: handleSortEnd
+            });
         }
     });
 }
@@ -313,9 +316,21 @@ function immutableSpellBookItem() {
 }
 window.immutableSpellBookItem = immutableSpellBookItem;
 
+function handleSortEnd(evt) {
+    let items: any = Array.from(evt.to.children);
+    let sortedIds = items.map(item => item.id);
+    console.log("获取到的sortedIds是：" + sortedIds);
+    let tempContent = [];
+    for (let dataId of sortedIds) {
+        tempContent.push(T.content[dataId]);
+    }
+    T.content = tempContent;
+    // 重新渲染页面
+    mutableSpellBookItem();
+}
+
 function spellBookItemDeleteClicked(element) {
     let index = element.parentNode.querySelector('.SpellBookItemIndex').textContent;
-    console.log("当前this是" + this);
     console.log("获取的index是" + index);
     T.content.splice(parseInt(index), 1);
     // 删除后重新渲染页面

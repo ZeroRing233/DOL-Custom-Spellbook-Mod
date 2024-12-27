@@ -43,6 +43,7 @@ declare global {
     mutableSpellBookItem: () => void;
     immutableSpellBookItem: () => void;
     spellBookItemDeleteClicked: (element) => void;
+    copyIdbSpellBookItem: (spellbookItem: SpellbookItem) => void;
     zoom: (number) => void;// zoom为原有函数
   }
 
@@ -66,6 +67,7 @@ declare global {
     uuid?: string;
     name?: string;
     content?: string[];
+    isCommon?: boolean; // 是否跨存档
   }
 
   class Renderer {

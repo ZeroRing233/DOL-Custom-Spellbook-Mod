@@ -1,6 +1,7 @@
 import { SpellbookDB } from './SpellbookDB';
 import { saveAs } from 'file-saver';
 import { Sortable } from 'sortablejs';
+import Swal from 'sweetalert2';
 
 $(document).on(":oncloseoverlay", () => {
     if (V.spellBookOpening) {
@@ -56,7 +57,7 @@ async function saveDataToIndexDB(spellbookItem: SpellbookItem) {
 window.saveDataToIndexDB = saveDataToIndexDB;
 
 async function confirmItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
-    const result = await window.modSweetAlert2Mod.fire({
+    const result = await Swal.fire({
         title: '检测到当前言灵集【' + spellbookItem.name + '】已存在',
         text: '是否更新跨存档保存的言灵集？此操作将会**永久**地更新所有存档中的【' + spellbookItem.name + '】言灵集。',
         icon: 'warning',
@@ -78,7 +79,9 @@ async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
     try {
         const updatedItem = await db.updateItem(spellbookItem);
         console.log("更新成功，获取的updatedItem是" + JSON.stringify(updatedItem));
+        updatedItem.isCommon = true;
         V.spellBook[updatedItem.uuid] = updatedItem;
+
         window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
     } catch (error) {
         const errorMsg = JSON.stringify(error);
@@ -87,7 +90,7 @@ async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
 }
 
 async function confirmItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
-    const result = await window.modSweetAlert2Mod.fire({
+    const result = await Swal.fire({
         title: '检测到当前言灵集【' + spellbookItem.name + '】尚未被保存过',
         text: '是否跨存档保存该言灵集？此操作将会在所有存档中添加【' + spellbookItem.name + '】言灵集。',
         icon: 'warning',
@@ -109,6 +112,7 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
     try {
         const addedItem = await db.addItem(spellbookItem);
         console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
+        addedItem.isCommon = true;
         V.spellBook[addedItem.uuid] = addedItem;
         window.modSweetAlert2Mod.fire('已保存', '当前言灵集已被保存', 'success');
     } catch (error) {
@@ -120,13 +124,14 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
 async function initDefaultSpellBook() {
     return new Promise<void>(async (resolve) => { // 使用 Promise 包裹，确保异步操作完成
         const db = new SpellbookDB();
-        V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [] };
+        V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [], isCommon: false };
         console.log("默认言灵集初始化开始");
 
         const result = await db.getItem(V.spellBook["default"].uuid);
 
         if (result && result.content !== null) {
             V.spellBook["default"].content = result.content;
+            V.spellBook["default"].isCommon = true;
             console.log("默认言灵集初始化来源为idb");
         } else if (V.cccheat && V.cccheat.length > 0) {
             V.spellBook["default"].content = V.cccheat;
@@ -137,11 +142,13 @@ async function initDefaultSpellBook() {
 }
 
 // 获取idb存档内的言灵集，如果存在则直接覆盖
+// 为节省作者脑细胞（避免idb和存档内数据不一致），公共数据编辑方式暂定为：复制一份到本存档后编辑—跨存档保存-删除原本，不要打我
 async function getIdbSpellBookItems() {
     const db = new SpellbookDB();
     const idbData: SpellbookItem[] = await db.getAllData();
     console.log("从indexDB获取到的数据是" + JSON.stringify(idbData));
     for (let idbItem of idbData) {
+        idbItem.isCommon = true;
         V.spellBook[idbItem.uuid] = idbItem;
     }
 }
@@ -337,3 +344,32 @@ function spellBookItemDeleteClicked(element) {
     mutableSpellBookItem();
 }
 window.spellBookItemDeleteClicked = spellBookItemDeleteClicked;
+
+async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
+    let dialogTitle = "复制确认";
+    let dialogContent = "是否确认复制言灵集【" + spellbookItem.name + "】到当前存档";
+    const confirmResult = await Swal.fire({
+        title: dialogTitle,
+        text: dialogContent,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true
+    });
+    if (confirmResult.isConfirmed) {
+        let copyItem = JSON.parse(JSON.stringify(spellbookItem));
+        copyItem.uuid = spellbookItem.uuid + "_copy";
+        copyItem.name = spellbookItem.name + "（复制）";
+        copyItem.isCommon = false;
+        V.spellBook[copyItem.uuid] = copyItem;
+        $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        Swal.fire('已复制', '当前言灵集已复制', 'success');
+    } 
+}
+window.copyIdbSpellBookItem = copyIdbSpellBookItem;
+
+
+function deleteIdbSpellBookItem(spellbookItem: SpellbookItem) {
+
+}

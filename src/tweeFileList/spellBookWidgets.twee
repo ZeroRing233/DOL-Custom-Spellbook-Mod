@@ -34,8 +34,27 @@
 <<widget "spellBookItem">>
 	<<set _uuid to _args[0]>>
 	<<run console.log("当前的_id是："+_uuid)>>
+	<<set _isCommon to $spellBook[_uuid].isCommon>>
 	<<set _name to $spellBook[_uuid].name>>
 	<<set _content to $spellBook[_uuid].content>>
+	<<if _isCommon>>
+		<<spellBookItem_common>>
+	<<else>>
+		<<spellBookItem_normal>>
+	<</if>>
+
+<</widget>>
+
+<<widget "spellBookItem_common">>
+	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集，再删除本言灵集。
+	<br>
+	<input type="button" value="复制一份到当前存档" class="saveMenuButton" onclick="copyIdbSpellBookItem(V.spellBook[T.uuid])">
+	<input type="button" value="删除言灵集" class="saveMenuButton" onclick="deleteIdbSpellBookItem(V.spellBook[T.uuid])">
+	<br>
+	<div id="spellBookItemList"><<immutableSpellBookItem>></div>
+<</widget>>
+
+<<widget "spellBookItem_normal">>
 	<span class="blue">安卓端暂不支持此功能，如果您知道原版游戏在安卓端导出存档文件的实现方式，请联系作者，感激不尽！</span>
 	<br>
 	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook[T.uuid])">

@@ -16,7 +16,8 @@
         "jquery": "^3.7.1",
         "libsodium-wrappers-sumo": "^0.7.15",
         "lodash-es": "^4.17.21",
-        "sortablejs": "^1.15.6"
+        "sortablejs": "^1.15.6",
+        "sweetalert2": "^11.15.3"
     },
     "devDependencies": {
         "@antfu/eslint-config": "^3.8.0",

@@ -312,3 +312,13 @@ function immutableSpellBookItem() {
     });
 }
 window.immutableSpellBookItem = immutableSpellBookItem;
+
+function spellBookItemDeleteClicked(element) {
+    let index = element.parentNode.querySelector('.SpellBookItemIndex').textContent;
+    console.log("当前this是" + this);
+    console.log("获取的index是" + index);
+    T.content.splice(parseInt(index), 1);
+    // 删除后重新渲染页面
+    mutableSpellBookItem();
+}
+window.spellBookItemDeleteClicked = spellBookItemDeleteClicked;

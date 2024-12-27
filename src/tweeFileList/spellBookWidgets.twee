@@ -71,7 +71,11 @@
 	<</if>>
 	<ol id="sortable-list">
 		<<for _i to 0; _i lt _content.length; _i++>>
-			<li><<print _content[_i]>></li>
+			<li>
+				<span class="SpellBookItemIndex" style="display:none;"><<= _i>></span>
+				<<print _content[_i]>>
+				<i class="SpellBookItemDelete" onclick="spellBookItemDeleteClicked(this)"></i>
+			</li>
 		<</for>>
 	</ol>
 <</widget>>

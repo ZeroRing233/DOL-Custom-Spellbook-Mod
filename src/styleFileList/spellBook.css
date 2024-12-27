@@ -11,7 +11,7 @@
         content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PGRlZnM+PG1hc2sgaWQ9ImlwVERlbGV0ZU9uZTAiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0Ij48cGF0aCBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJtMTUgMTJsMS4yLTdoMTUuNmwxLjIgNyIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZD0iTTYgMTJoMzYiLz48cGF0aCBmaWxsPSIjNTU1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0ibTM3IDEybC0yIDMxSDEzbC0yLTMxeiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBkPSJNMTkgMzVoMTAiLz48L2c+PC9tYXNrPjwvZGVmcz48cGF0aCBmaWxsPSIjYzBiOWI5IiBkPSJNMCAwaDQ4djQ4SDB6IiBtYXNrPSJ1cmwoI2lwVERlbGV0ZU9uZTApIi8+PC9zdmc+');
         /* 替换为你的图片URL */
         display: inline;
-        width: 20px;
+        width: 15px;
     }
     
     .sortable-chosen {

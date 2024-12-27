@@ -42,6 +42,7 @@ declare global {
     loadSpellBookItem: () => void;
     mutableSpellBookItem: () => void;
     immutableSpellBookItem: () => void;
+    spellBookItemDeleteClicked: (element) => void;
     zoom: (number) => void;// zoom为原有函数
   }
 
@@ -57,6 +58,7 @@ declare global {
 
   interface T {
     currContent?: string[] //当前言灵集的内容
+    content?: string[]
   }
   declare var T: T;
 

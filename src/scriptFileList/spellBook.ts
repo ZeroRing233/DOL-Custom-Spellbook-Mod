@@ -283,6 +283,8 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
             });
             if (confirmResult.isConfirmed) {
                 V.spellBook[spellBookItem.uuid] = spellBookItem;
+                $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+                $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
                 window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
             } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
                 window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
@@ -291,6 +293,8 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
         // 情况三：新增言灵集（感觉并不需要确认弹窗）
         else {
             V.spellBook[spellBookItem.uuid] = spellBookItem;
+            $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+            $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
             window.modSweetAlert2Mod.fire('加载成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
         }
     } catch (error) {
@@ -399,3 +403,22 @@ async function deleteIdbSpellBookItem(spellbookItem: SpellbookItem) {
     }
 }
 window.deleteIdbSpellBookItem = deleteIdbSpellBookItem;
+
+function uploadSpellBookitem(file_input) {
+    let file = file_input.files[0];
+    let reader = new FileReader();
+    reader.onload = function (e) {
+        const fileContent = e.target?.result as string;
+        try {
+            let spellBookItem: SpellbookItem = JSON.parse(fileContent);
+            if (checkSpellBookItemContent(spellBookItem)) {
+                checkSpellBookItemExists(spellBookItem);
+            }
+        } catch (error) {
+            alert("加载言灵集失败: " + error);
+        }
+    };
+    // Trigger the file reading process
+    reader.readAsText(file); // 'file' is the file object obtained from the input element
+}
+window.uploadSpellBookItem = uploadSpellBookitem;

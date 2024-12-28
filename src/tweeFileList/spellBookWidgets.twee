@@ -11,13 +11,24 @@
 			<<toggleTab>>
 			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
 		<</button>>
+		<<set _ids to Object.keys(_spellBookCommon)>>
+		<<for _id range _ids>>
+			<<set _spellBookItem to _spellBookCommon[_id]>>
+			<<capture _id>>
+				<<set _name to _spellBookItem.name + "（公共）">>
+				<<button _name>>
+					<<toggleTab>>
+					<<replace #customOverlayContent>><<spellBookItem_common _id>><</replace>>
+				<</button>>
+			<</capture>>
+		<</for>>
 		<<set _ids to Object.keys($spellBook)>>
 		<<for _id range _ids>>
 			<<set _spellBookItem to $spellBook[_id]>>
 			<<capture _id>>
 				<<button _spellBookItem.name>>
 					<<toggleTab>>
-					<<replace #customOverlayContent>><<spellBookItem _id>><</replace>>
+					<<replace #customOverlayContent>><<spellBookItem_normal _id>><</replace>>
 				<</button>>
 			<</capture>>
 		<</for>>
@@ -31,21 +42,11 @@
 	(为简化逻辑，目前所有操作均以言灵集为单位，逃)
 <</widget>>
 
-<<widget "spellBookItem">>
-	<<set _uuid to _args[0]>>
-	<<run console.log("当前的_id是："+_uuid)>>
-	<<set _isCommon to $spellBook[_uuid].isCommon>>
-	<<set _name to $spellBook[_uuid].name>>
-	<<set _content to $spellBook[_uuid].content>>
-	<<if _isCommon>>
-		<<spellBookItem_common>>
-	<<else>>
-		<<spellBookItem_normal>>
-	<</if>>
-
-<</widget>>
 
 <<widget "spellBookItem_common">>
+	<<set _uuid to _args[0]>>
+	<<set _name to _spellBookCommon[_uuid].name>>
+	<<set _content to _spellBookCommon[_uuid].content>>
 	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集，再删除本言灵集。
 	<br>
 	<input type="button" value="复制一份到当前存档" class="saveMenuButton" onclick="copyIdbSpellBookItem(V.spellBook[T.uuid])">
@@ -55,6 +56,9 @@
 <</widget>>
 
 <<widget "spellBookItem_normal">>
+	<<set _uuid to _args[0]>>
+	<<set _name to $spellBook[_uuid].name>>
+	<<set _content to $spellBook[_uuid].content>>
 	<span class="blue">安卓端暂不支持此功能，如果您知道原版游戏在安卓端导出存档文件的实现方式，请联系作者，感激不尽！</span>
 	<br>
 	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook[T.uuid])">

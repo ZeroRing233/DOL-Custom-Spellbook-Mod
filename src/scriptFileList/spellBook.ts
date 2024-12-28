@@ -79,10 +79,10 @@ async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
     try {
         const updatedItem = await db.updateItem(spellbookItem);
         console.log("更新成功，获取的updatedItem是" + JSON.stringify(updatedItem));
-        updatedItem.isCommon = true;
-        V.spellBook[updatedItem.uuid] = updatedItem;
-
         window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
+        await getIdbSpellBookItems();
+        $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
     } catch (error) {
         const errorMsg = JSON.stringify(error);
         window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
@@ -112,9 +112,10 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
     try {
         const addedItem = await db.addItem(spellbookItem);
         console.log("添加成功，获取的addedItem是" + JSON.stringify(addedItem));
-        addedItem.isCommon = true;
-        V.spellBook[addedItem.uuid] = addedItem;
         window.modSweetAlert2Mod.fire('已保存', '当前言灵集已被保存', 'success');
+        await getIdbSpellBookItems();
+        $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
     } catch (error) {
         const errorMsg = JSON.stringify(error);
         window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
@@ -124,14 +125,14 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
 async function initDefaultSpellBook() {
     return new Promise<void>(async (resolve) => { // 使用 Promise 包裹，确保异步操作完成
         const db = new SpellbookDB();
-        V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [], isCommon: false };
+        V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [] };
         console.log("默认言灵集初始化开始");
 
         const result = await db.getItem(V.spellBook["default"].uuid);
 
         if (result && result.content !== null) {
             V.spellBook["default"].content = result.content;
-            V.spellBook["default"].isCommon = true;
+
             console.log("默认言灵集初始化来源为idb");
         } else if (V.cccheat && V.cccheat.length > 0) {
             V.spellBook["default"].content = V.cccheat;
@@ -142,14 +143,14 @@ async function initDefaultSpellBook() {
 }
 
 // 获取idb存档内的言灵集，如果存在则直接覆盖
-// 为节省作者脑细胞（避免idb和存档内数据不一致），公共数据编辑方式暂定为：复制一份到本存档后编辑—跨存档保存-删除原本，不要打我
+// 为节省作者脑细胞（避免idb和存档内数据不一致），公共数据编辑方式暂定为：复制一份到本存档后编辑—跨存档保存，不要打我
 async function getIdbSpellBookItems() {
+    T.spellBookCommon = {};
     const db = new SpellbookDB();
     const idbData: SpellbookItem[] = await db.getAllData();
     console.log("从indexDB获取到的数据是" + JSON.stringify(idbData));
     for (let idbItem of idbData) {
-        idbItem.isCommon = true;
-        V.spellBook[idbItem.uuid] = idbItem;
+        T.spellBookCommon[idbItem.uuid] = idbItem;
     }
 }
 window.getIdbSpellBookItems = getIdbSpellBookItems;
@@ -248,28 +249,29 @@ function checkSpellBookItemContent(spellBookItem: SpellbookItem): boolean {
 
 async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
     try {
-        const db = new SpellbookDB();
-        const result = await db.getItem(spellBookItem.uuid);
-        // 情况一：当前言灵集存在于indexDB中
-        if (result && result.content !== null) {
-            const confirmResult = await window.modSweetAlert2Mod.fire({
-                title: '检测到待加载言灵集【' + spellBookItem.name + '】已在**所有**存档中存在',
-                text: '是否仍加载该言灵集？该操作将会覆盖**所有**存档中的【' + spellBookItem.name + '】',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                reverseButtons: true
-            });
-            if (confirmResult.isConfirmed) {
-                doItemUpdate(spellBookItem, db);
-            } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
-                // 处理取消逻辑 (可选)
-                window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
-            }
-        }
-        // 情况二：当前言灵集存在于存档中
-        else if (V.spellBook[spellBookItem.uuid] && V.spellBook[spellBookItem.uuid].content != null) {
+        // const db = new SpellbookDB();
+        // const result = await db.getItem(spellBookItem.uuid);
+        // 情况一：当前言灵集存在于indexDB中（因逻辑修改，加载言灵集不再提供跨存档）
+        // if (result && result.content !== null) {
+        //     const confirmResult = await window.modSweetAlert2Mod.fire({
+        //         title: '检测到待加载言灵集【' + spellBookItem.name + '】已在**所有**存档中存在',
+        //         text: '是否仍加载该言灵集？该操作将会覆盖**所有**存档中的【' + spellBookItem.name + '】',
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonText: '确定',
+        //         cancelButtonText: '取消',
+        //         reverseButtons: true
+        //     });
+        //     if (confirmResult.isConfirmed) {
+        //         doItemUpdate(spellBookItem, db);
+        //     } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
+        //         // 处理取消逻辑 (可选)
+        //         window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+        //     }
+        // }
+        // // 情况二：当前言灵集存在于存档中
+        // else 
+        if (V.spellBook[spellBookItem.uuid] && V.spellBook[spellBookItem.uuid].content !== null) {
             const confirmResult = await window.modSweetAlert2Mod.fire({
                 title: '检测到待加载言灵集【' + spellBookItem.name + '】已在当前存档中存在',
                 text: '是否仍加载该言灵集？该操作将会覆盖当前存档中的【' + spellBookItem.name + '】',
@@ -348,6 +350,10 @@ window.spellBookItemDeleteClicked = spellBookItemDeleteClicked;
 async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
     let dialogTitle = "复制确认";
     let dialogContent = "是否确认复制言灵集【" + spellbookItem.name + "】到当前存档";
+    if (V.spellBook[spellbookItem.uuid] && V.spellBook[spellbookItem.uuid].content !== null) {
+        dialogTitle = "覆盖确认";
+        dialogContent = "检测到当前言灵集【" + spellbookItem.name + "】已在当前存档存在，重新复制将会导致言灵集【" + V.spellBook[spellbookItem.uuid].name + "】被覆盖，是否继续？";
+    }
     const confirmResult = await Swal.fire({
         title: dialogTitle,
         text: dialogContent,
@@ -355,21 +361,41 @@ async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
         showCancelButton: true,
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        reverseButtons: true
+        reverseButtons: true,
+        animation: false // 禁用动画
     });
     if (confirmResult.isConfirmed) {
         let copyItem = JSON.parse(JSON.stringify(spellbookItem));
-        copyItem.uuid = spellbookItem.uuid + "_copy";
-        copyItem.name = spellbookItem.name + "（复制）";
-        copyItem.isCommon = false;
+        copyItem.name = copyItem.name + "（复制）";
         V.spellBook[copyItem.uuid] = copyItem;
         $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
         Swal.fire('已复制', '当前言灵集已复制', 'success');
-    } 
+    }
 }
 window.copyIdbSpellBookItem = copyIdbSpellBookItem;
 
 
-function deleteIdbSpellBookItem(spellbookItem: SpellbookItem) {
-
+async function deleteIdbSpellBookItem(spellbookItem: SpellbookItem) {
+    let dialogTitle = "删除确认";
+    let dialogContent = "是否确认删除所有存档中的言灵集【" + spellbookItem.name + "】，注意此操作无法通过回档撤回";
+    const confirmResult = await Swal.fire({
+        title: dialogTitle,
+        text: dialogContent,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true,
+        animation: false // 禁用动画
+    });
+    if (confirmResult.isConfirmed) {
+        const db = new SpellbookDB();
+        await db.deleteItem(spellbookItem.uuid);
+        await getIdbSpellBookItems();
+        Swal.fire('已删除', '当前言灵集已删除', 'success');
+        $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+    }
 }
+window.deleteIdbSpellBookItem = deleteIdbSpellBookItem;

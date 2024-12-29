@@ -40,33 +40,100 @@
     /% 这只是一个魔法书封面，细节等会再说。(添加言灵集功能，导出功能)
 	* 初次加载时，默认言灵集的数据为当前侧边栏设定的言灵集，之后可以自定义。
 	(为简化逻辑，目前所有操作均以言灵集为单位，逃) %/
-	欢迎体验自定义魔法书模组~（说明内容待补充）
-	<br><br>
-	当前公共（跨存档）言灵集：<br>
-	<<set _ids to Object.keys(_spellBookCommon)>>
-	<<for _id range _ids>>
-		<<set _spellBookItem to _spellBookCommon[_id]>>
-		<<capture _id>>
-			<<print _spellBookItem.name>><br>
-		<</capture>>
-	<</for>>	
-	<br><br>
-	当前本存档言灵集：
-	<<set _ids to Object.keys($spellBook)>>
-	<<for _id range _ids>>
-		<<set _spellBookItem to $spellBook[_id]>>
-		<<capture _id>>
-			<<print _spellBookItem.name>><br>
-		<</capture>>
-	<</for>>
-	<br><br>
-	加载言灵集：
-	<br>
-	从文件导入（只支持txt和json格式，导入格式请参考「加载言灵集」：
-	<br>
-	<input type="file" onchange="uploadSpellBookItem(this)" single accept="text/*, application/json" class="uploadFileInput" />
+	欢迎体验自定义魔法书模组~
+	<<spellBookIntro>>
+	<<spellBookContents_common>>
+	<<spellBookContents_normal>>
+	<<createSpellBookItem>>
+	<<loadSpellBookItem>>
 <</widget>>
 
+<<widget "spellBookIntro">>
+	<div class="settingsGrid">
+        <details>
+            <summary class="settingsHeader options">
+				使用说明（点击查看）
+            </summary>
+            <div class="settingsToggleItemWide">
+				内容待补充
+            </div>
+        </details>
+    </div>
+<</widget>>
+
+<<widget "spellBookContents_common">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+            当前公共（跨存档）言灵集
+        </div>
+        <div class="settingsToggleItemWide">
+        	<<set _ids to Object.keys(_spellBookCommon)>>
+			<<for _id range _ids>>
+				<<set _spellBookItem to _spellBookCommon[_id]>>
+				<<capture _id>>
+					<<print _spellBookItem.name>><br>
+				<</capture>>
+			<</for>>	
+			<<if _ids.length is 0>>
+				暂无公共言灵集
+			<</if>>
+        </div>
+    </div>
+<</widget>>
+
+<<widget "spellBookContents_normal">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+            当前本存档言灵集
+        </div>
+        <div class="settingsToggleItemWide">
+        	<<set _ids to Object.keys($spellBook)>>
+			<<for _id range _ids>>
+				<<set _spellBookItem to $spellBook[_id]>>
+				<<capture _id>>
+					<<print _spellBookItem.name>><br>
+				<</capture>>
+			<</for>>
+			<<if _ids.length is 0>>
+				暂无本存档言灵集
+			<</if>>
+        </div>
+    </div>
+<</widget>>
+
+<<widget "createSpellBookItem">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+            新建空白言灵集
+        </div>
+        <div class="settingsToggleItemWide">
+        	请输入言灵集名称：<mouse class="tooltip linkBlue">(?)<span>暂时没做言灵集重名限制和字数限制，但起名时请尽量保证简洁且有区分度。</span></mouse>
+			<<textbox "_itemName" "">>
+			<input type="button" value="确定" class="saveMenuButton" onclick="createSpellBookItem(T.itemName)">
+        </div>
+    </div>
+<</widget>>
+
+<<widget "loadSpellBookItem">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+            加载言灵集<mouse class="tooltip linkBlue">(?)<span>数据来源为在具体言灵集下导出的文件/复制的文本框内容</span></mouse>
+        </div>
+        <div class="settingsToggleItemWide">
+        	从文件导入（只支持txt和json格式文件，注意安卓端可能只能选择【从文本框加载】）：
+			<br>
+			<input type="file" onchange="uploadSpellBookItem(this)" single accept="text/*, application/json" class="uploadFileInput" />
+			<br>
+			从文本框加载（【从文件导入】的替代方案）：
+			<textarea id="bookItemInput" rows="4" cols="40"><<if _presetData>>_presetData<</if>></textarea>
+			<br>
+			<input type="button" class="saveMenuButton" value="清除文本框" onclick="clearTextBox('bookItemInput')"/>
+			<input type="button" class="saveMenuButton" value="上移至文本框顶部" onclick="topTextArea('bookItemInput')"/>
+			<input type="button" class="saveMenuButton" value="下移至文本框底部" onclick="bottomTextArea('bookItemInput')"/>
+			<input id="CopyTextArea" class="saveMenuButton" type="button" value="加载言灵集" onclick="loadSpellBookItem()">
+        </div>
+    </div>
+<</widget>>
 
 <<widget "spellBookItem_common">>
 	<<set _uuid to _args[0]>>
@@ -88,7 +155,7 @@
 	<br>
 	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook[T.uuid])">
 	<br>
-	为安卓端准备的导入/导出言灵集功能，使用方式与原版的导出/加载存档码一致。
+	为安卓端准备的导入/导出言灵集功能，使用方式与原版的导出/加载存档码一致，「加载言灵集」需要在封面进行操作。
 	<textarea id="bookItemInput" rows="4" cols="40"><<if _presetData>>_presetData<</if>></textarea>
 	<br>
 	<input type="button" class="saveMenuButton" value="清除文本框" onclick="clearTextBox('bookItemInput')"/>
@@ -96,7 +163,6 @@
 	<input type="button" class="saveMenuButton" value="下移至文本框底部" onclick="bottomTextArea('bookItemInput')"/>
 	<input type="button" value="获取言灵集数据" class="saveMenuButton" onclick="getSpellBookItem(V.spellBook[T.uuid])">
 	<input id="CopyTextArea" class="saveMenuButton" type="button" value="复制言灵集" onclick="copySavedata('bookItemInput')">
-	<input id="CopyTextArea" class="saveMenuButton" type="button" value="加载言灵集" onclick="loadSpellBookItem()">
 	<br><br>
 	<input type="button" class="saveMenuButton" value="跨存档保存该言灵集" onclick="saveDataToIndexDB(V.spellBook[T.uuid])">
 	<br>

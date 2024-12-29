@@ -46,6 +46,7 @@ declare global {
     copyIdbSpellBookItem: (spellbookItem: SpellbookItem) => void;
     deleteIdbSpellBookItem: (SpellbookItem: SpellbookItem) => void;
     uploadSpellBookItem: (file_input) => void;
+    createSpellBookItem: (itemName: string) => void;
     zoom: (number) => void;// zoom为原有函数
   }
 

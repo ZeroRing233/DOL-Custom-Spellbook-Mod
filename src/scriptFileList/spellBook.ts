@@ -215,8 +215,8 @@ window.getSpellBookItem = getSpellBookItem;
 function loadSpellBookItem() {
     const input: any = document.getElementById("bookItemInput");
     const result = input.value;
-    if (result === null) {
-        alert("加载言灵集数据失败！无法获取言灵集");
+    if (result === null || result.trim() === "") {
+        alert("加载言灵集数据失败！无法获取言灵集数据");
         return;
     }
     try {
@@ -418,7 +418,37 @@ function uploadSpellBookitem(file_input) {
             alert("加载言灵集失败: " + error);
         }
     };
-    // Trigger the file reading process
-    reader.readAsText(file); // 'file' is the file object obtained from the input element
+    reader.readAsText(file);
 }
 window.uploadSpellBookItem = uploadSpellBookitem;
+
+function createSpellBookItem(itemName: string) {
+    if (itemName === null || itemName.trim() === "") {
+        alert("请先输入言灵集名称！");
+        return;
+    }
+    let uuid: string = generateUUID();
+    let spellbookItem: SpellbookItem = {};
+    spellbookItem.uuid = uuid;
+    spellbookItem.content = [];
+    spellbookItem.name = itemName;
+    // 新增误点可能性/影响都不大，直接省略弹窗
+    V.spellBook[spellbookItem.uuid] = spellbookItem;
+    Swal.fire('已添加', '成功添加言灵集【' + itemName + '】', 'success');
+    $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+    $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+}
+window.createSpellBookItem = createSpellBookItem;
+
+function generateUUID(): string {
+    // ... (your UUID generation function) ...
+    let d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        let r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}

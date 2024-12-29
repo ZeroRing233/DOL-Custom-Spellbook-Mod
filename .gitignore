@@ -3,8 +3,9 @@
 *.local
 *.log*
 README的副本.md
-言灵集.txt
-言灵集2.json
+默认言灵集.txt
+默认言灵集.json
+待实现的功能.txt
 test.html
 
 # Dist

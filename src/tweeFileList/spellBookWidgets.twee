@@ -13,23 +13,25 @@
 		<</button>>
 		<<set _ids to Object.keys(_spellBookCommon)>>
 		<<for _id range _ids>>
-			<<set _spellBookItem to _spellBookCommon[_id]>>
+			<<set _spellBookItem to clone(_spellBookCommon[_id])>>
 			<<capture _id>>
 				<<set _name to _spellBookItem.name + "（公共）">>
-				<<button _name>>
+				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_common(this.id)" @id="'common_'+ T.id">_name</button>
+				/%<<button _name>>
 					<<toggleTab>>
 					<<replace #customOverlayContent>><<spellBookItem_common _id>><</replace>>
-				<</button>>
+				<</button>>%/
 			<</capture>>
 		<</for>>
 		<<set _ids to Object.keys($spellBook)>>
 		<<for _id range _ids>>
-			<<set _spellBookItem to $spellBook[_id]>>
+			<<set _spellBookItem to clone($spellBook[_id])>>
 			<<capture _id>>
-				<<button _spellBookItem.name>>
+				/% <<button _spellBookItem.name>>
 					<<toggleTab>>
 					<<replace #customOverlayContent>><<spellBookItem_normal _id>><</replace>>
-				<</button>>
+				<</button>>%/
+				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_normal(this.id)" @id="'normal_'+ T.id">_spellBookItem.name</button>
 			<</capture>>
 		<</for>>
 	</div>
@@ -108,8 +110,8 @@
         </div>
         <div class="settingsToggleItemWide">
         	请输入言灵集名称：<mouse class="tooltip linkBlue">(?)<span>暂时没做言灵集重名限制和字数限制，但起名时请尽量保证简洁且有区分度。</span></mouse>
-			<<textbox "_itemName" "">>
-			<input type="button" value="确定" class="saveMenuButton" onclick="createSpellBookItem(T.itemName)">
+			<<textbox "_spellBookItemName" "">>
+			<input type="button" value="确定" class="saveMenuButton" onclick="createSpellBookItem(T.spellBookItemName)">
         </div>
     </div>
 <</widget>>
@@ -137,6 +139,7 @@
 
 <<widget "spellBookItem_common">>
 	<<set _uuid to _args[0]>>
+	<<print _uuid>>
 	<<set _name to _spellBookCommon[_uuid].name>>
 	<<set _content to _spellBookCommon[_uuid].content>>
 	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集。

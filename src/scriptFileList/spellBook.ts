@@ -452,3 +452,31 @@ function generateUUID(): string {
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
 }
+
+function spellBookTabClicked_common(id) {
+    console.log("点击公共标签页时获取到的id是" + id);
+    const button = $('#' + id);
+    if (button.length > 0) { // 检查 button 是否存在
+        T.tab.toggle(button);
+        const prefix = "common_";
+        let uuid = id.substring(prefix.length);
+        $.wiki("<<replace #customOverlayContent>><<spellBookItem_common " + uuid + ">><</replace>>")
+    } else {
+        alert("无法获取到当前标签页");
+    }
+}
+window.spellBookTabClicked_common = spellBookTabClicked_common;
+
+function spellBookTabClicked_normal(id) {
+    console.log("点击公共标签页时获取到的id是" + id);
+    const button = $('#' + id);
+    if (button.length > 0) { // 检查 button 是否存在
+        T.tab.toggle(button);
+        const prefix = "normal_";
+        let uuid = id.substring(prefix.length);
+        $.wiki("<<replace #customOverlayContent>><<spellBookItem_normal " + uuid + ">><</replace>>")
+    } else {
+        alert("无法获取到当前标签页");
+    }
+}
+window.spellBookTabClicked_normal = spellBookTabClicked_normal;

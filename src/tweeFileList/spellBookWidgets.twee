@@ -73,8 +73,9 @@
 			<<for _id range _ids>>
 				<<set _spellBookItem to _spellBookCommon[_id]>>
 				<<capture _id>>
-					<<print _spellBookItem.name>><br>
+					<<link _spellBookItem.name>><<run spellBookTabClicked_common("common_"+T.id)>><</link>>
 				<</capture>>
+				<br>
 			<</for>>	
 			<<if _ids.length is 0>>
 				暂无公共言灵集
@@ -93,8 +94,10 @@
 			<<for _id range _ids>>
 				<<set _spellBookItem to $spellBook[_id]>>
 				<<capture _id>>
-					<<print _spellBookItem.name>><br>
+					<<set _normalId to "normal_" + _id>>
+					<<link _spellBookItem.name>><<run spellBookTabClicked_normal("normal_"+T.id)>><</link>>
 				<</capture>>
+				<br>
 			<</for>>
 			<<if _ids.length is 0>>
 				暂无本存档言灵集

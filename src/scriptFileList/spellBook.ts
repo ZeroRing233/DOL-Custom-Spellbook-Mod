@@ -435,8 +435,11 @@ function createSpellBookItem(itemName: string) {
     // 新增误点可能性/影响都不大，直接省略弹窗
     V.spellBook[spellbookItem.uuid] = spellbookItem;
     Swal.fire('已添加', '成功添加言灵集【' + itemName + '】', 'success');
+    // 新增应该直接跳转到新增言灵集，而不是封面
     $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-    $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+    $(function () {
+        spellBookTabClicked_normal("normal_"+uuid);
+    });
 }
 window.createSpellBookItem = createSpellBookItem;
 
@@ -480,3 +483,4 @@ function spellBookTabClicked_normal(id) {
     }
 }
 window.spellBookTabClicked_normal = spellBookTabClicked_normal;
+

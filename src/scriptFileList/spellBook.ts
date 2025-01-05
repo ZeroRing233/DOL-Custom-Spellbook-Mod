@@ -495,3 +495,66 @@ function spellBookTabClicked_normal(id) {
 }
 window.spellBookTabClicked_normal = spellBookTabClicked_normal;
 
+// 查找言灵集，"all"表示在所有言灵集中查找
+function searchSpellBookItem(searchString: string, searchId: string) {
+    if (searchId === "all") {
+        return searchAll(searchString);
+    }
+    else if (searchId.startsWith("common_")) {
+        const prefix = "common_";
+        let uuid = searchId.substring(prefix.length);
+        return searchCommon(searchString, uuid)
+    }
+    else if (searchId.startsWith("normal_")) {
+        const prefix = "normal_";
+        let uuid = searchId.substring(prefix.length);
+        return searchNormal(searchString, uuid)
+    }
+    else {
+        alert("查询出错，无法获取指定言灵集！")
+    }
+}
+
+function searchAll(searchString: string) {
+    let searchResult = [];
+    for (const key in T.spellBookCommon) {
+        searchResult = searchResult.concat(searchCommon(searchString, key));
+    }
+    for (const key in V.spellBook) {
+        searchResult = searchResult.concat(searchNormal(searchString, key));
+    }
+    console.log("searchAll_Result是" + searchResult);
+    return searchResult;
+}
+
+function searchCommon(searchString: string, uuid: string) {
+    let searchResult = []
+    const item = T.spellBookCommon[uuid];
+    for (const contentString of item.content) {
+        if (contentString.includes(searchString)) {
+            let result: any = {}
+            result.content = contentString;
+            result.itemName = item.name;
+            result.itemId = item.uuid;
+            searchResult.push(result);
+        }
+    }
+    console.log("searchCommon_Result是" + searchResult);
+    return searchResult;
+}
+
+function searchNormal(searchString: string, uuid: string) {
+    let searchResult = []
+    const item = V.spellBook[uuid];
+    for (const contentString of item.content) {
+        if (contentString.includes(searchString)) {
+            let result: any = {}
+            result.content = contentString;
+            result.itemName = item.name;
+            result.itemId = item.uuid;
+            searchResult.push(result);
+        }
+    }
+    console.log("searchNormal_Result是" + searchResult);
+    return searchResult;
+}

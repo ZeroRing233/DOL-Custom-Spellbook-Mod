@@ -14,24 +14,24 @@
 		<<set _ids to Object.keys(_spellBookCommon)>>
 		<<for _id range _ids>>
 			<<set _spellBookItem to clone(_spellBookCommon[_id])>>
+			<<set _name to _spellBookItem.name>>
+			<<if _name.length > 2>>
+				<<set _name to _name.substring(0, 2) + "...">>
+			<</if>>
+			<<set _name to _name + "（公共）">>
 			<<capture _id>>
-				<<set _name to _spellBookItem.name + "（公共）">>
 				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_common(this.id)" @id="'common_'+ T.id">_name</button>
-				/%<<button _name>>
-					<<toggleTab>>
-					<<replace #customOverlayContent>><<spellBookItem_common _id>><</replace>>
-				<</button>>%/
 			<</capture>>
 		<</for>>
 		<<set _ids to Object.keys($spellBook)>>
 		<<for _id range _ids>>
 			<<set _spellBookItem to clone($spellBook[_id])>>
+			<<set _name to _spellBookItem.name>>
+			<<if _name.length > 6>>
+				<<set _name to _name.substring(0, 6) + "...">>
+			<</if>>
 			<<capture _id>>
-				/% <<button _spellBookItem.name>>
-					<<toggleTab>>
-					<<replace #customOverlayContent>><<spellBookItem_normal _id>><</replace>>
-				<</button>>%/
-				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_normal(this.id)" @id="'normal_'+ T.id">_spellBookItem.name</button>
+				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_normal(this.id)" @id="'normal_'+ T.id">_name</button>
 			<</capture>>
 		<</for>>
 	</div>

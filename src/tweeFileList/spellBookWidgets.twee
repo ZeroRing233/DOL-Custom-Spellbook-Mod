@@ -7,7 +7,7 @@
     <<setupTabs>>
     <div id="overlayTabs" class="tab">
 		<<closeButtonMobile>>
-		<<button "封面">>
+		<<button "封面&目录">>
 			<<toggleTab>>
 			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
 		<</button>>
@@ -42,8 +42,9 @@
     /% 这只是一个魔法书封面，细节等会再说。(添加言灵集功能，导出功能)
 	* 初次加载时，默认言灵集的数据为当前侧边栏设定的言灵集，之后可以自定义。
 	(为简化逻辑，目前所有操作均以言灵集为单位，逃) %/
-	欢迎体验自定义魔法书模组~
+	<div class="spellBookOpenWelcome">欢迎体验自定义魔法书（言灵集）模组~</div>
 	<<spellBookIntro>>
+	<<spellBookSearch>>
 	<<spellBookContents_common>>
 	<<spellBookContents_normal>>
 	<<createSpellBookItem>>
@@ -63,10 +64,22 @@
     </div>
 <</widget>>
 
+<<widget "spellBookSearch">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+            搜索特定言灵 <mouse class="tooltip linkBlue">(?)<span>搜索出结果后可直接执行，也可跳转到对应言灵集进行查看/编辑。</span></mouse>
+        </div>
+		 <div class="settingsToggleItemWide">
+			<<textbox "_spellBookSearchTextbox" "">>
+			<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox)">
+		 </div>
+	</div>
+<</widget>>
+
 <<widget "spellBookContents_common">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            当前公共（跨存档）言灵集
+            当前公共（跨存档）言灵集 <mouse class="tooltip linkBlue">(?)<span>点击言灵名称，可跳转到对应公共言灵集进行浏览/执行等功能</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
         	<<set _ids to Object.keys(_spellBookCommon)>>
@@ -87,7 +100,7 @@
 <<widget "spellBookContents_normal">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            当前本存档言灵集
+            当前本存档言灵集 <mouse class="tooltip linkBlue">(?)<span>点击言灵名称，可跳转到对应言灵集进行浏览/执行/编辑等功能</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
         	<<set _ids to Object.keys($spellBook)>>
@@ -108,10 +121,10 @@
 <<widget "createSpellBookItem">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            新建空白言灵集
+            新建空白言灵集 <mouse class="tooltip linkBlue">(?)<span>暂时没做言灵集重名限制和字数限制，但起名时请尽量保证简洁且有区分度。</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
-        	请输入言灵集名称：<mouse class="tooltip linkBlue">(?)<span>暂时没做言灵集重名限制和字数限制，但起名时请尽量保证简洁且有区分度。</span></mouse>
+        	请输入言灵集名称：
 			<<textbox "_spellBookItemName" "">>
 			<input type="button" value="确定" class="saveMenuButton" onclick="createSpellBookItem(T.spellBookItemName)">
         </div>
@@ -121,7 +134,7 @@
 <<widget "loadSpellBookItem">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            加载言灵集<mouse class="tooltip linkBlue">(?)<span>数据来源为在具体言灵集下导出的文件/复制的文本框内容</span></mouse>
+            加载言灵集 <mouse class="tooltip linkBlue">(?)<span>数据来源为在某一言灵集下导出的文件/复制的文本框内容</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
         	从文件导入（只支持txt和json格式文件，注意安卓端可能只能选择【从文本框加载】）：
@@ -129,7 +142,8 @@
 			<input type="file" onchange="uploadSpellBookItem(this)" single accept="text/*, application/json" class="uploadFileInput" />
 			<br>
 			从文本框加载（【从文件导入】的替代方案）：
-			<textarea id="bookItemInput" rows="4" cols="40"><<if _presetData>>_presetData<</if>></textarea>
+			<br>
+			<textarea id="bookItemInput" cols="40" rows="4"><<if _presetData>>_presetData<</if>></textarea>
 			<br>
 			<input type="button" class="saveMenuButton" value="清除文本框" onclick="clearTextBox('bookItemInput')"/>
 			<input type="button" class="saveMenuButton" value="上移至文本框顶部" onclick="topTextArea('bookItemInput')"/>
@@ -141,7 +155,6 @@
 
 <<widget "spellBookItem_common">>
 	<<set _uuid to _args[0]>>
-	<<print _uuid>>
 	<<set _name to _spellBookCommon[_uuid].name>>
 	<<set _content to _spellBookCommon[_uuid].content>>
 	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集。

@@ -24,3 +24,30 @@
         background-color: black;
         /* 设置幽灵元素的背景颜色 */
     }
+    
+    #textbox--spellbookitemname {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    #textbox--spellbooksearchtextbox {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .settingsToggleItemWide input[type="file"] {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    #bookItemInput {
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 80%;
+    }
+    
+    .spellBookOpenWelcome {
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+    }

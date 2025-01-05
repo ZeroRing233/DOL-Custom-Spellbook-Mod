@@ -82,7 +82,9 @@ async function doItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
         window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
         await getIdbSpellBookItems();
         $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+        $(function () {
+            spellBookTabClicked_common("common_" + spellbookItem.uuid);
+        });
     } catch (error) {
         const errorMsg = JSON.stringify(error);
         window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
@@ -115,7 +117,9 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
         window.modSweetAlert2Mod.fire('已保存', '当前言灵集已被保存', 'success');
         await getIdbSpellBookItems();
         $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+        $(function () {
+            spellBookTabClicked_common("common_" + spellbookItem.uuid);
+        });
     } catch (error) {
         const errorMsg = JSON.stringify(error);
         window.modSweetAlert2Mod.fire('发生错误，请联系作者解决该问题', errorMsg, 'error');
@@ -284,7 +288,9 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
             if (confirmResult.isConfirmed) {
                 V.spellBook[spellBookItem.uuid] = spellBookItem;
                 $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-                $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+                $(function () {
+                    spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
+                });
                 window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
             } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
                 window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
@@ -294,7 +300,9 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
         else {
             V.spellBook[spellBookItem.uuid] = spellBookItem;
             $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-            $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+            $(function () {
+                spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
+            });
             window.modSweetAlert2Mod.fire('加载成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
         }
     } catch (error) {
@@ -373,7 +381,9 @@ async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
         copyItem.name = copyItem.name + "（复制）";
         V.spellBook[copyItem.uuid] = copyItem;
         $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+        $(function () {
+            spellBookTabClicked_normal("normal_" + copyItem.uuid);
+        });
         Swal.fire('已复制', '当前言灵集已复制', 'success');
     }
 }
@@ -398,6 +408,7 @@ async function deleteIdbSpellBookItem(spellbookItem: SpellbookItem) {
         await db.deleteItem(spellbookItem.uuid);
         await getIdbSpellBookItems();
         Swal.fire('已删除', '当前言灵集已删除', 'success');
+        // 只有删除是真的应该返回封面
         $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
         $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
     }
@@ -438,7 +449,7 @@ function createSpellBookItem(itemName: string) {
     // 新增应该直接跳转到新增言灵集，而不是封面
     $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
     $(function () {
-        spellBookTabClicked_normal("normal_"+uuid);
+        spellBookTabClicked_normal("normal_" + uuid);
     });
 }
 window.createSpellBookItem = createSpellBookItem;

@@ -94,7 +94,6 @@
 			<<for _id range _ids>>
 				<<set _spellBookItem to $spellBook[_id]>>
 				<<capture _id>>
-					<<set _normalId to "normal_" + _id>>
 					<<link _spellBookItem.name>><<run spellBookTabClicked_normal("normal_"+T.id)>><</link>>
 				<</capture>>
 				<br>

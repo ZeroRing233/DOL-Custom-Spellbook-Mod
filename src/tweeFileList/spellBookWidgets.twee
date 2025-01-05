@@ -39,9 +39,6 @@
 <</widget>>
 
 <<widget "spellBookOpen">>
-    /% 这只是一个魔法书封面，细节等会再说。(添加言灵集功能，导出功能)
-	* 初次加载时，默认言灵集的数据为当前侧边栏设定的言灵集，之后可以自定义。
-	(为简化逻辑，目前所有操作均以言灵集为单位，逃) %/
 	<div class="spellBookOpenWelcome">欢迎体验自定义魔法书（言灵集）模组~</div>
 	<<spellBookIntro>>
 	<<spellBookSearch>>
@@ -72,6 +69,7 @@
 		 <div class="settingsToggleItemWide">
 			<<textbox "_spellBookSearchTextbox" "">>
 			<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox)">
+			<input type="button" value="清空" class="saveMenuButton clearButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox)">
 		 </div>
 	</div>
 <</widget>>
@@ -79,7 +77,7 @@
 <<widget "spellBookContents_common">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            当前公共（跨存档）言灵集 <mouse class="tooltip linkBlue">(?)<span>点击言灵名称，可跳转到对应公共言灵集进行浏览/执行等功能</span></mouse>
+            当前跨存档言灵集 <mouse class="tooltip linkBlue">(?)<span>点击言灵名称，可跳转到对应公共言灵集进行浏览/执行等功能</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
         	<<set _ids to Object.keys(_spellBookCommon)>>

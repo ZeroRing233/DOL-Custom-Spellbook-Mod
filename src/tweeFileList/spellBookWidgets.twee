@@ -67,11 +67,37 @@
             搜索特定言灵 <mouse class="tooltip linkBlue">(?)<span>搜索出结果后可直接执行，也可跳转到对应言灵集进行查看/编辑。</span></mouse>
         </div>
 		 <div class="settingsToggleItemWide">
-			<<textbox "_spellBookSearchTextbox" "">>
-			<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox)">
-			<input type="button" value="清空" class="saveMenuButton clearButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox)">
+		 	<div class="spellBookSearchTextbox">
+				<<textbox "_spellBookSearchTextbox" "">>
+				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'all')">
+				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
+			</div>
+			<div id="searchResults"></div>
 		 </div>
 	</div>
+<</widget>>
+
+<<widget "showSearchResults">>
+	<span class="gold">搜索结果如下：</span><br>
+	<ol>
+		<<for _i to 0; _i lt _searchResults.length; _i++>>
+			<<set _result to _searchResults[_i].content>>
+			<<set _itemName to _searchResults[_i].itemName>>
+			<<set _itemId to _searchResults[_i].source + "_" + _searchResults[_i].itemId>>
+			<li>
+				言灵名称：<<print _result>>，所属言灵集：
+				<<if _itemId.startsWith("common_")>>
+					<<capture _itemId>>
+						<<link _itemName>><<run spellBookTabClicked_common(T.itemId)>><</link>>
+					<</capture>>
+				<<else>>
+					<<capture _itemId>>
+						<<link _itemName>><<run spellBookTabClicked_normal(T.itemId)>><</link>>
+					<</capture>>
+				<</if>>
+			</li>
+		<</for>>
+	</ol>
 <</widget>>
 
 <<widget "spellBookContents_common">>

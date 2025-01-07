@@ -49,6 +49,8 @@ declare global {
     createSpellBookItem: (itemName: string) => void;
     spellBookTabClicked_common: (id: string) => void;
     spellBookTabClicked_normal: (id: string) => void;
+    searchSpellBookItem: (searchString: string, searchId: string) => void;
+    clearSpellBookItemSearchResult: () => void;
     zoom: (number) => void;// zoom为原有函数
   }
 
@@ -66,6 +68,8 @@ declare global {
     currContent?: string[] //当前言灵集的内容
     content?: string[]
     spellBookCommon?: { [key: string]: SpellbookItem }; //公共魔法书数据展示
+    searchResults?: []
+    spellBookSearchTextbox?: "";
     tab: Tab;//原版自带的tab
   }
   declare var T: T;

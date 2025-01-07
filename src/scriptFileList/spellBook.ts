@@ -497,21 +497,43 @@ window.spellBookTabClicked_normal = spellBookTabClicked_normal;
 
 // 查找言灵集，"all"表示在所有言灵集中查找
 function searchSpellBookItem(searchString: string, searchId: string) {
+    if (!searchString || searchString.trim() === "") {
+        alert("请输入需要查询的言灵内容！");
+        return;
+    }
+    let searchResult: any = [];
     if (searchId === "all") {
-        return searchAll(searchString);
+        searchResult = searchAll(searchString);
     }
     else if (searchId.startsWith("common_")) {
         const prefix = "common_";
         let uuid = searchId.substring(prefix.length);
-        return searchCommon(searchString, uuid)
+        searchResult = searchCommon(searchString, uuid);
     }
     else if (searchId.startsWith("normal_")) {
         const prefix = "normal_";
         let uuid = searchId.substring(prefix.length);
-        return searchNormal(searchString, uuid)
+        searchResult = searchNormal(searchString, uuid)
     }
     else {
-        alert("查询出错，无法获取指定言灵集！")
+        alert("查询出错，无法获取查询范围！");
+        return;
+    }
+    handleSearchResults(searchResult);
+}
+window.searchSpellBookItem = searchSpellBookItem;
+
+function handleSearchResults(searchResult: any) {
+    const searchResultsContainer = document.getElementById('searchResults') as HTMLDivElement;
+    searchResultsContainer.innerHTML = '';
+    searchResultsContainer.style.color = '';
+    if (searchResult.length === 0) {
+        searchResultsContainer.textContent = "无结果";
+        searchResultsContainer.style.color = 'gold';
+    }
+    else {
+        T.searchResults = searchResult;
+        $.wiki("<<replace #searchResults>><<showSearchResults>><</replace>>")
     }
 }
 
@@ -523,12 +545,12 @@ function searchAll(searchString: string) {
     for (const key in V.spellBook) {
         searchResult = searchResult.concat(searchNormal(searchString, key));
     }
-    console.log("searchAll_Result是" + searchResult);
+    console.log("searchAll_Result是" + JSON.stringify(searchResult));
     return searchResult;
 }
 
 function searchCommon(searchString: string, uuid: string) {
-    let searchResult = []
+    let searchResult = [];
     const item = T.spellBookCommon[uuid];
     for (const contentString of item.content) {
         if (contentString.includes(searchString)) {
@@ -536,15 +558,16 @@ function searchCommon(searchString: string, uuid: string) {
             result.content = contentString;
             result.itemName = item.name;
             result.itemId = item.uuid;
+            result.source = "common";
             searchResult.push(result);
         }
     }
-    console.log("searchCommon_Result是" + searchResult);
+    console.log("searchCommon_Result是" + JSON.stringify(searchResult));
     return searchResult;
 }
 
 function searchNormal(searchString: string, uuid: string) {
-    let searchResult = []
+    let searchResult = [];
     const item = V.spellBook[uuid];
     for (const contentString of item.content) {
         if (contentString.includes(searchString)) {
@@ -552,9 +575,22 @@ function searchNormal(searchString: string, uuid: string) {
             result.content = contentString;
             result.itemName = item.name;
             result.itemId = item.uuid;
+            result.source = "normal";
             searchResult.push(result);
         }
     }
-    console.log("searchNormal_Result是" + searchResult);
+    console.log("searchNormal_Result是" + JSON.stringify(searchResult));
     return searchResult;
 }
+
+function clearSpellBookItemSearchResult() {
+    const searchResultsContainer = document.getElementById('searchResults') as HTMLDivElement;
+    const textbox = document.getElementById('textbox--spellbooksearchtextbox') as HTMLInputElement;
+    searchResultsContainer.innerHTML = '';
+    searchResultsContainer.style.color = '';
+    textbox.value = "";
+    // 理论上清空只需要界面不展示就行，以防万一数据也重置下
+    T.searchResults = [];
+    T.spellBookSearchTextbox = "";
+}
+window.clearSpellBookItemSearchResult = clearSpellBookItemSearchResult;

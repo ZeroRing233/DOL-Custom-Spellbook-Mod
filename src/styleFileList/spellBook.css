@@ -26,21 +26,21 @@
     }
     
     #textbox--spellbookitemname {
-        max-width: 100%;
+        max-width: 60%;
         box-sizing: border-box;
-        min-width: 40%;
+        min-width: 30%;
     }
     
     #textbox--spellbooksearchtextbox {
-        max-width: 100%;
+        max-width: 50%;
         box-sizing: border-box;
-        min-width: 40%;
+        min-width: 30%;
     }
     
     .settingsToggleItemWide input[type="file"] {
         max-width: 100%;
         box-sizing: border-box;
-        min-width: 40%;
+        min-width: 30%;
     }
     
     #bookItemInput {
@@ -53,8 +53,4 @@
         display: flex;
         justify-content: center;
         font-weight: bold;
-    }
-    
-    .clearButton {
-        background-color: transparent!important;
     }

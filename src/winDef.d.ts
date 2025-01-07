@@ -51,6 +51,7 @@ declare global {
     spellBookTabClicked_normal: (id: string) => void;
     searchSpellBookItem: (searchString: string, searchId: string) => void;
     clearSpellBookItemSearchResult: () => void;
+    jumpToResult_common: (searchResult: string) => void;
     zoom: (number) => void;// zoom为原有函数
   }
 
@@ -60,7 +61,7 @@ declare global {
     spellBook?: { [key: string]: SpellbookItem }; // 本地存档中的魔法书
     cccheatList?: string[]; //需要展示在侧边栏的言灵集（搭配其他模组使用）
     cccheat?: string[]; // 展示在侧边栏的模组列表，可能需与其他模组联动
-    options: any
+    options: any;
   }
   declare var V: V;
 
@@ -70,6 +71,7 @@ declare global {
     spellBookCommon?: { [key: string]: SpellbookItem }; //公共魔法书数据展示
     searchResults?: []
     spellBookSearchTextbox?: "";
+    uuid?: stiring;
     tab: Tab;//原版自带的tab
   }
   declare var T: T;

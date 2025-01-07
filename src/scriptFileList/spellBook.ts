@@ -519,11 +519,11 @@ function searchSpellBookItem(searchString: string, searchId: string) {
         alert("查询出错，无法获取查询范围！");
         return;
     }
-    handleSearchResults(searchResult);
+    handleSearchResults(searchResult, searchId);
 }
 window.searchSpellBookItem = searchSpellBookItem;
 
-function handleSearchResults(searchResult: any) {
+function handleSearchResults(searchResult: any, searchId: any) {
     const searchResultsContainer = document.getElementById('searchResults') as HTMLDivElement;
     searchResultsContainer.innerHTML = '';
     searchResultsContainer.style.color = '';
@@ -533,7 +533,15 @@ function handleSearchResults(searchResult: any) {
     }
     else {
         T.searchResults = searchResult;
-        $.wiki("<<replace #searchResults>><<showSearchResults>><</replace>>")
+        if (searchId === "all") {
+            $.wiki("<<replace #searchResults>><<showSearchResults>><</replace>>");
+        }
+        else if (searchId.startsWith("common_")) {
+            $.wiki("<<replace #searchResults>><<showSearchResults_common>><</replace>>");
+        }
+        else if (searchId.startsWith("normal_")) {
+
+        }
     }
 }
 
@@ -594,3 +602,28 @@ function clearSpellBookItemSearchResult() {
     T.spellBookSearchTextbox = "";
 }
 window.clearSpellBookItemSearchResult = clearSpellBookItemSearchResult;
+
+function jumpToResult_common(searchResult: string) {
+    console.log("点击查看时，searchResult是" + searchResult);
+    const content = T.spellBookCommon[T.uuid].content;
+    if (!content) {
+        alert("查询结果跳转出错！无法获取对应言灵集");
+        return;
+    }
+    const index = content.indexOf(searchResult);
+    if (index === -1) {
+        alert("查询结果跳转出错！无法获取指定言灵");
+        return;
+    }
+    const spellIndexElements = document.querySelectorAll('.SpellBookItemIndex');
+    const spellIndexArray = Array.from(spellIndexElements);
+    for (const element of spellIndexArray) {
+        if (element.textContent === index.toString()) {
+            element.scrollIntoView();
+            return;
+        }
+    }
+    alert("查询结果跳转出错！无法定位到指定言灵");
+}
+
+window.jumpToResult_common = jumpToResult_common;

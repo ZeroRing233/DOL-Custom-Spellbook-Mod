@@ -64,7 +64,7 @@
 <<widget "spellBookSearch">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            搜索特定言灵 <mouse class="tooltip linkBlue">(?)<span>搜索出结果后可直接执行，也可跳转到对应言灵集进行查看/编辑。</span></mouse>
+            搜索言灵 <mouse class="tooltip linkBlue">(?)<span>搜索出结果后可直接执行，也可跳转到对应言灵集进行查看/编辑。</span></mouse>
         </div>
 		 <div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
@@ -77,7 +77,7 @@
 	</div>
 <</widget>>
 
-<<widget "showSearchResults">>
+<<widget "showSearchResults_all">>
 	<span class="gold">搜索结果如下：</span><br>
 	<ol>
 		<<for _i to 0; _i lt _searchResults.length; _i++>>
@@ -161,7 +161,7 @@
             加载言灵集 <mouse class="tooltip linkBlue">(?)<span>数据来源为在某一言灵集下导出的文件/复制的文本框内容</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
-        	从文件导入（只支持txt和json格式文件，注意安卓端可能只能选择【从文本框加载】）：
+        	从文件导入（只支持txt和json格式文件）：
 			<br>
 			<input type="file" onchange="uploadSpellBookItem(this)" single accept="text/*, application/json" class="uploadFileInput" />
 			<br>
@@ -181,12 +181,48 @@
 	<<set _uuid to _args[0]>>
 	<<set _name to _spellBookCommon[_uuid].name>>
 	<<set _content to _spellBookCommon[_uuid].content>>
+	<span class="spellBookItemTitle">
+		（当前言灵集：<span class="gold"><<print _name>></span>，
+		类别为：<span class="gold">公共（跨存档）言灵集</span>）
+	</span>
+	<<searchSpellBookItem_common>>
 	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集。
 	<br>
 	<input type="button" value="复制一份到当前存档" class="saveMenuButton" onclick="copyIdbSpellBookItem(T.spellBookCommon[T.uuid])">
 	<input type="button" value="删除言灵集" class="saveMenuButton" onclick="deleteIdbSpellBookItem(T.spellBookCommon[T.uuid])">
 	<br>
 	<div id="spellBookItemList"><<immutableSpellBookItem>></div>
+<</widget>>
+
+<<widget "searchSpellBookItem_common">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+			搜索言灵 <mouse class="tooltip linkBlue">(?)<span>此处只展示当前言灵集中的搜索结果，如果需要获取所有言灵中的结果，请前往封面&目录进行搜索~</span></mouse>
+        </div>
+    	<div class="settingsToggleItemWide">
+		 	<div class="spellBookSearchTextbox">
+				<<textbox "_spellBookSearchTextbox" "">>
+				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'common_' + T.uuid)">
+				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
+			</div>
+			<div id="searchResults"></div>
+		 </div>
+    </div>
+<</widget>>
+
+<<widget "showSearchResults_common">>
+	<span class="gold">搜索结果如下：</span><br>
+	<ol>
+		<<for _i to 0; _i lt _searchResults.length; _i++>>
+			<<set _result to _searchResults[_i].content>>
+			<li>
+				言灵名称：<<print _result>>，
+				<<capture _result>>
+					<<link "点击查看">><<run jumpToResult_common(T.result)>><</link>>
+				<</capture>>
+			</li>
+		<</for>>
+	</ol>
 <</widget>>
 
 <<widget "spellBookItem_normal">>
@@ -239,6 +275,7 @@
 <<widget "immutableSpellBookItem">>
 	<ol>
 		<<for _i to 0; _i lt _content.length; _i++>>
+			<span class="SpellBookItemIndex" style="display:none;"><<= _i>></span>
 			<li><<print _content[_i]>></li>
 		<</for>>
 	</ol>

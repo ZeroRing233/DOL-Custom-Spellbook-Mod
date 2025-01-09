@@ -642,3 +642,15 @@ function spellBookItemShowView(id: string) {
     contentTextArea.disabled = true;
 }
 window.spellBookItemShowView = spellBookItemShowView;
+
+function hideTextArea(id: string) {
+    const prefix = "hideTextArea_";
+    const index = id.substring(prefix.length);
+    const showContent = document.getElementById("showContent_" + index) as HTMLDivElement;
+    if (!showContent) {
+        alert("收起文本框出错！无法定位到文本框");
+        return;
+    }
+    showContent.style.display = "none";
+}
+window.hideTextArea = hideTextArea;

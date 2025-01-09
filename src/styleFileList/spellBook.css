@@ -66,3 +66,13 @@
         justify-content: center;
         font-weight: bold;
     }
+    
+    .contentTextArea {
+        max-width: 80%;
+        box-sizing: border-box;
+        min-width: 60%;
+    }
+    
+    .hideTextAreaButton {
+        background-color: transparent !important;
+    }

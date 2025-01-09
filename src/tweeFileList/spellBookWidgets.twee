@@ -281,8 +281,9 @@
 				<<print _content[_i]>>
 				<i @id="'showViewIcon_'+T.i" class="spellBookItemShowView" onclick="spellBookItemShowView(this.id)"></i>
 				<div @id="'showContent_'+T.i" style="display:none;">
-					<textarea @id="'contentTextArea_'+T.i" rows="2" cols="20"></textarea><br>
-					<input @id="'hideTextArea_'+T.i" type="button" value="收起文本框" class="saveMenuButton" onclick="hideTextArea(this.id)">
+					<textarea @id="'contentTextArea_'+T.i" rows="3" cols="30" class="contentTextArea"></textarea><br>
+					<input @id="'hideTextArea_'+T.i" type="button" value="收起文本框" class="saveMenuButton hideTextAreaButton" onclick="hideTextArea(this.id)">
+					<br><br>
 				</div>
 			</li>
 		<</for>>

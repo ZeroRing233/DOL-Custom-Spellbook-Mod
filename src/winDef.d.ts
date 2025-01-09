@@ -43,6 +43,7 @@ declare global {
     mutableSpellBookItem: () => void;
     immutableSpellBookItem: () => void;
     spellBookItemDeleteClicked: (element) => void;
+    spellBookItemShowView: (id: string) => void;
     copyIdbSpellBookItem: (spellbookItem: SpellbookItem) => void;
     deleteIdbSpellBookItem: (SpellbookItem: SpellbookItem) => void;
     uploadSpellBookItem: (file_input) => void;

@@ -605,6 +605,7 @@ window.clearSpellBookItemSearchResult = clearSpellBookItemSearchResult;
 
 function jumpToResult_common(searchResult: string) {
     console.log("点击查看时，searchResult是" + searchResult);
+    // 并非多次一举，而是为了兼容从封面跳转
     const content = T.spellBookCommon[T.uuid].content;
     if (!content) {
         alert("查询结果跳转出错！无法获取对应言灵集");
@@ -615,15 +616,29 @@ function jumpToResult_common(searchResult: string) {
         alert("查询结果跳转出错！无法获取指定言灵");
         return;
     }
-    const spellIndexElements = document.querySelectorAll('.SpellBookItemIndex');
-    const spellIndexArray = Array.from(spellIndexElements);
-    for (const element of spellIndexArray) {
-        if (element.textContent === index.toString()) {
-            element.scrollIntoView();
-            return;
-        }
+    const element = document.getElementById("content_" + index);
+    if (!element) {
+        alert("查询结果跳转出错！无法定位到指定言灵");
+        return;
     }
-    alert("查询结果跳转出错！无法定位到指定言灵");
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    spellBookItemShowView("showViewIcon_" + index);
 }
 
 window.jumpToResult_common = jumpToResult_common;
+
+function spellBookItemShowView(id: string) {
+    const prefix = "showViewIcon_";
+    const index = id.substring(prefix.length);
+    const showContent = document.getElementById("showContent_" + index) as HTMLDivElement;
+    const contentTextArea = document.getElementById("contentTextArea_" + index) as HTMLTextAreaElement;
+    if (!showContent || !contentTextArea) {
+        alert("言灵内容展示出错！无法定位到文本框");
+        return;
+    }
+    const value = T.content[index];
+    showContent.style.display = "block";
+    contentTextArea.value = value;
+    contentTextArea.disabled = true;
+}
+window.spellBookItemShowView = spellBookItemShowView;

@@ -266,6 +266,8 @@
 			<li @id="T.i">
 				<span class="SpellBookItemIndex" style="display:none;"><<= _i>></span>
 				<<print _content[_i]>>
+				<i class="spellBookItemShowView"></i>
+				<i class="spellBookItemEdit"></i>
 				<i class="SpellBookItemDelete" onclick="spellBookItemDeleteClicked(this)"></i>
 			</li>
 		<</for>>
@@ -275,8 +277,15 @@
 <<widget "immutableSpellBookItem">>
 	<ol>
 		<<for _i to 0; _i lt _content.length; _i++>>
-			<span class="SpellBookItemIndex" style="display:none;"><<= _i>></span>
-			<li><<print _content[_i]>></li>
+			<li @id="'content_'+T.i">
+				<<print _content[_i]>>
+				<i @id="'showViewIcon_'+T.i" class="spellBookItemShowView" onclick="spellBookItemShowView(this.id)"></i>
+				<div @id="'showContent_'+T.i" style="display:none;">
+					<textarea @id="'contentTextArea_'+T.i" rows="2" cols="20"></textarea><br>
+					<input @id="'hideTextArea_'+T.i" type="button" value="收起文本框" class="saveMenuButton" onclick="hideTextArea(this.id)">
+				</div>
+			</li>
 		<</for>>
 	</ol>
 <</widget>>
+

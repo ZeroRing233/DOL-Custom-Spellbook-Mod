@@ -188,12 +188,8 @@
 		<<print _name>>（跨存档）
 	</span>
 	<<searchSpellBookItem_common>>
-	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集。
-	<br>
-	<input type="button" value="复制一份到当前存档" class="saveMenuButton" onclick="copyIdbSpellBookItem(T.spellBookCommon[T.uuid])">
-	<input type="button" value="删除言灵集" class="saveMenuButton" onclick="deleteIdbSpellBookItem(T.spellBookCommon[T.uuid])">
-	<br>
-	<div id="spellBookItemList"><<immutableSpellBookItem>></div>
+	<<editSpellBookItem_common>>
+	<<SpellBookItemList_common>>
 <</widget>>
 
 <<widget "searchSpellBookItem_common">>
@@ -225,6 +221,31 @@
 			</li>
 		<</for>>
 	</ol>
+<</widget>>
+
+<<widget "editSpellBookItem_common">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+			编辑言灵集
+        </div>
+    	<div class="settingsToggleItemWide">
+		 	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集，跨存档保存时已经存在的公共言灵集会被更新。
+			<br>
+			<input type="button" value="复制一份到当前存档" class="saveMenuButton" onclick="copyIdbSpellBookItem(T.spellBookCommon[T.uuid])">
+			<input type="button" value="删除言灵集" class="saveMenuButton" onclick="deleteIdbSpellBookItem(T.spellBookCommon[T.uuid])">
+		</div>
+    </div>
+<</widget>>
+
+<<widget "SpellBookItemList_common">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+			言灵列表（仅查看）
+        </div>
+    	<div class="settingsToggleItemWide">
+		 	<div id="spellBookItemList"><<immutableSpellBookItem>></div>
+		</div>
+    </div>
 <</widget>>
 
 <<widget "spellBookItem_normal">>

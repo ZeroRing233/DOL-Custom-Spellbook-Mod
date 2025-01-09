@@ -534,7 +534,7 @@ function handleSearchResults(searchResult: any, searchId: any) {
     else {
         T.searchResults = searchResult;
         if (searchId === "all") {
-            $.wiki("<<replace #searchResults>><<showSearchResults>><</replace>>");
+            $.wiki("<<replace #searchResults>><<showSearchResults_all>><</replace>>");
         }
         else if (searchId.startsWith("common_")) {
             $.wiki("<<replace #searchResults>><<showSearchResults_common>><</replace>>");
@@ -603,10 +603,19 @@ function clearSpellBookItemSearchResult() {
 }
 window.clearSpellBookItemSearchResult = clearSpellBookItemSearchResult;
 
+function jumpToResultFromCover_common(id: string, searchResult: string) {
+    console.log("跳转搜索结果时的id是：" + id + "，result是：" + searchResult);
+    spellBookTabClicked_common(id);
+    $(function () {
+        jumpToResult_common(searchResult);
+    });
+}
+window.jumpToResultFromCover_common = jumpToResultFromCover_common;
+
 function jumpToResult_common(searchResult: string) {
     console.log("点击查看时，searchResult是" + searchResult);
-    // 并非多次一举，而是为了兼容从封面跳转
-    const content = T.spellBookCommon[T.uuid].content;
+    // const content = T.spellBookCommon[T.uuid].content;
+    const content = T.content;
     if (!content) {
         alert("查询结果跳转出错！无法获取对应言灵集");
         return;

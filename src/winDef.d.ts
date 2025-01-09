@@ -54,6 +54,7 @@ declare global {
     searchSpellBookItem: (searchString: string, searchId: string) => void;
     clearSpellBookItemSearchResult: () => void;
     jumpToResult_common: (searchResult: string) => void;
+    jumpToResultFromCover_common: (id: string, searchResult: string) => void;
     zoom: (number) => void;// zoom为原有函数
   }
 

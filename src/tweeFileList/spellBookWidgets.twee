@@ -85,14 +85,17 @@
 			<<set _itemName to _searchResults[_i].itemName>>
 			<<set _itemId to _searchResults[_i].source + "_" + _searchResults[_i].itemId>>
 			<li>
-				言灵名称：<<print _result>>，所属言灵集：
+				言灵名称：<span class="gold"><<print _result>></span>，所属言灵集：
 				<<if _itemId.startsWith("common_")>>
-					<<capture _itemId>>
-						<<link _itemName>><<run spellBookTabClicked_common(T.itemId)>><</link>>
+					<span class="gold"><<print _itemName>>（公共）</span>，
+					<<capture _itemId, _result>>
+						<<link "点击查看">><<run jumpToResultFromCover_common(T.itemId, T.result)>><</link>>
 					<</capture>>
 				<<else>>
-					<<capture _itemId>>
-						<<link _itemName>><<run spellBookTabClicked_normal(T.itemId)>><</link>>
+					<span class="gold"><<print _itemName>></span>，
+					<<capture _itemId, _result>>
+						<<link "点击查看">><<run jumpToResultFromCover_normal(T.itemId, T.result)>><</link>>，
+						<<link "点击编辑">><<run jumpToResultFromCover_normal(T.itemId, T.result)>><</link>>
 					<</capture>>
 				<</if>>
 			</li>
@@ -182,8 +185,7 @@
 	<<set _name to _spellBookCommon[_uuid].name>>
 	<<set _content to _spellBookCommon[_uuid].content>>
 	<span class="spellBookItemTitle">
-		（当前言灵集：<span class="gold"><<print _name>></span>，
-		类别为：<span class="gold">公共（跨存档）言灵集</span>）
+		<<print _name>>（跨存档）
 	</span>
 	<<searchSpellBookItem_common>>
 	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击「复制一份到当前存档」，然后跨存档保存复制后的言灵集。

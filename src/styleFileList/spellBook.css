@@ -76,3 +76,9 @@
     .hideTextAreaButton {
         background-color: transparent !important;
     }
+    
+    .spellBookItemTitle {
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+    }

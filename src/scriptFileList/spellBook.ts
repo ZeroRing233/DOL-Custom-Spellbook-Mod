@@ -2,6 +2,7 @@ import { SpellbookDB } from './SpellbookDB';
 import { saveAs } from 'file-saver';
 import { Sortable } from 'sortablejs';
 import Swal from 'sweetalert2';
+import { number } from '@rspack/core/compiled/zod';
 
 $(document).on(":oncloseoverlay", () => {
     if (V.spellBookOpening) {
@@ -311,20 +312,16 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
 }
 
 function mutableSpellBookItem() {
+    // 先确认数据一致性
+    T.content = V.spellBook[T.uuid].content;
     $.wiki("<<replace #spellBookItemList>><<mutableSpellBookItem>><</replace>>");
     $(function () {
         window.zoom(100);
         var el = document.getElementById('sortable-list');
-        if (SugarCube.Browser.isMobile.any()) {
-            Sortable.create(el, {
-                delay: 500, // 移动端需长按0.5秒
-                onEnd: handleSortEnd
-            });
-        } else {
-            Sortable.create(el, {
-                onEnd: handleSortEnd
-            });
-        }
+        Sortable.create(el, {
+            delay: 500, // 拖动长按0.5秒
+            onEnd: handleSortEnd
+        });
     });
 }
 window.mutableSpellBookItem = mutableSpellBookItem;
@@ -604,13 +601,14 @@ function clearSpellBookItemSearchResult() {
 window.clearSpellBookItemSearchResult = clearSpellBookItemSearchResult;
 
 function jumpToResultFromCover_common(id: string, searchResult: string) {
-    console.log("跳转搜索结果时的id是：" + id + "，result是：" + searchResult);
+    console.log("common_跳转搜索结果时的id是：" + id + "，result是：" + searchResult);
     spellBookTabClicked_common(id);
     $(function () {
         jumpToResult_common(searchResult);
     });
 }
 window.jumpToResultFromCover_common = jumpToResultFromCover_common;
+
 
 function jumpToResult_common(searchResult: string) {
     console.log("点击查看时，searchResult是" + searchResult);
@@ -652,6 +650,23 @@ function spellBookItemShowView(id: string) {
 }
 window.spellBookItemShowView = spellBookItemShowView;
 
+
+function spellBookItemEdit(id: string) {
+    const prefix = "editIcon_";
+    const index = id.substring(prefix.length);
+    const showContent = document.getElementById("showContent_" + index) as HTMLDivElement;
+    const contentTextArea = document.getElementById("contentTextArea_" + index) as HTMLTextAreaElement;
+    if (!showContent || !contentTextArea) {
+        alert("言灵内容展示出错！无法定位到文本框");
+        return;
+    }
+    const value = T.content[index];
+    showContent.style.display = "block";
+    contentTextArea.value = value;
+    contentTextArea.disabled = false;
+}
+window.spellBookItemEdit = spellBookItemEdit;
+
 function hideTextArea(id: string) {
     const prefix = "hideTextArea_";
     const index = id.substring(prefix.length);
@@ -660,9 +675,34 @@ function hideTextArea(id: string) {
         alert("收起文本框出错！无法定位到文本框");
         return;
     }
+
     showContent.style.display = "none";
 }
 window.hideTextArea = hideTextArea;
+
+function saveTextArea(id: string) {
+    const prefix = "saveTextArea_";
+    const index = id.substring(prefix.length);
+    const showContent = document.getElementById("showContent_" + index) as HTMLDivElement;
+    const contentTextArea = document.getElementById("contentTextArea_" + index) as HTMLTextAreaElement;
+    if (!showContent || !contentTextArea) {
+        alert("保存出错！无法定位到文本框");
+        return;
+    }
+    if (contentTextArea.value.trim() === "") {
+        alert("请输入需要修改的内容！");
+        return;
+    }
+    // 编辑单条误点可能性较低，就不展示确认框了
+    // 编辑功能必然在本存档使用，不做区分
+    V.spellBook[T.uuid].content[index] = contentTextArea.value;
+    showContent.style.display = "none";
+    const i = parseInt(index) + 1;
+    window.modSweetAlert2Mod.fire('操作成功', '言灵集【' + T.name + '】中的第【' + i + '】条数据修改成功', 'success');
+    //重新渲染列表
+    mutableSpellBookItem();
+}
+window.saveTextArea = saveTextArea;
 
 async function dealWithCccheat(option: string) {
     let optionDic = {

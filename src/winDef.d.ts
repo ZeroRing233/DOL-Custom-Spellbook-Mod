@@ -44,7 +44,9 @@ declare global {
     immutableSpellBookItem: () => void;
     spellBookItemDeleteClicked: (element) => void;
     spellBookItemShowView: (id: string) => void;
+    spellBookItemEdit: (id: string) => void;
     hideTextArea: (id: string) => void;
+    saveTextArea: (id: string) => void;
     copyIdbSpellBookItem: (spellbookItem: SpellbookItem) => void;
     deleteIdbSpellBookItem: (SpellbookItem: SpellbookItem) => void;
     uploadSpellBookItem: (file_input) => void;
@@ -55,7 +57,7 @@ declare global {
     clearSpellBookItemSearchResult: () => void;
     jumpToResult_common: (searchResult: string) => void;
     jumpToResultFromCover_common: (id: string, searchResult: string) => void;
-    dealWithCccheat:(option:string) => void;
+    dealWithCccheat: (option: string) => void;
     zoom: (number) => void;// zoom为原有函数
   }
 

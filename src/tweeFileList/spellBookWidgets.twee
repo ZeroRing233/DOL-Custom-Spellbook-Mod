@@ -292,46 +292,47 @@
 	<<set _uuid to _args[0]>>
 	<<set _name to $spellBook[_uuid].name>>
 	<<set _content to $spellBook[_uuid].content>>
-	<span class="blue">安卓端暂不支持此功能，如果您知道原版游戏在安卓端导出存档文件的实现方式，请联系作者，感激不尽！</span>
-	<br>
-	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook[T.uuid])">
-	<br>
-	为安卓端准备的导入/导出言灵集功能，使用方式与原版的导出/加载存档码一致，「加载言灵集」需要在封面进行操作。
-	<textarea id="bookItemInput" rows="4" cols="40"><<if _presetData>>_presetData<</if>></textarea>
-	<br>
-	<input type="button" class="saveMenuButton" value="清除文本框" onclick="clearTextBox('bookItemInput')"/>
-	<input type="button" class="saveMenuButton" value="上移至文本框顶部" onclick="topTextArea('bookItemInput')"/>
-	<input type="button" class="saveMenuButton" value="下移至文本框底部" onclick="bottomTextArea('bookItemInput')"/>
-	<input type="button" value="获取言灵集数据" class="saveMenuButton" onclick="getSpellBookItem(V.spellBook[T.uuid])">
-	<input id="CopyTextArea" class="saveMenuButton" type="button" value="复制言灵集" onclick="copySavedata('bookItemInput')">
-	<br><br>
-	<input type="button" class="saveMenuButton" value="跨存档保存该言灵集" onclick="saveDataToIndexDB(V.spellBook[T.uuid])">
-	<br>
-	<input type="button" value="在侧边栏显示该言灵集的内容" class="saveMenuButton">
-	<br><br>
-	言灵集列表：
-	<br>
-	<input type="radio" id="view-mode" name="mode" value="view" checked>
-	<label for="view-mode" onclick="immutableSpellBookItem()">浏览/执行模式</label>
-	<input type="radio" id="edit-mode" name="mode" value="edit">
-	<label for="edit-mode" onclick="mutableSpellBookItem()">编辑模式</label>
-	<div id="spellBookItemList"><<immutableSpellBookItem>></div>
+	<span class="spellBookItemTitle">
+		<<print _name>>（本存档）
+	</span>
+	<<searchSpellBookItem_common>>
+	<<editSpellBookItem_common>>
+	<<exportSpellBookItem_common>>
+	/% dealWithCccheat 暂时不用改，沿用common就行 %/
+	<<dealWithCccheat_common>>
+	<<SpellBookItemList_normal>>
+<</widget>>
+
+<<widget "SpellBookItemList_normal">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+			言灵列表 
+        </div>
+    	<div class="settingsToggleItemWide">
+		 	<input type="radio" id="view-mode" name="mode" value="view" checked>
+			<label for="view-mode" onclick="immutableSpellBookItem()">浏览/执行模式</label>
+			<input type="radio" id="edit-mode" name="mode" value="edit">
+			<label for="edit-mode" onclick="mutableSpellBookItem()">编辑模式</label>
+			<div id="spellBookItemList"><<immutableSpellBookItem>></div>
+		</div>
+    </div>
 <</widget>>
 
 <<widget "mutableSpellBookItem">>
-	<<if SugarCube.Browser.isMobile.any()>>
-		<span class="gold">*(移动端）长按拖动言灵进行排序，选中言灵进行编辑，点击垃圾桶进行删除。</span>
-	<<else>>
-		<span class="gold">*拖动言灵进行排序，选中言灵进行编辑，点击垃圾桶进行删除。</span>
-	<</if>>
+	<span class="gold">*长按0.5秒后可拖动言灵进行排序，点击<i class="spellBookItemEdit"></i>可进行排序，
+	点击<i class="SpellBookItemDelete"></i>可进行删除。</span>
 	<ol id="sortable-list">
 		<<for _i to 0; _i lt _content.length; _i++>>
-			<li @id="T.i">
-				<span class="SpellBookItemIndex" style="display:none;"><<= _i>></span>
+			<li @id="'content_'+T.i">
 				<<print _content[_i]>>
-				<i class="spellBookItemShowView"></i>
-				<i class="spellBookItemEdit"></i>
+				<i @id="'editIcon_'+T.i" class="spellBookItemEdit" onclick="spellBookItemEdit(this.id)"></i>
 				<i class="SpellBookItemDelete" onclick="spellBookItemDeleteClicked(this)"></i>
+				<div @id="'showContent_'+T.i" style="display:none;">
+					<textarea @id="'contentTextArea_'+T.i" rows="3" cols="30" class="contentTextArea"></textarea><br>
+					<input @id="'hideTextArea_'+T.i" type="button" value="取消更改" class="saveMenuButton hideTextAreaButton" onclick="hideTextArea(this.id)">
+					<input @id="'saveTextArea_'+T.i" type="button" value="保存更改" class="saveMenuButton hideTextAreaButton" onclick="saveTextArea(this.id)">
+					<br><br>
+				</div>
 			</li>
 		<</for>>
 	</ol>

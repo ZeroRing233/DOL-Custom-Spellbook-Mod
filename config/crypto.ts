@@ -1,10 +1,10 @@
 export const cryptoConfig = {
   // 是否开启加密
-  enabled: false,
+  enabled: true,
   // Mod加密密码
-  password: "123456789",
+  password: "DOL-Custom-Spellbook-Mod",
   // 密码提示文本
-  passwordHint: "密码提示信息：猜猜密码是什么？",
+  passwordHint: "自定义魔法书（言灵集）模组的github仓库名称（直接复制粘贴即可）：DOL-Custom-Spellbook-Mod",
   // 密码存放位置
   passwordHintFile: "passwordHint.txt",
 };

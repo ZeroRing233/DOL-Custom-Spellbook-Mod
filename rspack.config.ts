@@ -4,7 +4,7 @@ import { join, parse, resolve } from "node:path";
 import { defineConfig } from "@rspack/cli";
 import { rspack } from "@rspack/core";
 import { name, version } from "./package.json";
-import { createZip } from "./utils/zip.util.ts";
+import { createZip } from "./utils/zip.util";
 
 // Target browsers, see: https://github.com/browserslist/browserslist
 const targets = ["chrome >= 87", "edge >= 88", "firefox >= 78", "safari >= 14"];
@@ -87,7 +87,7 @@ function devServer() {
   if (existsSync("./game/index.html")) {
     return {
       devServer: {
-        port: 5678,
+        port: 5666,
         liveReload: false,
         hot: false,
         static: "game",
@@ -96,7 +96,7 @@ function devServer() {
             throw new Error("@rspack/dev-server is not defined");
           }
           devServer.app?.get("/modList.json", (_, response) => {
-            console.log("get mod list");
+            console.log("get mod list是在这执行的");
             if (existsSync("./game/mods")) {
               const modList = readdirSync("./game/mods/").filter(item => item.endsWith(".zip")).map(item => `/mods/${item}`);
               response.send(JSON.stringify([
@@ -111,7 +111,7 @@ function devServer() {
             }
           });
           const filename = `${name}-${version}.mod.zip`;
-
+          console.log("filename是" + filename);
           devServer.app?.get(`/${filename}`, (_, response) => {
             rspack(commonConfig(), (_err, _stats) => {
               // eslint-disable-next-line node/prefer-global/process

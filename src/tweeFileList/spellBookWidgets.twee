@@ -248,6 +248,25 @@
     </div>
 <</widget>>
 
+<<widget "exportSpellBookItem_common">>
+	<<set _uuid to _args[0]>>
+	<<set _name to $spellBook[_uuid].name>>
+	<<set _content to $spellBook[_uuid].content>>
+	<span class="blue">安卓端暂不支持此功能，如果您知道原版游戏在安卓端导出存档文件的实现方式，请联系作者，感激不尽！</span>
+	<br>
+	<input type="button" value="导出言灵集数据" class="saveMenuButton" onclick="exportSpellBookItem(V.spellBook[T.uuid])">
+	<br>
+	为安卓端准备的导入/导出言灵集功能，使用方式与原版的导出/加载存档码一致，「加载言灵集」需要在封面进行操作。
+	<textarea id="bookItemInput" rows="4" cols="40"><<if _presetData>>_presetData<</if>></textarea>
+	<br>
+	<input type="button" class="saveMenuButton" value="清除文本框" onclick="clearTextBox('bookItemInput')"/>
+	<input type="button" class="saveMenuButton" value="上移至文本框顶部" onclick="topTextArea('bookItemInput')"/>
+	<input type="button" class="saveMenuButton" value="下移至文本框底部" onclick="bottomTextArea('bookItemInput')"/>
+	<input type="button" value="获取言灵集数据" class="saveMenuButton" onclick="getSpellBookItem(V.spellBook[T.uuid])">
+	<input id="CopyTextArea" class="saveMenuButton" type="button" value="复制言灵集" onclick="copySavedata('bookItemInput')">
+	<br><br>
+<</widget>>
+
 <<widget "spellBookItem_normal">>
 	<<set _uuid to _args[0]>>
 	<<set _name to $spellBook[_uuid].name>>

@@ -55,6 +55,7 @@ declare global {
     clearSpellBookItemSearchResult: () => void;
     jumpToResult_common: (searchResult: string) => void;
     jumpToResultFromCover_common: (id: string, searchResult: string) => void;
+    dealWithCccheat:(option:string) => void;
     zoom: (number) => void;// zoom为原有函数
   }
 
@@ -71,6 +72,7 @@ declare global {
   interface T {
     currContent?: string[] //当前言灵集的内容
     content?: string[]
+    name?: string
     spellBookCommon?: { [key: string]: SpellbookItem }; //公共魔法书数据展示
     searchResults?: []
     spellBookSearchTextbox?: "";

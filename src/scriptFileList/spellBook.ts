@@ -663,3 +663,50 @@ function hideTextArea(id: string) {
     showContent.style.display = "none";
 }
 window.hideTextArea = hideTextArea;
+
+async function dealWithCccheat(option: string) {
+    let optionDic = {
+        "addToTop": "将此言灵集添加到侧边栏（开头）",
+        "addToEnd": "将此言灵集添加到侧边栏（末尾）",
+        "replace": "直接用此言灵集替换侧边栏",
+        "remove": "从侧边栏移除此言灵集"
+    }
+    if (!V.cccheat) {
+        alert("未检测到变量$cccheat，请确认你已安装支持该变量的侧边栏模组，你可以前往【封面】下的【使用说明】查看推荐的模组");
+        return;
+    }
+    const result = await Swal.fire({
+        title: '操作确认',
+        text: '是否确认对言灵集【' + T.name + '】执行操作【' + optionDic[option] + '】？该操作可通过回档来撤回。',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true
+    });
+    if (result.isConfirmed) {
+        // 用户点击了确认按钮
+        switch (option) {
+            case "addToTop":
+                V.cccheat.splice(0, 0, ...T.content);
+                break;
+            case "addToEnd":
+                V.cccheat.push(...T.content);
+                break;
+            case "replace":
+                V.cccheat = T.content;
+                break;
+            case "remove":
+                V.cccheat = V.cccheat.filter(item => !T.content.includes(item));
+                break;
+            default:
+                alert("执行操作失败，操作未定义！")
+                break;
+        }
+        window.modSweetAlert2Mod.fire('操作成功', '在游戏内进行段落跳转（点击任意选项）后即可看到效果', 'success');
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // 用户点击了取消按钮
+        window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+    }
+}
+window.dealWithCccheat = dealWithCccheat;

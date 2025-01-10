@@ -347,15 +347,6 @@ function handleSortEnd(evt) {
     mutableSpellBookItem();
 }
 
-function spellBookItemDeleteClicked(element) {
-    let index = element.parentNode.querySelector('.SpellBookItemIndex').textContent;
-    console.log("获取的index是" + index);
-    T.content.splice(parseInt(index), 1);
-    // 删除后重新渲染页面
-    mutableSpellBookItem();
-}
-window.spellBookItemDeleteClicked = spellBookItemDeleteClicked;
-
 async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
     let dialogTitle = "复制确认";
     let dialogContent = "是否确认复制言灵集【" + spellbookItem.name + "】到当前存档";
@@ -666,6 +657,33 @@ function spellBookItemEdit(id: string) {
     contentTextArea.disabled = false;
 }
 window.spellBookItemEdit = spellBookItemEdit;
+
+async function spellBookItemDelete(id: string) {
+    const prefix = "deleteIcon_";
+    // 删除还是应该好好提醒的
+    const index = id.substring(prefix.length);
+    const i = parseInt(index) + 1;
+    const result = await Swal.fire({
+        title: '操作确认',
+        text: '是否确认删除言灵集【' + T.name + '】中的第【' + i + '】条言灵？该操作可通过回档来撤回。',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true
+    });
+    if (result.isConfirmed) {
+        // 用户点击了确认按钮
+        V.spellBook[T.uuid].content.splice(parseInt(index), 1);
+        window.modSweetAlert2Mod.fire('操作成功', '言灵删除成功', 'success');
+        // 重新渲染列表
+        mutableSpellBookItem();
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // 用户点击了取消按钮
+        window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+    }
+}
+window.spellBookItemDelete = spellBookItemDelete;
 
 function hideTextArea(id: string) {
     const prefix = "hideTextArea_";

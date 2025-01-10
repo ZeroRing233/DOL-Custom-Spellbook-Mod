@@ -326,7 +326,7 @@
 			<li @id="'content_'+T.i">
 				<<print _content[_i]>>
 				<i @id="'editIcon_'+T.i" class="spellBookItemEdit" onclick="spellBookItemEdit(this.id)"></i>
-				<i class="SpellBookItemDelete" onclick="spellBookItemDeleteClicked(this)"></i>
+				<i @id="'deleteIcon_'+T.i" class="SpellBookItemDelete" onclick="spellBookItemDelete(this.id)"></i>
 				<div @id="'showContent_'+T.i" style="display:none;">
 					<textarea @id="'contentTextArea_'+T.i" rows="3" cols="30" class="contentTextArea"></textarea><br>
 					<input @id="'hideTextArea_'+T.i" type="button" value="取消更改" class="saveMenuButton hideTextAreaButton" onclick="hideTextArea(this.id)">

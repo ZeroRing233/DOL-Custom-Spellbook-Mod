@@ -42,9 +42,9 @@ declare global {
     loadSpellBookItem: () => void;
     mutableSpellBookItem: () => void;
     immutableSpellBookItem: () => void;
-    spellBookItemDeleteClicked: (element) => void;
     spellBookItemShowView: (id: string) => void;
     spellBookItemEdit: (id: string) => void;
+    spellBookItemDelete: (id: string) => void;
     hideTextArea: (id: string) => void;
     saveTextArea: (id: string) => void;
     copyIdbSpellBookItem: (spellbookItem: SpellbookItem) => void;

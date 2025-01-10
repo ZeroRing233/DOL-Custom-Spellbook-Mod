@@ -255,7 +255,7 @@
 			<input type="button" class="saveMenuButton" value="清除文本框" onclick="clearTextBox('bookItemInput')"/>
 			<input type="button" class="saveMenuButton" value="上移至文本框顶部" onclick="topTextArea('bookItemInput')"/>
 			<input type="button" class="saveMenuButton" value="下移至文本框底部" onclick="bottomTextArea('bookItemInput')"/>
-			<input type="button" value="获取言灵集数据" class="saveMenuButton" onclick="getSpellBookItem(V.spellBook[T.uuid])">
+			<input type="button" value="获取言灵集数据" class="saveMenuButton" onclick="getSpellBookItem(T.spellBookCommon[T.uuid])">
 			<input id="CopyTextArea" class="saveMenuButton" type="button" value="复制言灵集" onclick="copySavedata('bookItemInput')">
 		</div>
     </div>

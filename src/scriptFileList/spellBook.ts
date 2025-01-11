@@ -336,13 +336,20 @@ window.immutableSpellBookItem = immutableSpellBookItem;
 
 function handleSortEnd(evt) {
     let items: any = Array.from(evt.to.children);
-    let sortedIds = items.map(item => item.id);
+    const prefix = "content_";
+    let sortedIds = items.map(item => item.id.substring(prefix.length));
     console.log("获取到的sortedIds是：" + sortedIds);
     let tempContent = [];
     for (let dataId of sortedIds) {
         tempContent.push(T.content[dataId]);
     }
-    T.content = tempContent;
+    // 以防万一
+    if (tempContent.length != T.content.length) {
+        alert("出现未知错误，排序结果保存失败！");
+    }
+    else {
+        V.spellBook[T.uuid].content = tempContent;
+    }
     // 重新渲染页面
     mutableSpellBookItem();
 }

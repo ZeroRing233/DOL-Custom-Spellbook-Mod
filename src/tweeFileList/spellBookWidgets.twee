@@ -319,7 +319,10 @@
 <</widget>>
 
 <<widget "mutableSpellBookItem">>
-	<span class="gold">*长按0.5秒后可拖动言灵进行排序，点击<i class="spellBookItemEdit"></i>可进行排序，
+	<<if _content.length is 0>>
+		言灵集内容为空。<br>
+	<</if>>
+	<span class="gold">*在空白处长按0.5秒后可拖动言灵进行排序，点击<i class="spellBookItemEdit"></i>可进行编辑，
 	点击<i class="SpellBookItemDelete"></i>可进行删除。</span>
 	<ol id="sortable-list">
 		<<for _i to 0; _i lt _content.length; _i++>>
@@ -339,6 +342,10 @@
 <</widget>>
 
 <<widget "immutableSpellBookItem">>
+	<<if _content.length is 0>>
+		言灵集内容为空。<br>
+	<</if>>
+	<span class="gold">*如果当前言灵集为本存档言灵集，可以点击【编辑模式】对言灵进行添加/删除/编辑/排序等操作。</span>
 	<ol>
 		<<for _i to 0; _i lt _content.length; _i++>>
 			<li @id="'content_'+T.i">

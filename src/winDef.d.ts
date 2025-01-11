@@ -46,6 +46,7 @@ declare global {
     spellBookItemEdit: (id: string) => void;
     spellBookItemDelete: (id: string) => void;
     spellBookItemAddContent: () => void;
+    spellBookItemDeleteAll: () => void;
     hideAddContent: () => void;
     confirmAddContent: (option: string) => void;
     hideTextArea: (id: string) => void;

@@ -327,7 +327,7 @@
 	选中多条言灵后点击按钮【删除所有选中的言灵】可删除所有选中的言灵，所有操作都可以通过回档撤回。</span>
 	<br>
 	<input type="button" class="saveMenuButton" value="添加新言灵" onclick="spellBookItemAddContent()"/>
-	<input type="button" class="saveMenuButton" value="删除所有选中的言灵" onclick="dealWithCccheat('remove')"/>
+	<input type="button" class="saveMenuButton" value="删除所有选中的言灵" onclick="spellBookItemDeleteAll()"/>
 	<br>
 	<div id="addContent" style="display:none;">
 		<br>
@@ -340,6 +340,7 @@
 	<ol id="sortable-list">
 		<<for _i to 0; _i lt _content.length; _i++>>
 			<li @id="'content_'+T.i">
+				<input type="checkbox" @id="'checkbox_'+T.i" />
 				<<print _content[_i]>>
 				<i @id="'editIcon_'+T.i" class="spellBookItemEdit" onclick="spellBookItemEdit(this.id)"></i>
 				<i @id="'deleteIcon_'+T.i" class="SpellBookItemDelete" onclick="spellBookItemDelete(this.id)"></i>

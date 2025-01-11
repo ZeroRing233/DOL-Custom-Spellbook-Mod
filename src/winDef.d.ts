@@ -61,6 +61,8 @@ declare global {
     clearSpellBookItemSearchResult: () => void;
     jumpToResult_common: (searchResult: string) => void;
     jumpToResultFromCover_common: (id: string, searchResult: string) => void;
+    jumpToResult_normal: (searchResult: string, option: string) => void;
+    jumpToResultFromCover_normal: (id: string, searchResult: string, option: string) => void;
     dealWithCccheat: (option: string) => void;
     zoom: (number) => void;// zoom为原有函数
   }

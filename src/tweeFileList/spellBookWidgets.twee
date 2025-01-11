@@ -94,8 +94,8 @@
 				<<else>>
 					<span class="gold"><<print _itemName>></span>，
 					<<capture _itemId, _result>>
-						<<link "点击查看">><<run jumpToResultFromCover_normal(T.itemId, T.result)>><</link>>，
-						<<link "点击编辑">><<run jumpToResultFromCover_normal(T.itemId, T.result)>><</link>>
+						<<link "点击查看">><<run jumpToResultFromCover_normal(T.itemId, T.result,'showView')>><</link>> &nbsp;
+						<<link "点击编辑">><<run jumpToResultFromCover_normal(T.itemId, T.result,'edit')>><</link>>
 					<</capture>>
 				<</if>>
 			</li>
@@ -295,12 +295,44 @@
 	<span class="spellBookItemTitle">
 		<<print _name>>（本存档）
 	</span>
-	<<searchSpellBookItem_common>>
+	<<searchSpellBookItem_normal>>
 	<<editSpellBookItem_common>>
 	<<exportSpellBookItem_common>>
 	/% dealWithCccheat 暂时不用改，沿用common就行 %/
 	<<dealWithCccheat_common>>
 	<<SpellBookItemList_normal>>
+<</widget>>
+
+<<widget "searchSpellBookItem_normal">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+			搜索言灵 <mouse class="tooltip linkBlue">(?)<span>此处只展示当前言灵集中的搜索结果，如果需要获取所有言灵中的结果，请前往封面&目录进行搜索~</span></mouse>
+        </div>
+    	<div class="settingsToggleItemWide">
+		 	<div class="spellBookSearchTextbox">
+				<<textbox "_spellBookSearchTextbox" "">>
+				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'normal_' + T.uuid)">
+				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
+			</div>
+			<div id="searchResults"></div>
+		 </div>
+    </div>
+<</widget>>
+
+<<widget "showSearchResults_normal">>
+	<span class="gold">搜索结果如下：</span><br>
+	<ol>
+		<<for _i to 0; _i lt _searchResults.length; _i++>>
+			<<set _result to _searchResults[_i].content>>
+			<li>
+				言灵名称：<<print _result>>，
+				<<capture _result>>
+					<<link "点击查看">><<run jumpToResult_normal(T.result,'showView')>><</link>> &nbsp;
+					<<link "点击编辑">><<run jumpToResult_normal(T.result,'edit')>><</link>>
+				<</capture>>
+			</li>
+		<</for>>
+	</ol>
 <</widget>>
 
 <<widget "SpellBookItemList_normal">>

@@ -2,7 +2,6 @@ import { SpellbookDB } from './SpellbookDB';
 import { saveAs } from 'file-saver';
 import { Sortable } from 'sortablejs';
 import Swal from 'sweetalert2';
-import { number } from '@rspack/core/compiled/zod';
 
 $(document).on(":oncloseoverlay", () => {
     if (V.spellBookOpening) {
@@ -535,7 +534,7 @@ function handleSearchResults(searchResult: any, searchId: any) {
             $.wiki("<<replace #searchResults>><<showSearchResults_common>><</replace>>");
         }
         else if (searchId.startsWith("normal_")) {
-
+            $.wiki("<<replace #searchResults>><<showSearchResults_normal>><</replace>>");
         }
     }
 }
@@ -607,6 +606,14 @@ function jumpToResultFromCover_common(id: string, searchResult: string) {
 }
 window.jumpToResultFromCover_common = jumpToResultFromCover_common;
 
+function jumpToResultFromCover_normal(id: string, searchResult: string, option: string) {
+    console.log("normal_跳转搜索结果时的id是：" + id + "，result是：" + searchResult);
+    spellBookTabClicked_normal(id);
+    $(function () {
+        jumpToResult_normal(searchResult, option);
+    });
+}
+window.jumpToResultFromCover_normal = jumpToResultFromCover_normal;
 
 function jumpToResult_common(searchResult: string) {
     console.log("点击查看时，searchResult是" + searchResult);
@@ -631,6 +638,45 @@ function jumpToResult_common(searchResult: string) {
 }
 
 window.jumpToResult_common = jumpToResult_common;
+
+function jumpToResult_normal(searchResult: string, option: string) {
+    console.log("点击查看时，searchResult是" + searchResult);
+    const content = T.content;
+    if (!content) {
+        alert("查询结果跳转出错！无法获取对应言灵集");
+        return;
+    }
+    const index = content.indexOf(searchResult);
+    if (index === -1) {
+        alert("查询结果跳转出错！无法获取指定言灵");
+        return;
+    }
+    if (option === "showView") {
+        immutableSpellBookItem();
+    }
+    else {
+        mutableSpellBookItem();
+    }
+    $(function () {
+        const element = document.getElementById("content_" + index);
+        if (!element) {
+            alert("查询结果跳转出错！无法定位到指定言灵");
+            return;
+        }
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (option === "showView") {
+            let viewMode = document.getElementById('view-mode') as HTMLInputElement;
+            viewMode.checked = true;
+            spellBookItemShowView("showViewIcon_" + index);
+        }
+        else {
+            let editMode = document.getElementById('edit-mode') as HTMLInputElement;
+            editMode.checked = true;
+            spellBookItemEdit("editIcon_" + index);
+        }
+    });
+}
+window.jumpToResult_normal = jumpToResult_normal;
 
 function spellBookItemShowView(id: string) {
     const prefix = "showViewIcon_";

@@ -34,7 +34,7 @@ declare global {
     spellBookMobileClicked: () => void;
     initDefaultSpellBook: () => void;
     getAllSpellBookItems: () => void;
-    saveDataToIndexDB: (spellbookItem: SpellbookItem) => void;
+    saveItemToIndexDB: (spellbookItem: SpellbookItem) => void;
     myIndexDBTest: () => void;
     exportSpellBookItem: (spellbookItem: SpellbookItem) => void;
     getIdbSpellBookItems: (spellbookItem: SpellbookItem) => void;
@@ -53,6 +53,7 @@ declare global {
     saveTextArea: (id: string) => void;
     copyIdbSpellBookItem: (spellbookItem: SpellbookItem) => void;
     deleteIdbSpellBookItem: (SpellbookItem: SpellbookItem) => void;
+    deleteNormalSpellBookItem: (SpellbookItem: SpellbookItem) => void;
     uploadSpellBookItem: (file_input) => void;
     createSpellBookItem: (itemName: string) => void;
     spellBookTabClicked_common: (id: string) => void;

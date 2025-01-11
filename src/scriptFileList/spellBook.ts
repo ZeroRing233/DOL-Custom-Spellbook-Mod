@@ -39,7 +39,7 @@ async function initSpellBook() {
     }
 }
 
-async function saveDataToIndexDB(spellbookItem: SpellbookItem) {
+async function saveItemToIndexDB(spellbookItem: SpellbookItem) {
     const db = new SpellbookDB();
     console.log("需要保存的值是：" + spellbookItem.name + "需要保存的内容是：" + spellbookItem.content + "需要保存的uuid：" + spellbookItem.uuid);
     let isUpdate = false;
@@ -54,7 +54,7 @@ async function saveDataToIndexDB(spellbookItem: SpellbookItem) {
         confirmItemSave(spellbookItem, db);
     }
 }
-window.saveDataToIndexDB = saveDataToIndexDB;
+window.saveItemToIndexDB = saveItemToIndexDB;
 
 async function confirmItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
     const result = await Swal.fire({
@@ -408,6 +408,29 @@ async function deleteIdbSpellBookItem(spellbookItem: SpellbookItem) {
     }
 }
 window.deleteIdbSpellBookItem = deleteIdbSpellBookItem;
+
+async function deleteNormalSpellBookItem(spellbookItem: SpellbookItem) {
+    let dialogTitle = "删除确认";
+    let dialogContent = "是否确认删除言灵集【" + spellbookItem.name + "】，此操作可以通过回档撤回";
+    const confirmResult = await Swal.fire({
+        title: dialogTitle,
+        text: dialogContent,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true,
+        animation: false
+    });
+    if (confirmResult.isConfirmed) {
+        delete V.spellBook[spellbookItem.uuid];
+        Swal.fire('已删除', '当前言灵集已删除', 'success');
+        // 只有删除是真的应该返回封面
+        $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        $.wiki("<<replace #customOverlayContent>><<spellBookOpen>><</replace>>");
+    }
+}
+window.deleteNormalSpellBookItem = deleteNormalSpellBookItem;
 
 function uploadSpellBookitem(file_input) {
     let file = file_input.files[0];

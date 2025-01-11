@@ -323,7 +323,20 @@
 		言灵集内容为空。<br>
 	<</if>>
 	<span class="gold">*在空白处长按0.5秒后可拖动言灵进行排序，点击<i class="spellBookItemEdit"></i>可进行编辑，
-	点击<i class="SpellBookItemDelete"></i>可进行删除。</span>
+	点击<i class="SpellBookItemDelete"></i>可进行删除。点击按钮【添加新言灵】可在当前言灵集添加新言灵，
+	选中多条言灵后点击按钮【删除所有选中的言灵】可删除所有选中的言灵，所有操作都可以通过回档撤回。</span>
+	<br>
+	<input type="button" class="saveMenuButton" value="添加新言灵" onclick="spellBookItemAddContent()"/>
+	<input type="button" class="saveMenuButton" value="删除所有选中的言灵" onclick="dealWithCccheat('remove')"/>
+	<br>
+	<div id="addContent" style="display:none;">
+		<br>
+		<textarea id="addContentTextArea" rows="3" cols="30" class="contentTextArea" placeholder="在此输入新言灵内容"></textarea><br>
+		<input type="button" value="取消添加" class="saveMenuButton hideTextAreaButton" onclick="hideAddContent()" />
+		<input type="button" value="添加到开头" class="saveMenuButton hideTextAreaButton" onclick="confirmAddContent('top')" />
+		<input type="button" value="添加到末尾" class="saveMenuButton hideTextAreaButton" onclick="confirmAddContent('end')" />
+		<br><br>
+	</div>
 	<ol id="sortable-list">
 		<<for _i to 0; _i lt _content.length; _i++>>
 			<li @id="'content_'+T.i">

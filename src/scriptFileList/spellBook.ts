@@ -692,6 +692,41 @@ async function spellBookItemDelete(id: string) {
 }
 window.spellBookItemDelete = spellBookItemDelete;
 
+// 在本存档言灵集中添加言灵
+function spellBookItemAddContent() {
+    const addContent = document.getElementById("addContent") as HTMLDivElement;
+    addContent.style.display = "block";
+}
+window.spellBookItemAddContent = spellBookItemAddContent;
+
+function hideAddContent() {
+    const addContent = document.getElementById("addContent") as HTMLDivElement;
+    addContent.style.display = "none";
+}
+window.hideAddContent = hideAddContent;
+
+function confirmAddContent(option: string) {
+    const contentTextArea = document.getElementById("addContentTextArea") as HTMLTextAreaElement;
+    if (!contentTextArea) {
+        alert("操作出错！无法定位到文本框");
+        return;
+    }
+    if (contentTextArea.value.trim() === "") {
+        alert("请输入需要添加的言灵内容！");
+        return;
+    }
+    if (option === "top") {
+        V.spellBook[T.uuid].content.unshift(contentTextArea.value);
+    }
+    else {
+        V.spellBook[T.uuid].content.push(contentTextArea.value);
+    }
+    // 重新渲染列表
+    mutableSpellBookItem();
+}
+window.confirmAddContent = confirmAddContent;
+
+
 function hideTextArea(id: string) {
     const prefix = "hideTextArea_";
     const index = id.substring(prefix.length);

@@ -45,6 +45,9 @@ declare global {
     spellBookItemShowView: (id: string) => void;
     spellBookItemEdit: (id: string) => void;
     spellBookItemDelete: (id: string) => void;
+    spellBookItemAddContent: () => void;
+    hideAddContent: () => void;
+    confirmAddContent: (option: string) => void;
     hideTextArea: (id: string) => void;
     saveTextArea: (id: string) => void;
     copyIdbSpellBookItem: (spellbookItem: SpellbookItem) => void;

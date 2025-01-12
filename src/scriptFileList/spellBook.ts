@@ -432,6 +432,35 @@ async function deleteNormalSpellBookItem(spellbookItem: SpellbookItem) {
 }
 window.deleteNormalSpellBookItem = deleteNormalSpellBookItem;
 
+// 重命名言灵集
+function renameSpellBookItem() {
+    const addContent = document.getElementById("renameItem") as HTMLDivElement;
+    addContent.style.display = "block";
+}
+window.renameSpellBookItem = renameSpellBookItem;
+
+function hideRenameItem() {
+    const addContent = document.getElementById("renameItem") as HTMLDivElement;
+    addContent.style.display = "none";
+}
+window.hideRenameItem = hideRenameItem;
+
+function confirmRenameItem() {
+    if (T.spellBookRenameTextbox.trim() === "") {
+        alert("请输入修改后的言灵集名称！");
+        return;
+    }
+    V.spellBook[T.uuid].name = T.spellBookRenameTextbox;
+    const addContent = document.getElementById("renameItem") as HTMLDivElement;
+    addContent.style.display = "none";
+    window.modSweetAlert2Mod.fire('操作成功', '言灵集已被更名为【' + T.spellBookRenameTextbox + '】', 'success');
+    $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+    $(function () {
+        spellBookTabClicked_normal("normal_" + T.uuid);
+    });
+}
+window.confirmRenameItem = confirmRenameItem;
+
 function uploadSpellBookitem(file_input) {
     let file = file_input.files[0];
     let reader = new FileReader();
@@ -917,3 +946,6 @@ async function dealWithCccheat(option: string) {
     }
 }
 window.dealWithCccheat = dealWithCccheat;
+
+
+

@@ -47,6 +47,9 @@ declare global {
     spellBookItemDelete: (id: string) => void;
     spellBookItemAddContent: () => void;
     spellBookItemDeleteAll: () => void;
+    renameSpellBookItem: () => void;
+    hideRenameItem: () => void;
+    confirmRenameItem: () => void;
     hideAddContent: () => void;
     confirmAddContent: (option: string) => void;
     hideTextArea: (id: string) => void;
@@ -72,19 +75,18 @@ declare global {
   interface V {
     spellBookOpening?: boolean; // 判断当前魔法书是否打开
     spellBook?: { [key: string]: SpellbookItem }; // 本地存档中的魔法书
-    cccheatList?: string[]; //需要展示在侧边栏的言灵集（搭配其他模组使用）
     cccheat?: string[]; // 展示在侧边栏的模组列表，可能需与其他模组联动
     options: any;
   }
   declare var V: V;
 
   interface T {
-    currContent?: string[] //当前言灵集的内容
     content?: string[]
     name?: string
     spellBookCommon?: { [key: string]: SpellbookItem }; //公共魔法书数据展示
     searchResults?: []
     spellBookSearchTextbox?: "";
+    spellBookRenameTextbox?: "";
     uuid?: stiring;
     tab: Tab;//原版自带的tab
   }

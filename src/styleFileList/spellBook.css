@@ -1,90 +1,111 @@
-    .SpellBookMobile {
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9IiNDNzlGRUYiIGQ9Ik0xMS42IDkuNTI3YS42OC42OCAwIDAgMS0uNTEuMzcxbC0xLjQ1NC4yMTJsMS4wNTIgMS4wMjVhLjY4LjY4IDAgMCAxIC4xOTUuNmwtLjI0OSAxLjQ0OGwxLjMtLjY4NGEuNjguNjggMCAwIDEgLjYzMiAwbDEuMy42ODRsLS4yNDktMS40NDhhLjY4LjY4IDAgMCAxIC4xOTUtLjZsMS4wNTItMS4wMjVsLTEuNDUzLS4yMTJhLjY4LjY4IDAgMCAxLS41MS0uMzdMMTIuMjUgOC4yMXpNNCA0LjVBMi41IDIuNSAwIDAgMSA2LjUgMkgxOGEyLjUgMi41IDAgMCAxIDIuNSAyLjV2MTQuMjVhLjc1Ljc1IDAgMCAxLS43NS43NUg1LjVhMSAxIDAgMCAwIDEgMWgxMy4yNWEuNzUuNzUgMCAwIDEgMCAxLjVINi41QTIuNSAyLjUgMCAwIDEgNCAxOS41em02LjU0MiA0LjEwOGwtMi40Ni4zNTdhLjY3OC42NzggMCAwIDAtLjM3NyAxLjE1N2wxLjc4IDEuNzM1bC0uNDIgMi40NWEuNjc4LjY3OCAwIDAgMCAuOTg0LjcxNmwyLjIwMS0xLjE1N2wyLjIgMS4xNTdhLjY3OC42NzggMCAwIDAgLjk4NS0uNzE1bC0uNDItMi40NWwxLjc4LTEuNzM2YS42NzguNjc4IDAgMCAwLS4zNzYtMS4xNTdsLTIuNDYtLjM1N2wtMS4xLTIuMjNhLjY3OC42NzggMCAwIDAtMS4yMTcgMHoiLz48L3N2Zz4=');
-        background-position: center;
-        background-size: cover !important;
-        width: 100%;
-        background-repeat: no-repeat;
-        background-color: transparent !important;
-    }
-    
-    .SpellBookItemDelete {
-        content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PGRlZnM+PG1hc2sgaWQ9ImlwVERlbGV0ZU9uZTAiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0Ij48cGF0aCBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJtMTUgMTJsMS4yLTdoMTUuNmwxLjIgNyIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZD0iTTYgMTJoMzYiLz48cGF0aCBmaWxsPSIjNTU1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0ibTM3IDEybC0yIDMxSDEzbC0yLTMxeiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBkPSJNMTkgMzVoMTAiLz48L2c+PC9tYXNrPjwvZGVmcz48cGF0aCBmaWxsPSIjYzBiOWI5IiBkPSJNMCAwaDQ4djQ4SDB6IiBtYXNrPSJ1cmwoI2lwVERlbGV0ZU9uZTApIi8+PC9zdmc+');
-        /* 统一颜色：#c0b9b9 */
-        display: inline;
-        width: 15px;
-    }
-    
-    .spellBookItemShowView {
-        content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjYzBiOWI5IiBkPSJtMTkuNiAyMWwtNi4zLTYuM3EtLjc1LjYtMS43MjUuOTVUOS41IDE2cS0yLjcyNSAwLTQuNjEyLTEuODg4VDMgOS41dDEuODg4LTQuNjEyVDkuNSAzdDQuNjEzIDEuODg4VDE2IDkuNXEwIDEuMS0uMzUgMi4wNzVUMTQuNyAxMy4zbDYuMyA2LjN6TTkuNSAxNHExLjg3NSAwIDMuMTg4LTEuMzEyVDE0IDkuNXQtMS4zMTItMy4xODdUOS41IDVUNi4zMTMgNi4zMTNUNSA5LjV0MS4zMTMgMy4xODhUOS41IDE0Ii8+PC9zdmc+');
-        display: inline;
-        width: 15px;
-    }
-    
-    .spellBookItemEdit {
-        content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNjMGI5YjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIj48cGF0aCBkPSJtMTYuNDc1IDUuNDA4bDIuMTE3IDIuMTE3bS0uNzU2LTMuOTgyTDEyLjEwOSA5LjI3YTIuMSAyLjEgMCAwIDAtLjU4IDEuMDgyTDExIDEzbDIuNjQ4LS41M2MuNDEtLjA4Mi43ODYtLjI4MyAxLjA4Mi0uNTc5bDUuNzI3LTUuNzI3YTEuODUzIDEuODUzIDAgMSAwLTIuNjIxLTIuNjIxIi8+PHBhdGggZD0iTTE5IDE1djNhMiAyIDAgMCAxLTIgMkg2YTIgMiAwIDAgMS0yLTJWN2EyIDIgMCAwIDEgMi0yaDMiLz48L2c+PC9zdmc+');
-        display: inline;
-        width: 15px;
-    }
-    
-    .sortable-chosen {
-        background-color: lightgray;
-    }
-    
-    .sortable-ghost {
-        opacity: 0.5;
-        /* 设置透明度 */
-        background-color: black;
-        /* 设置幽灵元素的背景颜色 */
-    }
-    
-    #textbox--spellbookitemname {
-        max-width: 60%;
-        box-sizing: border-box;
-        min-width: 30%;
-    }
-    
-    #textbox--spellbookrenametextbox {
-        max-width: 60%;
-        box-sizing: border-box;
-        min-width: 30%;
-    }
-    
-    #textbox--spellbooksearchtextbox {
-        max-width: 50%;
-        box-sizing: border-box;
-        min-width: 30%;
-    }
-    
-    .settingsToggleItemWide input[type="file"] {
-        max-width: 100%;
-        box-sizing: border-box;
-        min-width: 30%;
-    }
-    
-    #bookItemInput {
-        max-width: 100%;
-        box-sizing: border-box;
-        min-width: 80%;
-    }
-    
-    .spellBookOpenWelcome {
-        display: flex;
-        justify-content: center;
-        font-weight: bold;
-    }
-    
-    .contentTextArea {
-        max-width: 80%;
-        box-sizing: border-box;
-        min-width: 60%;
-    }
-    
-    .hideTextAreaButton {
-        background-color: transparent !important;
-    }
-    
-    .spellBookItemTitle {
-        display: flex;
-        justify-content: center;
-        font-weight: bold;
-    }
+        .SpellBookMobile {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9IiNDNzlGRUYiIGQ9Ik0xMS42IDkuNTI3YS42OC42OCAwIDAgMS0uNTEuMzcxbC0xLjQ1NC4yMTJsMS4wNTIgMS4wMjVhLjY4LjY4IDAgMCAxIC4xOTUuNmwtLjI0OSAxLjQ0OGwxLjMtLjY4NGEuNjguNjggMCAwIDEgLjYzMiAwbDEuMy42ODRsLS4yNDktMS40NDhhLjY4LjY4IDAgMCAxIC4xOTUtLjZsMS4wNTItMS4wMjVsLTEuNDUzLS4yMTJhLjY4LjY4IDAgMCAxLS41MS0uMzdMMTIuMjUgOC4yMXpNNCA0LjVBMi41IDIuNSAwIDAgMSA2LjUgMkgxOGEyLjUgMi41IDAgMCAxIDIuNSAyLjV2MTQuMjVhLjc1Ljc1IDAgMCAxLS43NS43NUg1LjVhMSAxIDAgMCAwIDEgMWgxMy4yNWEuNzUuNzUgMCAwIDEgMCAxLjVINi41QTIuNSAyLjUgMCAwIDEgNCAxOS41em02LjU0MiA0LjEwOGwtMi40Ni4zNTdhLjY3OC42NzggMCAwIDAtLjM3NyAxLjE1N2wxLjc4IDEuNzM1bC0uNDIgMi40NWEuNjc4LjY3OCAwIDAgMCAuOTg0LjcxNmwyLjIwMS0xLjE1N2wyLjIgMS4xNTdhLjY3OC42NzggMCAwIDAgLjk4NS0uNzE1bC0uNDItMi40NWwxLjc4LTEuNzM2YS42NzguNjc4IDAgMCAwLS4zNzYtMS4xNTdsLTIuNDYtLjM1N2wtMS4xLTIuMjNhLjY3OC42NzggMCAwIDAtMS4yMTcgMHoiLz48L3N2Zz4=');
+            background-position: center;
+            background-size: cover !important;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-color: transparent !important;
+        }
+        
+        .SpellBookItemDelete {
+            content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PGRlZnM+PG1hc2sgaWQ9ImlwVERlbGV0ZU9uZTAiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0Ij48cGF0aCBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJtMTUgMTJsMS4yLTdoMTUuNmwxLjIgNyIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZD0iTTYgMTJoMzYiLz48cGF0aCBmaWxsPSIjNTU1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0ibTM3IDEybC0yIDMxSDEzbC0yLTMxeiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBkPSJNMTkgMzVoMTAiLz48L2c+PC9tYXNrPjwvZGVmcz48cGF0aCBmaWxsPSIjYzBiOWI5IiBkPSJNMCAwaDQ4djQ4SDB6IiBtYXNrPSJ1cmwoI2lwVERlbGV0ZU9uZTApIi8+PC9zdmc+');
+            /* 统一颜色：#c0b9b9 */
+            display: inline;
+            width: 15px;
+        }
+        
+        .spellBookItemShowView {
+            content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjYzBiOWI5IiBkPSJtMTkuNiAyMWwtNi4zLTYuM3EtLjc1LjYtMS43MjUuOTVUOS41IDE2cS0yLjcyNSAwLTQuNjEyLTEuODg4VDMgOS41dDEuODg4LTQuNjEyVDkuNSAzdDQuNjEzIDEuODg4VDE2IDkuNXEwIDEuMS0uMzUgMi4wNzVUMTQuNyAxMy4zbDYuMyA2LjN6TTkuNSAxNHExLjg3NSAwIDMuMTg4LTEuMzEyVDE0IDkuNXQtMS4zMTItMy4xODdUOS41IDVUNi4zMTMgNi4zMTNUNSA5LjV0MS4zMTMgMy4xODhUOS41IDE0Ii8+PC9zdmc+');
+            display: inline;
+            width: 15px;
+        }
+        
+        .spellBookItemEdit {
+            content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNjMGI5YjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIj48cGF0aCBkPSJtMTYuNDc1IDUuNDA4bDIuMTE3IDIuMTE3bS0uNzU2LTMuOTgyTDEyLjEwOSA5LjI3YTIuMSAyLjEgMCAwIDAtLjU4IDEuMDgyTDExIDEzbDIuNjQ4LS41M2MuNDEtLjA4Mi43ODYtLjI4MyAxLjA4Mi0uNTc5bDUuNzI3LTUuNzI3YTEuODUzIDEuODUzIDAgMSAwLTIuNjIxLTIuNjIxIi8+PHBhdGggZD0iTTE5IDE1djNhMiAyIDAgMCAxLTIgMkg2YTIgMiAwIDAgMS0yLTJWN2EyIDIgMCAwIDEgMi0yaDMiLz48L2c+PC9zdmc+');
+            display: inline;
+            width: 15px;
+        }
+        
+        .sortable-chosen {
+            background-color: lightgray;
+        }
+        
+        .sortable-ghost {
+            opacity: 0.5;
+            /* 设置透明度 */
+            background-color: black;
+            /* 设置幽灵元素的背景颜色 */
+        }
+        
+        #textbox--spellbookitemname {
+            max-width: 60%;
+            box-sizing: border-box;
+            min-width: 30%;
+        }
+        
+        #textbox--spellbookrenametextbox {
+            max-width: 60%;
+            box-sizing: border-box;
+            min-width: 30%;
+        }
+        
+        #textbox--spellbooksearchtextbox {
+            max-width: 50%;
+            box-sizing: border-box;
+            min-width: 30%;
+        }
+        
+        .settingsToggleItemWide input[type="file"] {
+            max-width: 100%;
+            box-sizing: border-box;
+            min-width: 30%;
+        }
+        
+        #bookItemInput {
+            max-width: 100%;
+            box-sizing: border-box;
+            min-width: 80%;
+        }
+        
+        .spellBookOpenWelcome {
+            display: flex;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .contentTextArea {
+            max-width: 80%;
+            box-sizing: border-box;
+            min-width: 60%;
+        }
+        
+        .hideTextAreaButton {
+            background-color: transparent !important;
+        }
+        
+        .spellBookItemTitle {
+            display: flex;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .swal2-popup {
+            background: #252525 !important;
+        }
+        
+        .swal2-title {
+            /*原配色为#e1e1e1 */
+            color: #c0c0c0 !important;
+        }
+        
+        .swal2-radio {
+            background-color: #e1e1e1 !important;
+        }
+        
+        .swal2-input-grayed {
+            background-color: #e1e1e1 !important;
+        }
+        
+        .swal2-styled.swal2-confirm {
+            background-color: #5080FF !important;
+        }

@@ -75,7 +75,8 @@ declare global {
   interface V {
     spellBookOpening?: boolean; // 判断当前魔法书是否打开
     spellBook?: { [key: string]: SpellbookItem }; // 本地存档中的魔法书
-    cccheat?: string[]; // 展示在侧边栏的模组列表，可能需与其他模组联动
+    cccheat?: string[]; // 展示在侧边栏的模组列表，需与其他模组联动
+    cccheat_name?: string[]; //作弊拓展的言灵别名
     options: any;
   }
   declare var V: V;

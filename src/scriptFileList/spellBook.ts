@@ -367,8 +367,7 @@ async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
         showCancelButton: true,
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        reverseButtons: true,
-        animation: false // 禁用动画
+        reverseButtons: true
     });
     if (confirmResult.isConfirmed) {
         let copyItem = JSON.parse(JSON.stringify(spellbookItem));
@@ -394,8 +393,7 @@ async function deleteIdbSpellBookItem(spellbookItem: SpellbookItem) {
         showCancelButton: true,
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        reverseButtons: true,
-        animation: false // 禁用动画
+        reverseButtons: true
     });
     if (confirmResult.isConfirmed) {
         const db = new SpellbookDB();
@@ -419,8 +417,7 @@ async function deleteNormalSpellBookItem(spellbookItem: SpellbookItem) {
         showCancelButton: true,
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        reverseButtons: true,
-        animation: false
+        reverseButtons: true
     });
     if (confirmResult.isConfirmed) {
         delete V.spellBook[spellbookItem.uuid];
@@ -911,6 +908,10 @@ async function dealWithCccheat(option: string) {
         alert("未检测到变量$cccheat，请确认你已安装支持该变量的侧边栏模组，你可以前往【封面】下的【使用说明】查看推荐的模组");
         return;
     }
+    // 作弊拓展特供
+    if (!V.cccheat_name) {
+        V.cccheat_name = [];
+    }
     const result = await Swal.fire({
         title: '操作确认',
         text: '是否确认对言灵集【' + T.name + '】执行操作【' + optionDic[option] + '】？该操作可通过回档来撤回。',
@@ -925,19 +926,22 @@ async function dealWithCccheat(option: string) {
         switch (option) {
             case "addToTop":
                 V.cccheat.splice(0, 0, ...T.content);
+                V.cccheat_name.splice(0, 0, ...T.content)
                 break;
             case "addToEnd":
                 V.cccheat.push(...T.content);
+                V.cccheat_name.push(...T.content);
                 break;
             case "replace":
                 V.cccheat = T.content;
+                V.cccheat_name = T.content;
                 break;
             case "remove":
                 V.cccheat = V.cccheat.filter(item => !T.content.includes(item));
+                V.cccheat_name = V.cccheat_name.filter(item => !T.content.includes(item));
                 break;
             default:
-                alert("执行操作失败，操作未定义！")
-                break;
+                alert("执行操作失败，操作未定义！");
         }
         window.modSweetAlert2Mod.fire('操作成功', '在游戏内进行段落跳转（点击任意选项）后即可看到效果', 'success');
     } else if (result.dismiss === Swal.DismissReason.cancel) {

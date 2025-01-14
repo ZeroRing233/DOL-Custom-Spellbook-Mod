@@ -405,8 +405,7 @@
 		言灵集内容为空。<br>
 	<</if>>
 	<span class="gold">*在空白处长按0.5秒后可拖动言灵进行排序，点击<i class="spellBookItemEdit"></i>可进行编辑，
-	点击<i class="SpellBookItemDelete"></i>可进行删除。点击按钮【添加新言灵】可在当前言灵集添加新言灵，
-	选中多条言灵后点击按钮【删除所有选中的言灵】可删除所有选中的言灵，所有操作都可以通过回档撤回。</span>
+	点击<i class="SpellBookItemDelete"></i>可进行删除，所有操作都可以通过回档撤回。</span>
 	<br>
 	<input type="button" class="saveMenuButton" value="添加新言灵" onclick="spellBookItemAddContent()"/>
 	<input type="button" class="saveMenuButton" value="删除所有选中的言灵" onclick="spellBookItemDeleteAll()"/>
@@ -463,13 +462,34 @@
 	<<set _name to $spellBook[_uuid].name>>
 	<<set _content to $spellBook[_uuid].content>>
 	<span class="spellBookItemTitle">
-		侧边栏言灵集（本存档）
+		侧边栏言灵集（本存档） <mouse class="tooltip linkBlue">(?)<span>与侧边栏言灵保持同步的言灵集，注意侧边栏需在游戏内进行段落跳转（点击任意选项）才会发生改变，本言灵集不可删除，改名，保存为公共言灵集后，对应的公共言灵集仍需通过【添加到侧边栏】下的按钮手动与侧边栏同步。</span></mouse>
 	</span>
 	<span class="spellBookItemTitle">
 		<<link "点击跳转到言灵列表">><<run jumpToSpellBookItemList()>><</link>>
 	</span>
+	/% 没改成default就是在沿用 %/
 	<<searchSpellBookItem_normal>>
-	<<editSpellBookItem_normal>>
+	<<saveItemToIndexDB>>
 	<<exportSpellBookItem_normal>>
 	<<SpellBookItemList_normal>>
+<</widget>>
+
+<<widget "saveItemToIndexDB">>
+	<div class="settingsGrid">
+        <div class="settingsHeader options">
+			跨存档保存言灵集
+        </div>
+    	<div class="settingsToggleItemWide">
+			* 选择【直接保存】后，如果当前言灵集已经有对应的公共言灵集
+			 <mouse class="tooltip linkBlue">(?)<span>在公共言灵集中点击【复制一份到当前存档】，或者在本存档言灵集中点击【直接保存】，都会形成两者间的对应关系</span></mouse>
+			，该公共言灵集会被更新，注意此操作<span class="gold">无法</span>通过回档撤回。<br>
+			<input type="button" value="直接保存" class="saveMenuButton" onclick="saveItemToIndexDB(V.spellBook[T.uuid])">
+			<br><br>
+			* 点击【保存为新言灵集】后，会创建一个全新的公共言灵集，<span class="gold">新言灵集和当前言灵集不存在对应关系</span>。
+			<br>
+			<<textbox "_spellBookNewNameTextbox" "请输入新言灵集名称">>
+			<input type="button" value="保存为新言灵集" class="saveMenuButton" onclick="confirmRenameItem()" />
+			<br><br>
+		</div>
+    </div>
 <</widget>>

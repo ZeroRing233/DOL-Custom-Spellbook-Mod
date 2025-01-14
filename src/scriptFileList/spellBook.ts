@@ -17,25 +17,26 @@ $(document).on(":oncloseoverlay", () => {
 
 async function spellBookMobileClicked() {
     V.spellBookOpening = true;
-    await initSpellBook();
+    initSpellBook();
     await getIdbSpellBookItems();
     $.wiki("<<overlayReplace \"spellBookOpen\">>");
     $(function () {
         let bookIcon: HTMLElement | null = document.querySelector(".SpellBookMobile");
         if (bookIcon) {
-            // 之后应该会改的，别吐槽
+            // 暂时就这样写死，别吐槽
             bookIcon.style.backgroundImage = "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGZpbGw9IiNDNzlGRUYiIGQ9Ik0xNSA0LjdWNGE2LjggNi44IDAgMCAwLTQuNDg0LTEuOTk5YTIuODQgMi44NCAwIDAgMC0yLjUxMy45OTVhMy4wMiAzLjAyIDAgMCAwLTIuNTE1LS45OTVBNi44IDYuOCAwIDAgMCAxIDR2LjdMMCA1djEwbDYuNy0xLjRsLjMuNGgybC4zLS40TDE2IDE1VjV6bS05LjUyIDYuNjFhOC4yIDguMiAwIDAgMC0zLjUyNi45MDJMMiA0LjQyQTUuMjIgNS4yMiAwIDAgMSA1LjM2OSAzYTQuNTUgNC41NSAwIDAgMSAyLjE1OS43MDFsLS4wMTkgNy44NjlhNi42IDYuNiAwIDAgMC0yLjAzOS0uMjU5em04LjUyLjg4YTguMSA4LjEgMCAwIDAtMy40NjgtLjg4bC0uMTYxLS4wMDJjLS42NiAwLTEuMjk3LjA5Ni0xLjg5OS4yNzRsLjA0Ny03LjkwMmE0LjUgNC41IDAgMCAxIDIuMDk2LS42NzlhNS4yMiA1LjIyIDAgMCAxIDMuMzg2IDEuNDIybC0uMDAzIDcuNzY4eiIvPjwvc3ZnPg==')";
         }
     });
 }
 window.spellBookMobileClicked = spellBookMobileClicked;
 
-async function initSpellBook() {
+function initSpellBook() {
     if (!V.spellBook) {
         V.spellBook = {};
     }
-    if (!V.spellBook.default) {
-        await initDefaultSpellBook();
+    if (V.cccheat && V.cccheat.length >= 0) {
+        // 奇妙的魔法，V.spellBook["default"].content = V.cccheat; 两个变量指向同一对象，一方改变另一方也会随之改变
+        V.spellBook["default"] = { name: "侧边栏言灵", uuid: "default", content: V.cccheat };
     }
 }
 
@@ -126,26 +127,6 @@ async function doItemSave(spellbookItem: SpellbookItem, db: SpellbookDB) {
     }
 }
 
-async function initDefaultSpellBook() {
-    return new Promise<void>(async (resolve) => { // 使用 Promise 包裹，确保异步操作完成
-        const db = new SpellbookDB();
-        V.spellBook["default"] = { name: "默认言灵集", uuid: "default", content: [] };
-        console.log("默认言灵集初始化开始");
-
-        const result = await db.getItem(V.spellBook["default"].uuid);
-
-        if (result && result.content !== null) {
-            V.spellBook["default"].content = result.content;
-
-            console.log("默认言灵集初始化来源为idb");
-        } else if (V.cccheat && V.cccheat.length > 0) {
-            V.spellBook["default"].content = V.cccheat;
-            console.log("默认言灵集初始化来源为cccheat");
-        }
-        resolve(); // 在所有异步操作完成后 resolve Promise
-    });
-}
-
 // 获取idb存档内的言灵集，如果存在则直接覆盖
 // 为节省作者脑细胞（避免idb和存档内数据不一致），公共数据编辑方式暂定为：复制一份到本存档后编辑—跨存档保存，不要打我
 async function getIdbSpellBookItems() {
@@ -158,12 +139,6 @@ async function getIdbSpellBookItems() {
     }
 }
 window.getIdbSpellBookItems = getIdbSpellBookItems;
-
-// justTest
-async function myIndexDBTest() {
-    // 预留一下
-}
-window.myIndexDBTest = myIndexDBTest;
 
 async function exportSpellBookItem(spellbookItem: SpellbookItem) {
     const { value: fileType } = await window.modSweetAlert2Mod.fire({
@@ -531,7 +506,13 @@ function spellBookTabClicked_normal(id) {
         T.tab.toggle(button);
         const prefix = "normal_";
         let uuid = id.substring(prefix.length);
-        $.wiki("<<replace #customOverlayContent>><<spellBookItem_normal " + uuid + ">><</replace>>")
+        // 侧边栏言灵集跳转到专属页面
+        if (uuid === "default") {
+            $.wiki("<<replace #customOverlayContent>><<spellBookItem_default " + uuid + ">><</replace>>")
+        }
+        else {
+            $.wiki("<<replace #customOverlayContent>><<spellBookItem_normal " + uuid + ">><</replace>>")
+        }
     } else {
         alert("无法获取到当前标签页");
     }
@@ -951,5 +932,13 @@ async function dealWithCccheat(option: string) {
 }
 window.dealWithCccheat = dealWithCccheat;
 
-
-
+// 在标题里添加功能： 跳转到言灵列表
+function jumpToSpellBookItemList() {
+    let spellBookItemList = document.getElementById("spellBookItemList");
+    if (!spellBookItemList) {
+        alert("跳转出错！无法定位到言灵列表");
+        return;
+    }
+    spellBookItemList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+window.jumpToSpellBookItemList = jumpToSpellBookItemList;

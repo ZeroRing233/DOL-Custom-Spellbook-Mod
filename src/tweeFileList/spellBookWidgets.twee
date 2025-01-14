@@ -11,6 +11,17 @@
 			<<toggleTab>>
 			<<replace #customOverlayContent>><<spellBookOpen>><</replace>>
 		<</button>>
+		<<set _ids to Object.keys($spellBook)>>
+		<<for _id range _ids>>
+			<<set _spellBookItem to clone($spellBook[_id])>>
+			<<set _name to _spellBookItem.name>>
+			<<if _name.length > 6>>
+				<<set _name to _name.substring(0, 6) + "...">>
+			<</if>>
+			<<capture _id>>
+				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_normal(this.id)" @id="'normal_'+ T.id">_name</button>
+			<</capture>>
+		<</for>>
 		<<set _ids to Object.keys(_spellBookCommon)>>
 		<<for _id range _ids>>
 			<<set _spellBookItem to clone(_spellBookCommon[_id])>>
@@ -21,17 +32,6 @@
 			<<set _name to _name + "（公共）">>
 			<<capture _id>>
 				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_common(this.id)" @id="'common_'+ T.id">_name</button>
-			<</capture>>
-		<</for>>
-		<<set _ids to Object.keys($spellBook)>>
-		<<for _id range _ids>>
-			<<set _spellBookItem to clone($spellBook[_id])>>
-			<<set _name to _spellBookItem.name>>
-			<<if _name.length > 6>>
-				<<set _name to _name.substring(0, 6) + "...">>
-			<</if>>
-			<<capture _id>>
-				<button class="link-internal macro-button" type="button" role="button" tabindex="0" onclick="spellBookTabClicked_normal(this.id)" @id="'normal_'+ T.id">_name</button>
 			<</capture>>
 		<</for>>
 	</div>
@@ -187,6 +187,9 @@
 	<span class="spellBookItemTitle">
 		<<print _name>>（跨存档）
 	</span>
+	<span class="spellBookItemTitle">
+		<<link "点击跳转到言灵列表">><<run jumpToSpellBookItemList()>><</link>>
+	</span>
 	<<searchSpellBookItem_common>>
 	<<editSpellBookItem_common>>
 	<<exportSpellBookItem_common>>
@@ -294,6 +297,9 @@
 	<<set _content to $spellBook[_uuid].content>>
 	<span class="spellBookItemTitle">
 		<<print _name>>（本存档）
+	</span>
+	<span class="spellBookItemTitle">
+		<<link "点击跳转到言灵列表">><<run jumpToSpellBookItemList()>><</link>>
 	</span>
 	<<searchSpellBookItem_normal>>
 	<<editSpellBookItem_normal>>
@@ -451,3 +457,19 @@
 	</ol>
 <</widget>>
 
+/% 默认（侧边栏言灵集）相关widgets %/
+<<widget "spellBookItem_default">>
+	<<set _uuid to _args[0]>>
+	<<set _name to $spellBook[_uuid].name>>
+	<<set _content to $spellBook[_uuid].content>>
+	<span class="spellBookItemTitle">
+		侧边栏言灵集（本存档）
+	</span>
+	<span class="spellBookItemTitle">
+		<<link "点击跳转到言灵列表">><<run jumpToSpellBookItemList()>><</link>>
+	</span>
+	<<searchSpellBookItem_normal>>
+	<<editSpellBookItem_normal>>
+	<<exportSpellBookItem_normal>>
+	<<SpellBookItemList_normal>>
+<</widget>>

@@ -68,6 +68,7 @@ declare global {
     jumpToResult_normal: (searchResult: string, option: string) => void;
     jumpToResultFromCover_normal: (id: string, searchResult: string, option: string) => void;
     dealWithCccheat: (option: string) => void;
+    jumpToSpellBookItemList: () => void;
     zoom: (number) => void;// zoom为原有函数
   }
 

@@ -68,7 +68,7 @@
         </div>
 		 <div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
-				&nbsp;&nbsp;<<textbox "_spellBookSearchTextbox" "">>
+				<<textbox "_spellBookSearchTextbox" "">>
 				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'all')">
 				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
 			</div>
@@ -148,7 +148,7 @@
 <<widget "createSpellBookItem">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            新建空白言灵集 <mouse class="tooltip linkBlue">(?)<span>暂时没做言灵集重名限制和字数限制，但起名时请尽量保证简洁且有区分度。</span></mouse>
+            新建空白言灵集 <mouse class="tooltip linkBlue">(?)<span>暂时没有言灵集重名限制和字数限制，但起名时请尽量保证简洁且有区分度。</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
         	请输入言灵集名称：
@@ -167,7 +167,7 @@
         	从文件导入（只支持txt和json格式文件）：
 			<br>
 			<input type="file" onchange="uploadSpellBookItem(this)" single accept="text/*, application/json" class="uploadFileInput" />
-			<br>
+			<br><br>
 			从文本框加载（【从文件导入】的替代方案）：
 			<br>
 			<textarea id="bookItemInput" cols="40" rows="4"><<if _presetData>>_presetData<</if>></textarea>
@@ -204,7 +204,7 @@
         </div>
     	<div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
-				&nbsp;&nbsp;<<textbox "_spellBookSearchTextbox" "">>
+				<<textbox "_spellBookSearchTextbox" "">>
 				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'common_' + T.uuid)">
 				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
 			</div>
@@ -317,7 +317,7 @@
         </div>
     	<div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
-				&nbsp;&nbsp;<<textbox "_spellBookSearchTextbox" "">>
+				<<textbox "_spellBookSearchTextbox" "">>
 				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'normal_' + T.uuid)">
 				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
 			</div>
@@ -363,14 +363,14 @@
 			编辑言灵集
         </div>
     	<div class="settingsToggleItemWide">
+			* 本存档言灵集删除时不会影响对应的公共言灵集，反之亦然。
+			<br>
 			<input type="button" value="删除言灵集" class="saveMenuButton" onclick="deleteNormalSpellBookItem(V.spellBook[T.uuid])">
-			<input type="button" value="更改言灵集名称" class="saveMenuButton" onclick="renameSpellBookItem()">
-			<div id="renameItem" style="display:none;">
-				<br>
+			<br><br>
+			更改言灵集名称：
+			<div id="renameItem">
 				<<textbox "_spellBookRenameTextbox" _name>>
-				<input type="button" value="取消" class="saveMenuButton hideTextAreaButton" onclick="hideRenameItem()" />
-				<input type="button" value="确定" class="saveMenuButton hideTextAreaButton" onclick="confirmRenameItem()" />
-				<br><br>
+				<input type="button" value="确定" class="saveMenuButton" onclick="confirmRenameItem()" />
 			</div>
 		</div>
     </div>

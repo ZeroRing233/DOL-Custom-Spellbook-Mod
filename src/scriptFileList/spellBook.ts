@@ -257,29 +257,30 @@ function checkSpellBookItemContent(spellBookItem: SpellbookItem): boolean {
 
 async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
     try {
-        // const db = new SpellbookDB();
-        // const result = await db.getItem(spellBookItem.uuid);
-        // 情况一：当前言灵集存在于indexDB中（因逻辑修改，加载言灵集不再提供跨存档）
-        // if (result && result.content !== null) {
-        //     const confirmResult = await window.modSweetAlert2Mod.fire({
-        //         title: '检测到待加载言灵集【' + spellBookItem.name + '】已在**所有**存档中存在',
-        //         text: '是否仍加载该言灵集？该操作将会覆盖**所有**存档中的【' + spellBookItem.name + '】',
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonText: '确定',
-        //         cancelButtonText: '取消',
-        //         reverseButtons: true
-        //     });
-        //     if (confirmResult.isConfirmed) {
-        //         doItemUpdate(spellBookItem, db);
-        //     } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
-        //         // 处理取消逻辑 (可选)
-        //         window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
-        //     }
-        // }
-        // // 情况二：当前言灵集存在于存档中
-        // else 
-        if (V.spellBook[spellBookItem.uuid] && V.spellBook[spellBookItem.uuid].content !== null) {
+        if (spellBookItem.uuid === 'default') {
+            const confirmResult = await window.modSweetAlert2Mod.fire({
+                title: '检测到待加载言灵集【' + spellBookItem.name + '】原本为侧边栏言灵集',
+                text: '侧边栏言灵集无法被覆盖，是否创建言灵集【新建言灵集】？言灵名称可在创建后修改。',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                reverseButtons: true
+            });
+            if (confirmResult.isConfirmed) {
+                spellBookItem.uuid=generateUUID();
+                spellBookItem.name= '新建言灵集';
+                V.spellBook[spellBookItem.uuid] = spellBookItem;
+                $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+                $(function () {
+                    spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
+                });
+                window.modSweetAlert2Mod.fire('操作成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
+            } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
+                window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+            }
+        }
+        else if (V.spellBook[spellBookItem.uuid] && V.spellBook[spellBookItem.uuid].content !== null) {
             const confirmResult = await window.modSweetAlert2Mod.fire({
                 title: '检测到待加载言灵集【' + spellBookItem.name + '】已在当前存档中存在',
                 text: '是否仍加载该言灵集？该操作将会覆盖当前存档中的【' + spellBookItem.name + '】',
@@ -307,7 +308,7 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
             $(function () {
                 spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
             });
-            window.modSweetAlert2Mod.fire('加载成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
+            window.modSweetAlert2Mod.fire('操作成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
         }
     } catch (error) {
         console.error("处理言灵集时出错:", error);

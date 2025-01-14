@@ -68,7 +68,7 @@
         </div>
 		 <div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
-				<<textbox "_spellBookSearchTextbox" "">>
+				&nbsp;&nbsp;<<textbox "_spellBookSearchTextbox" "">>
 				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'all')">
 				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
 			</div>
@@ -204,7 +204,7 @@
         </div>
     	<div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
-				<<textbox "_spellBookSearchTextbox" "">>
+				&nbsp;&nbsp;<<textbox "_spellBookSearchTextbox" "">>
 				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'common_' + T.uuid)">
 				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
 			</div>
@@ -303,6 +303,7 @@
 	</span>
 	<<searchSpellBookItem_normal>>
 	<<editSpellBookItem_normal>>
+	<<saveItemToIndexDB>>
 	<<exportSpellBookItem_normal>>
 	/% dealWithCccheat 暂时不用改，沿用common就行 %/
 	<<dealWithCccheat_common>>
@@ -316,7 +317,7 @@
         </div>
     	<div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
-				<<textbox "_spellBookSearchTextbox" "">>
+				&nbsp;&nbsp;<<textbox "_spellBookSearchTextbox" "">>
 				<input type="button" value="搜索" class="saveMenuButton" onclick="searchSpellBookItem(T.spellBookSearchTextbox,'normal_' + T.uuid)">
 				<input type="button" value="清空" class="saveMenuButton" onclick="clearSpellBookItemSearchResult()">
 			</div>
@@ -362,8 +363,6 @@
 			编辑言灵集
         </div>
     	<div class="settingsToggleItemWide">
-			* 跨存档保存言灵集时，本地言灵集所对应的公共言灵集（来源包括从公共言灵集复制和从本地言灵集保存）会被更新，注意此操作<span class="gold">无法</span>通过回档撤回。<br>
-			<input type="button" value="跨存档保存言灵集" class="saveMenuButton" onclick="saveItemToIndexDB(V.spellBook[T.uuid])">
 			<input type="button" value="删除言灵集" class="saveMenuButton" onclick="deleteNormalSpellBookItem(V.spellBook[T.uuid])">
 			<input type="button" value="更改言灵集名称" class="saveMenuButton" onclick="renameSpellBookItem()">
 			<div id="renameItem" style="display:none;">
@@ -401,9 +400,6 @@
 <</widget>>
 
 <<widget "mutableSpellBookItem">>
-	<<if _content.length is 0>>
-		言灵集内容为空。<br>
-	<</if>>
 	<span class="gold">*在空白处长按0.5秒后可拖动言灵进行排序，点击<i class="spellBookItemEdit"></i>可进行编辑，
 	点击<i class="SpellBookItemDelete"></i>可进行删除，所有操作都可以通过回档撤回。</span>
 	<br>
@@ -418,6 +414,10 @@
 		<input type="button" value="添加到末尾" class="saveMenuButton hideTextAreaButton" onclick="confirmAddContent('end')" />
 		<br><br>
 	</div>
+	<<if _content.length is 0>>
+		<br>
+		言灵集内容为空。
+	<</if>>
 	<ol id="sortable-list">
 		<<for _i to 0; _i lt _content.length; _i++>>
 			<li @id="'content_'+T.i">
@@ -437,10 +437,12 @@
 <</widget>>
 
 <<widget "immutableSpellBookItem">>
-	<<if _content.length is 0>>
-		言灵集内容为空。<br>
-	<</if>>
+	
 	<span class="gold">*如果当前言灵集为本存档言灵集，可以点击【编辑模式】对言灵进行添加/删除/编辑/排序等操作。</span>
+	<<if _content.length is 0>>
+		<br>
+		言灵集内容为空。
+	<</if>>
 	<ol>
 		<<for _i to 0; _i lt _content.length; _i++>>
 			<li @id="'content_'+T.i">
@@ -488,8 +490,7 @@
 			* 点击【保存为新言灵集】后，会创建一个全新的公共言灵集，<span class="gold">新言灵集和当前言灵集不存在对应关系</span>。
 			<br>
 			<<textbox "_spellBookNewNameTextbox" "请输入新言灵集名称">>
-			<input type="button" value="保存为新言灵集" class="saveMenuButton" onclick="confirmRenameItem()" />
-			<br><br>
+			<input type="button" value="保存为新言灵集" class="saveMenuButton" onclick="saveItemToIndexDB_new(V.spellBook[T.uuid])" />
 		</div>
     </div>
 <</widget>>

@@ -57,6 +57,35 @@ async function saveItemToIndexDB(spellbookItem: SpellbookItem) {
 }
 window.saveItemToIndexDB = saveItemToIndexDB;
 
+
+async function saveItemToIndexDB_new(spellbookItem: SpellbookItem) {
+    if (T.spellBookNewNameTextbox.trim() === "") {
+        alert("请输入言灵集名称！");
+        return;
+    }
+    let newItem = JSON.parse(JSON.stringify(spellbookItem));
+    newItem.uuid = generateUUID();
+    newItem.name = T.spellBookNewNameTextbox;
+    const result = await Swal.fire({
+        title: '操作确认',
+        text: '是否确认在所有存档中新增言灵集【' + newItem.name + '】？',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true
+    });
+    if (result.isConfirmed) {
+        // 用户点击了确认按钮
+        const db = new SpellbookDB();
+        doItemSave(newItem, db);
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // 用户点击了取消按钮
+        window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+    }
+}
+window.saveItemToIndexDB_new = saveItemToIndexDB_new;
+
 async function confirmItemUpdate(spellbookItem: SpellbookItem, db: SpellbookDB) {
     const result = await Swal.fire({
         title: '检测到当前言灵集【' + spellbookItem.name + '】已存在',

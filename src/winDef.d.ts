@@ -35,7 +35,7 @@ declare global {
     initDefaultSpellBook: () => void;
     getAllSpellBookItems: () => void;
     saveItemToIndexDB: (spellbookItem: SpellbookItem) => void;
-    myIndexDBTest: () => void;
+    saveItemToIndexDB_new: (spellbookItem: SpellbookItem) => void;
     exportSpellBookItem: (spellbookItem: SpellbookItem) => void;
     getIdbSpellBookItems: (spellbookItem: SpellbookItem) => void;
     getSpellBookItem: (spellbookItem: SpellbookItem) => void;
@@ -89,6 +89,7 @@ declare global {
     searchResults?: []
     spellBookSearchTextbox?: "";
     spellBookRenameTextbox?: "";
+    spellBookNewNameTextbox?: "";
     uuid?: stiring;
     tab: Tab;//原版自带的tab
   }

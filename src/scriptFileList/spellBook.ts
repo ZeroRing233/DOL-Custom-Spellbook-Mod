@@ -430,7 +430,11 @@ function handleSortEnd(evt) {
 async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
     let dialogTitle = "复制确认";
     let dialogContent = "是否确认复制言灵集【" + spellbookItem.name + "】到当前存档";
-    if (V.spellBook[spellbookItem.uuid] && V.spellBook[spellbookItem.uuid].content !== null) {
+    if (spellbookItem.uuid === 'default') {
+        dialogTitle = "覆盖确认";
+        dialogContent = "检测到当前言灵集【" + spellbookItem.name + "】原本为侧边栏言灵集，复制操作将会导致言灵集【" + V.spellBook[spellbookItem.uuid].name + "】和侧边栏言灵一起被覆盖，是否继续？";
+    }
+    else if (V.spellBook[spellbookItem.uuid] && V.spellBook[spellbookItem.uuid].content !== null) {
         dialogTitle = "覆盖确认";
         dialogContent = "检测到当前言灵集【" + spellbookItem.name + "】已在当前存档存在，重新复制将会导致言灵集【" + V.spellBook[spellbookItem.uuid].name + "】被覆盖，是否继续？";
     }
@@ -446,7 +450,14 @@ async function copyIdbSpellBookItem(spellbookItem: SpellbookItem) {
     if (confirmResult.isConfirmed) {
         let copyItem = JSON.parse(JSON.stringify(spellbookItem));
         copyItem.name = copyItem.name + "（复制）";
-        V.spellBook[copyItem.uuid] = copyItem;
+        if (copyItem.uuid === 'default') {
+            V.spellBook[copyItem.uuid].name = copyItem.name;
+            V.cccheat = copyItem.content;
+            V.spellBook[copyItem.uuid].content = V.cccheat;
+        }
+        else {
+            V.spellBook[copyItem.uuid] = copyItem;
+        }
         $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
         $(function () {
             spellBookTabClicked_normal("normal_" + copyItem.uuid);

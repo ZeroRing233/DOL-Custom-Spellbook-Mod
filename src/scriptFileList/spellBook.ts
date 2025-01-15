@@ -34,10 +34,14 @@ function initSpellBook() {
     if (!V.spellBook) {
         V.spellBook = {};
     }
-    if (V.cccheat && V.cccheat.length >= 0) {
-        // 奇妙的魔法，V.spellBook["default"].content = V.cccheat; 两个变量指向同一对象，一方改变另一方也会随之改变
-        V.spellBook["default"] = { name: "侧边栏言灵", uuid: "default", content: V.cccheat };
+    if (!V.cccheat) {
+        V.cccheat = [];
     }
+    if (!V.cccheat_name) {
+        V.cccheat_name = [];
+    }
+    // 奇妙的魔法，V.spellBook["default"].content = V.cccheat; 两个变量指向同一对象，一方改变另一方也会随之改变
+    V.spellBook["default"] = { name: "侧边栏言灵", uuid: "default", content: V.cccheat };
 }
 
 async function saveItemToIndexDB(spellbookItem: SpellbookItem) {
@@ -258,48 +262,10 @@ function checkSpellBookItemContent(spellBookItem: SpellbookItem): boolean {
 async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
     try {
         if (spellBookItem.uuid === 'default') {
-            const confirmResult = await window.modSweetAlert2Mod.fire({
-                title: '检测到待加载言灵集【' + spellBookItem.name + '】原本为侧边栏言灵集',
-                text: '侧边栏言灵集无法被覆盖，是否创建言灵集【新建言灵集】？言灵名称可在创建后修改。',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                reverseButtons: true
-            });
-            if (confirmResult.isConfirmed) {
-                spellBookItem.uuid=generateUUID();
-                spellBookItem.name= '新建言灵集';
-                V.spellBook[spellBookItem.uuid] = spellBookItem;
-                $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-                $(function () {
-                    spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
-                });
-                window.modSweetAlert2Mod.fire('操作成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
-            } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
-                window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
-            }
+            chooseAddOrReplace_default(spellBookItem);
         }
         else if (V.spellBook[spellBookItem.uuid] && V.spellBook[spellBookItem.uuid].content !== null) {
-            const confirmResult = await window.modSweetAlert2Mod.fire({
-                title: '检测到待加载言灵集【' + spellBookItem.name + '】已在当前存档中存在',
-                text: '是否仍加载该言灵集？该操作将会覆盖当前存档中的【' + spellBookItem.name + '】',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                reverseButtons: true
-            });
-            if (confirmResult.isConfirmed) {
-                V.spellBook[spellBookItem.uuid] = spellBookItem;
-                $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
-                $(function () {
-                    spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
-                });
-                window.modSweetAlert2Mod.fire('已更新', '当前言灵集已更新', 'success');
-            } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
-                window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
-            }
+            chooseAddOrReplace(spellBookItem);
         }
         // 情况三：新增言灵集（感觉并不需要确认弹窗）
         else {
@@ -312,6 +278,109 @@ async function checkSpellBookItemExists(spellBookItem: SpellbookItem) {
         }
     } catch (error) {
         console.error("处理言灵集时出错:", error);
+    }
+}
+
+async function chooseAddOrReplace_default(spellBookItem: SpellbookItem) {
+    const confirmResult = await window.modSweetAlert2Mod.fire({
+        title: `检测到待加载言灵集【${spellBookItem.name}】原本为侧边栏言灵`,
+        // 使用 HTML 自定义弹窗内容，添加 radio 按钮
+        html: `
+          <div>
+            <p>是否仍加载该言灵集？如果选择覆盖，侧边栏中的言灵也会被同步覆盖</p>
+            <label>
+              <input type="radio" name="importMode" value="overwrite" checked> 覆盖当前存档中的【${spellBookItem.name}】
+            </label><br>
+            <label>
+              <input type="radio" name="importMode" value="add"> 新增一个言灵集，命名为【${spellBookItem.name} (副本)】
+            </label>
+          </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true,
+        // 在 preConfirm 中获取选择的选项值
+        preConfirm: () => {
+            const input = document.querySelector('input[name="importMode"]:checked') as HTMLInputElement;
+            const importMode = input.value;
+            return { importMode }; // 返回一个包含选择结果的对象
+        }
+    });
+    if (confirmResult.isConfirmed) {
+        const importMode = confirmResult.value.importMode;
+        if (importMode === 'overwrite') {
+            // 执行覆盖操作
+            console.log('执行覆盖操作');
+            V.spellBook[spellBookItem.uuid].name = spellBookItem.name;
+            V.cccheat = spellBookItem.content;
+            V.spellBook[spellBookItem.uuid].content = V.cccheat;
+            window.modSweetAlert2Mod.fire('操作成功', '成功更新言灵集【' + spellBookItem.name + '】', 'success');
+        } else if (importMode === 'add') {
+            // 执行新增操作
+            spellBookItem.uuid = generateUUID();
+            spellBookItem.name = spellBookItem.name + '(副本)';
+            V.spellBook[spellBookItem.uuid] = spellBookItem;
+            window.modSweetAlert2Mod.fire('操作成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
+        }
+        $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        $(function () {
+            spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
+        });
+    } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
+        window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
+    }
+}
+
+async function chooseAddOrReplace(spellBookItem: SpellbookItem) {
+    const confirmResult = await window.modSweetAlert2Mod.fire({
+        title: `检测到待加载言灵集【${spellBookItem.name}】已在当前存档中存在`,
+        // 使用 HTML 自定义弹窗内容，添加 radio 按钮
+        html: `
+          <div>
+            <p>是否仍加载该言灵集？</p>
+            <label>
+              <input type="radio" name="importMode" value="overwrite" checked> 覆盖当前存档中的【${spellBookItem.name}】
+            </label><br>
+            <label>
+              <input type="radio" name="importMode" value="add"> 新增一个言灵集，命名为【${spellBookItem.name} (副本)】
+            </label>
+          </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        reverseButtons: true,
+        // 在 preConfirm 中获取选择的选项值
+        preConfirm: () => {
+            const input = document.querySelector('input[name="importMode"]:checked') as HTMLInputElement;
+            const importMode = input.value;
+            return { importMode }; // 返回一个包含选择结果的对象
+        }
+    });
+    if (confirmResult.isConfirmed) {
+        const importMode = confirmResult.value.importMode;
+
+        if (importMode === 'overwrite') {
+            // 执行覆盖操作
+            console.log('执行覆盖操作');
+            V.spellBook[spellBookItem.uuid] = spellBookItem;
+            window.modSweetAlert2Mod.fire('操作成功', '成功更新言灵集【' + spellBookItem.name + '】', 'success');
+        } else if (importMode === 'add') {
+            // 执行新增操作
+            spellBookItem.uuid = generateUUID();
+            spellBookItem.name = spellBookItem.name + '(副本)';
+            V.spellBook[spellBookItem.uuid] = spellBookItem;
+            window.modSweetAlert2Mod.fire('操作成功', '成功添加言灵集【' + spellBookItem.name + '】', 'success');
+        }
+        $.wiki("<<replace #customOverlayTitle>><<spellBookTitle>><</replace>>");
+        $(function () {
+            spellBookTabClicked_normal("normal_" + spellBookItem.uuid);
+        });
+    } else if (confirmResult.dismiss === Swal.DismissReason.cancel) {
+        window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');
     }
 }
 
@@ -914,14 +983,6 @@ async function dealWithCccheat(option: string) {
         "addToEnd": "将此言灵集添加到侧边栏（末尾）",
         "replace": "直接用此言灵集替换侧边栏",
         "remove": "从侧边栏移除此言灵集"
-    }
-    if (!V.cccheat) {
-        alert("未检测到变量$cccheat，请确认你已安装支持该变量的侧边栏模组，你可以前往【封面】下的【使用说明】查看推荐的模组");
-        return;
-    }
-    // 作弊拓展特供
-    if (!V.cccheat_name) {
-        V.cccheat_name = [];
     }
     const result = await Swal.fire({
         title: '操作确认',

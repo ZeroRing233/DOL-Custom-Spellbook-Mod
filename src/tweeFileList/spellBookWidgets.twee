@@ -251,7 +251,7 @@
 			<span class="blue">安卓端暂时无法导出言灵集文件，如果您知道原版游戏在安卓端导出存档文件的实现方式，请联系作者，感激不尽！</span>
 			<br>
 			<input type="button" value="导出言灵集文件" class="saveMenuButton" onclick="exportSpellBookItem(T.spellBookCommon[T.uuid])">
-			<br>
+			<br><br>
 			从文本框导出（「导出言灵集文件」的替代方案）：
 			<textarea id="bookItemInput" rows="4" cols="40"><<if _presetData>>_presetData<</if>></textarea>
 			<br>
@@ -402,7 +402,7 @@
 <<widget "mutableSpellBookItem">>
 	<span class="gold">*在空白处长按0.5秒后可拖动言灵进行排序，点击<i class="spellBookItemEdit"></i>可进行编辑，
 	点击<i class="SpellBookItemDelete"></i>可进行删除，所有操作都可以通过回档撤回。</span>
-	<br>
+	<br><br>
 	<input type="button" class="saveMenuButton" value="添加新言灵" onclick="spellBookItemAddContent()"/>
 	<input type="button" class="saveMenuButton" value="删除所有选中的言灵" onclick="spellBookItemDeleteAll()"/>
 	<br>
@@ -412,7 +412,6 @@
 		<input type="button" value="取消添加" class="saveMenuButton hideTextAreaButton" onclick="hideAddContent()" />
 		<input type="button" value="添加到开头" class="saveMenuButton hideTextAreaButton" onclick="confirmAddContent('top')" />
 		<input type="button" value="添加到末尾" class="saveMenuButton hideTextAreaButton" onclick="confirmAddContent('end')" />
-		<br><br>
 	</div>
 	<<if _content.length is 0>>
 		<br>
@@ -464,7 +463,7 @@
 	<<set _name to $spellBook[_uuid].name>>
 	<<set _content to $spellBook[_uuid].content>>
 	<span class="spellBookItemTitle">
-		侧边栏言灵集（本存档） <mouse class="tooltip linkBlue">(?)<span>与侧边栏言灵保持同步的言灵集，注意侧边栏需在游戏内进行段落跳转（点击任意选项）才会发生改变，本言灵集不可删除，改名，保存为公共言灵集后，对应的公共言灵集仍需通过【添加到侧边栏】下的按钮手动与侧边栏同步。</span></mouse>
+		侧边栏言灵集（本存档） <mouse class="tooltip linkBlue">(?)<span>与侧边栏言灵保持同步的言灵集，注意侧边栏需在游戏内进行段落跳转（点击任意选项）才会发生改变，本言灵集不可删除，改名；保存为公共言灵集后，对应的公共言灵集仍需通过【添加到侧边栏】下的按钮手动与侧边栏同步。</span></mouse>
 	</span>
 	<span class="spellBookItemTitle">
 		<<link "点击跳转到言灵列表">><<run jumpToSpellBookItemList()>><</link>>

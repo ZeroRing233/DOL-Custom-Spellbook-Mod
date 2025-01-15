@@ -1018,10 +1018,13 @@ async function dealWithCccheat(option: string) {
             case "replace":
                 V.cccheat = T.content;
                 V.cccheat_name = T.content;
+                // cccheat重新赋值时，default需要重新指向cccheat
+                V.spellBook['default'].content = V.cccheat;
                 break;
             case "remove":
                 V.cccheat = V.cccheat.filter(item => !T.content.includes(item));
                 V.cccheat_name = V.cccheat_name.filter(item => !T.content.includes(item));
+                V.spellBook['default'].content = V.cccheat;
                 break;
             default:
                 alert("执行操作失败，操作未定义！");

@@ -1026,7 +1026,7 @@ async function dealWithCccheat(option: string) {
             default:
                 alert("执行操作失败，操作未定义！");
         }
-        window.modSweetAlert2Mod.fire('操作成功', '在游戏内进行段落跳转（点击任意选项）后即可看到效果', 'success');
+        window.modSweetAlert2Mod.fire('操作成功', '在游戏内进行段落跳转（点击任意选项）后即可看到更新后的侧边栏', 'success');
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         // 用户点击了取消按钮
         window.modSweetAlert2Mod.fire('已取消', '操作被取消', 'info');

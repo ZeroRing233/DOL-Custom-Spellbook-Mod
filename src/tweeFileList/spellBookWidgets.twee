@@ -231,7 +231,7 @@
 <<widget "editSpellBookItem_common">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-			编辑言灵集
+			编辑言灵集  <mouse class="tooltip linkBlue">(?)<span>跨存档言灵集与复制到本存档的言灵集为一一对应的关系，如果需要基于此言灵集创建新言灵集，可在【导出言灵集】后跳转到封面载入~</span></mouse>
         </div>
     	<div class="settingsToggleItemWide">
 		 	*为节省作者的脑细胞，已被跨存档保存的言灵集只提供浏览/执行功能，如果需要编辑，请点击【复制一份到当前存档】，然后跨存档保存复制后的言灵集，跨存档保存时已经存在的公共言灵集会被更新。
@@ -271,11 +271,11 @@
         </div>
     	<div class="settingsToggleItemWide">
 			*注意此功能需添加其他侧边栏模组才会生效，且该模组需要支持变量$$cccheat，您可以前往【封面】下的【使用说明】查看推荐的模组。<br>
-		 	<input type="button" class="saveMenuButton" value="将此言灵集添加到侧边栏（开头）" onclick="dealWithCccheat('addToTop')"/>
-		 	<input type="button" class="saveMenuButton" value="将此言灵集添加到侧边栏（末尾）" onclick="dealWithCccheat('addToEnd')"/>
+		 	<input type="button" class="saveMenuButton" value="添加至开头" onclick="dealWithCccheat('addToTop')"/>
+		 	<input type="button" class="saveMenuButton" value="添加至末尾" onclick="dealWithCccheat('addToEnd')"/>
 			<br>
-			<input type="button" class="saveMenuButton" value="直接用此言灵集替换侧边栏" onclick="dealWithCccheat('replace')"/>
-			<input type="button" class="saveMenuButton" value="从侧边栏移除此言灵集" onclick="dealWithCccheat('remove')"/>
+			<input type="button" class="saveMenuButton" value="替换侧边栏" onclick="dealWithCccheat('replace')"/>
+			<input type="button" class="saveMenuButton" value="从侧边栏移除" onclick="dealWithCccheat('remove')"/>
 		</div>
     </div>
 <</widget>>
@@ -363,7 +363,9 @@
 			编辑言灵集
         </div>
     	<div class="settingsToggleItemWide">
-			* 本存档言灵集删除时不会影响对应的公共言灵集，反之亦然。
+			* 本存档言灵集删除时不会影响对应的公共言灵集
+			 <mouse class="tooltip linkBlue">(?)<span>在公共言灵集中点击【复制一份到当前存档】，或者在本存档言灵集中点击【直接保存】，都会形成两者间的对应关系</span></mouse>，
+			反之亦然。
 			<br>
 			<input type="button" value="删除言灵集" class="saveMenuButton" onclick="deleteNormalSpellBookItem(V.spellBook[T.uuid])">
 			<br><br>

@@ -9,7 +9,10 @@
 模组加载时会弹出密码界面，密码为本仓库的名称：**DOL-Custom-Spellbook-Mod**
 （直接复制后输入即可）
 
-（配图1. 输入密码）
+<details>
+  <summary>点击查看图片1.输入密码</summary>
+  ![输入密码](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/1.password.jpg)
+</details>
 
 模组加载成功后，在游戏侧边栏收纳状态下会显示魔法书，点击即可体验本模组~
 

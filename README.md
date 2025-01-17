@@ -10,58 +10,84 @@
 （直接复制后输入即可）
 
 <details>
-  <summary>点击查看图片1.输入密码</summary>
+  <summary>点击查看图片 1.输入密码</summary>
 
   ![输入密码](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/1-password.jpg)
 </details>
 
 模组加载成功后，在游戏侧边栏收纳状态下会显示魔法书，点击即可体验本模组~
 
-（配图2. 魔法书位置）
+<details>
+  <summary>点击查看图片 2.魔法书位置</summary>
+
+  ![魔法书位置](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/2-spellbook.jpg)
+</details>
 
 
 ## 详细功能介绍
-
-（下列内容正在被替换成人话中，逃）
 
 ### 封面&目录：
 
 打开魔法书后，会进入封面&目录标签页，该标签页由【使用说明】，【搜索言灵】，【当前跨存档言灵集】，【当前本存档言灵集】，【新建空白言灵集】，【加载言灵集】六部分组成。其中，【使用说明】即为此文档本身，可点击标题进行查看/折叠。
 
-（配图3. 封面全图）
+<details>
+  <summary>点击查看图片 3.封面</summary>
+
+  ![封面](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/3-cover.jpg)
+</details>
 
 【搜索言灵】会展示在所有本存档（链接一）和跨存档（链接二）言灵集中的搜索结果，其中本存档的搜索结果可以选择【点击查看】或【点击编辑】跳转到对应言灵集进行查看/编辑，而跨存档的搜索结果只能跳转到对应言灵集进行查看。
 
-（配图4. 从封面搜索）
+<details>
+  <summary>点击查看图片 4.从封面搜索</summary>
+
+  ![从封面搜索](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/4-search.jpg)
+</details>
 
 在【当前跨存档言灵集】和【当前本存档言灵集】中，点击言灵集名称即可跳转到对应言灵集。
 
-（配图5. 言灵目录）
+<details>
+  <summary>点击查看图片 5.言灵目录</summary>
+
+  ![言灵目录](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/5-contents.jpg)
+</details>
 
 【新建空白言灵集】，【加载言灵集】都是创建新言灵集的方法，【加载言灵集】的数据来源为**在某一言灵集下导出的文件/复制的文本框内容**，如果你能确定文件/文本框内容的含义，也可以直接在其中进行编辑。
 
-（补充1. 点击此处查看文件/文本框内容的具体含义）
-言灵集的基本格式如下
-```json
-{
-  "name": "侧边栏言灵", 
-  "uuid": "default",
-  "content": []
-}
-```
-其中，name表示言灵集名称，uuid表示言灵集的唯一标识符，**模组内使用uuid来判断本存档和跨存档言灵集是否具有对应关系**, content 则为言灵列表里的具体内容（侧边栏言灵集的content直接就是$cccheat)。
+<details>
+  <summary>点击查看补充 1.文件/文本框内容的具体含义</summary>
 
-"default"是侧边栏言灵集专属的uuid，而其他言灵集的uuid则是随机生成的。
+  言灵集的基本格式如下
+  ```json
+  {
+    "name": "侧边栏言灵", 
+    "uuid": "default",
+    "content": []
+  }
+  ```
+  其中，name表示言灵集名称，uuid表示言灵集的唯一标识符，**模组内使用uuid来判断本存档和跨存档言灵集是否具有对应关系**, content 则为言灵列表里的具体内容（侧边栏言灵集的content直接就是$cccheat)。
 
-（补充结束）
+  "default"是侧边栏言灵集专属的uuid，而其他言灵集的uuid则是随机生成的。
+
+</details>
+
 如果待加载的言灵集已在当前存档中存在，您可以在确认弹窗中选择【覆盖】或【新增】。覆盖侧边栏言灵（[链接三]）将同时更新游戏内左侧边栏的言灵（需在游戏内进行段落跳转/点击任意选项后生效）。
 
-（配图6. 加载时的确认弹窗）
+<details>
+  <summary>点击查看图片 6.确认弹窗</summary>
+
+  ![确认弹窗](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/6-confirm.jpg)
+</details>
 
 ### 本存档言灵集：
 在封面（[链接四]）中使用【新建空白言灵集】或【加载言灵集】即可创建一份本存档言灵集，本存档言灵集由【搜索言灵】，【编辑言灵集】，【跨存档保存言灵集】，【导出言灵集】，【添加到侧边栏（联动功能）】，【言灵列表】六个部分组成，点击言灵名称下方的链接可直接跳转到言灵列表查看/编辑当前言灵集下的言灵。
 
-（配图7. 本存档言灵集截图）
+<details>
+  <summary>点击查看图片 7.本存档言灵集</summary>
+
+  ![本存档言灵集](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/7-normal.jpg)
+</details>
+
 
 在本存档言灵集下【搜索言灵】会展示**当前言灵集**下的搜索结果，同样可以选择【点击查看】或【点击编辑】跳转到对应言灵集进行查看/编辑。
 
@@ -69,12 +95,13 @@
 
 在【跨存档保存言灵集】中，可以选择【直接保存】保存一份与当前言灵集对应的公共言灵集，也可以选择创建一份全新的公共言灵集，**这些操作无法通过回档撤回**。
 
-（补充2. 点击查看跨存档言灵集的具体原理）
-跨存档言灵集的存储位置为**浏览器的indexDB**，游戏存档和手动加载的模组列表也存储在这一位置，因此，卸载并重新安装游戏本体可能会导致跨存档言灵集丢失。
+<details>
+  <summary>点击查看补充 2.跨存档言灵集的具体原理</summary>
 
-跨存档言灵集通过uuid和本存档言灵集形成一一对应的关系，也就是说，在indexDB里的数据与其对应的本存档数据（V.spellBook）会具有同样的uuid。
+  跨存档言灵集的存储位置为**浏览器的indexDB**，游戏存档和手动加载的模组列表也存储在这一位置，因此，卸载并重新安装游戏本体可能会导致跨存档言灵集丢失。
 
-（补充结束）
+  跨存档言灵集通过uuid和本存档言灵集形成一一对应的关系，也就是说，在indexDB里的数据与其对应的本存档数据（V.spellBook）会具有同样的uuid。
+</details>
 
 使用【导出言灵集】可导出当前言灵集的数据，导出后的数据可在封面中进行加载，注意目前安卓端只能选择【从文本框复制】。
 
@@ -82,19 +109,31 @@
 
 【言灵列表】展示了当前言灵集的具体内容，可以在浏览/执行模式和编辑模式之间进行切换，操作方式如下图所示，其中【添加新言灵】在点击后可选择【添加到开头】或者【添加到末尾】，【删除所有选中的言灵】需要先选中言灵再进行删除。
 
-（配图8. 编辑言灵列表）
+<details>
+  <summary>点击查看图片 8.编辑言灵集</summary>
+
+  ![编辑言灵集](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/8-edit.jpg)
+</details>
 
 ### 侧边栏言灵集：
 魔法书中自带一份侧边栏言灵，这是**与当前侧边栏言灵保持同步的言灵集**，该言灵集不可删除/改名，在言灵集中编辑言灵也会同时修改侧边栏言灵（[链接七]），注意侧边栏需要在游戏内进行段落跳转（点击任意选项）后才会被更新。
 
 侧边栏言灵集由【搜索言灵】，【跨存档保存言灵集】，【导出言灵集】，【言灵列表】四个部分组成，其功能与其他本存档言灵集基本一致，注意【跨存档保存言灵集】后，生成的公共言灵集不会与侧边栏言灵保持同步。
 
-（配图9. 侧边栏言灵集）
+<details>
+  <summary>点击查看图片 9.侧边栏言灵集</summary>
+
+  ![侧边栏言灵集](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/9-default.jpg)
+</details>
 
 ### 公共言灵集：
 在本地言灵集中点击【跨存档保存言灵集】，即可生成一份公共（跨存档）言灵集，公共言灵集由【搜索言灵】，【编辑言灵集】，【导出言灵集】，【添加到侧边栏（联动功能）】，【言灵列表（仅查看）】五个部分组成。
 
-（配图10. 公共言灵集）
+<details>
+  <summary>点击查看图片 10.公共言灵集</summary>
+
+  ![公共言灵集](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/10-common.jpg)
+</details>
 
 除了搜索结果和言灵列表无法编辑以外，公共言灵集与本存档言灵集的功能基本一致。
 

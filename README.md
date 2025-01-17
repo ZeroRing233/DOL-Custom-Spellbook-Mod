@@ -11,6 +11,7 @@
 
 <details>
   <summary>点击查看图片1.输入密码</summary>
+
   ![输入密码](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/1-password.jpg)
 </details>
 

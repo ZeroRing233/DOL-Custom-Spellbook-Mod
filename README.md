@@ -228,3 +228,4 @@ pnpm build #打包
 - 感谢[随风飘逸](https://github.com/chris81605)对本模组的测试与改进建议。
 - 感谢[再三棘](https://github.com/LooopSpiner)等模组开发群群友的改进建议。
 - 按照惯例（?)，感谢[Lyoko-Jeremie](https://github.com/Lyoko-Jeremie)开发的[模组管理器](https://github.com/Lyoko-Jeremie/sugarcube-2-ModLoader)。
+- 感谢屏幕前的你对本模组的关注和支持~

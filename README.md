@@ -190,7 +190,7 @@
 ## 侧边栏模组推荐
 本模组的[侧边栏言灵集](#侧边栏言灵集)和【添加到侧边栏】功能依赖于现有的侧边栏模组，例如：
 
-1. [作弊拓展模组](https://github.com/chris81605/Degrees-of-Lewdity_Cheat_Extended)，推荐理由：
+ [作弊拓展模组](https://github.com/chris81605/Degrees-of-Lewdity_Cheat_Extended)，推荐理由：
 
 - 在添加/删除等基础功能之外，还拥有言灵排序，言灵别名等特殊功能。
 
@@ -200,7 +200,7 @@
 
 - 模组在持续维护/更新中。
 
-2. [BCCM](https://github.com/Tony70124/BetterCheatCommandManagement-for-DOL/issues/2)，推荐理由：
+ [BCCM](https://github.com/Tony70124/BetterCheatCommandManagement-for-DOL/issues/2)，推荐理由：
 
 -  在添加/删除等基础功能之外，还拥有言灵开关，场景建造等神奇又好用的特殊功能。
 

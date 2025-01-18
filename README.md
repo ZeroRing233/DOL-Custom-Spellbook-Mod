@@ -12,7 +12,7 @@
    - [公共言灵集](#公共言灵集)
    - [言灵集对应关系说明](#言灵集对应关系说明)
 5.  [侧边栏模组推荐](#侧边栏模组推荐)
-6.  [打包方式与仓库代码说明](#打包方式与仓库代码说明)
+6.  [打包方式说明](#打包方式与仓库代码说明)
 7.  [致谢](#致谢)
 
 ## 一句话简介
@@ -206,7 +206,25 @@
 
 -  使用人数较多，会有（包括本模组作者在内的）热心玩家帮忙维护。
 
+当然，如果你有正在使用的侧边栏模组，则无需更换其他模组。
 
-## 打包方式与仓库代码说明
+
+## 打包方式说明
+
+本模组基于目前最新的 [模组开发工具](https://github.com/Muromi-Rikka/DoLModRspackExampleTS) 创建，代码结构可仔细阅读该仓库的说明。
+
+省流：下载本模组的源码后，在已安装node.js的情况下，可使用以下命令进行打包：
+
+```sh
+npm install -g pnpm #安装pnpm
+
+pnpm install #下载项目的依赖包
+
+pnpm build #打包
+```
 
 ## 致谢
+- 感谢[Rikka](https://github.com/Muromi-Rikka)开发的[模组开发工具](https://github.com/Muromi-Rikka/DoLModRspackExampleTS)及其在群内的答疑。
+- 感谢[随风飘逸](https://github.com/chris81605)对本模组的测试与改进建议。
+- 感谢[再三棘](https://github.com/LooopSpiner)等模组开发群群友的改进建议。
+- 按照惯例（?)，感谢[Lyoko-Jeremie](https://github.com/Lyoko-Jeremie)开发的[模组管理器](https://github.com/Lyoko-Jeremie/sugarcube-2-ModLoader)。

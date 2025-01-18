@@ -170,7 +170,7 @@
 - 【言灵列表】（仅查看）：查看言灵集内容。
 
 <details>
-  <summary><strong>点击查看图片 10.公共言灵集</strong<</summary>
+  <summary><strong>点击查看图片 10.公共言灵集</strong></summary>
 
   ![公共言灵集](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/10-common.jpg)
 </details>

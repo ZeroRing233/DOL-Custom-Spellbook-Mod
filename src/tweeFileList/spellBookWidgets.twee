@@ -55,7 +55,9 @@
 				使用说明（点击查看）
             </summary>
             <div class="settingsToggleItemWide">
-				内容待填充（逃）
+				一句话简介：本模组为DOL游戏的言灵管理工具，受众为已经使用过任一侧边栏言灵模组的玩家。主要功能包括：将言灵根据言灵集分类，通过文件/文本框导入/导出言灵集，跨存档保存言灵集，在所有/指定言灵集中查找言灵，对本存档言灵集中的言灵进行排序/编辑/批量删除/加入侧边栏等操作~
+				<br><br>
+				详细的图文使用说明，请访问<a href="https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod">模组的github仓库</a>进行查看。
             </div>
         </details>
     </div>

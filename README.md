@@ -19,7 +19,7 @@
 加载成功后，魔法书将出现在游戏的侧边栏（收纳状态下），点击即可体验本模组~
 
 <details>
-  <summary>点击查看图片 2.魔法书位置</summary>
+  <summary><strong>点击查看图片 2.魔法书位置</strong></summary>
 
   ![魔法书位置](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/2-spellbook.jpg)
 </details>
@@ -29,10 +29,17 @@
 
 ### 封面&目录：
 
-打开魔法书后，会进入封面&目录标签页，该标签页由【使用说明】，【搜索言灵】，【当前跨存档言灵集】，【当前本存档言灵集】，【新建空白言灵集】，【加载言灵集】六部分组成。其中，【使用说明】即为此文档本身，可点击标题进行查看/折叠。
+打开魔法书后，会进入封面&目录页面，封面包含以下六部分：
+
+- 【使用说明】：简单的使用说明，点击标题即可查看或折叠。
+- 【搜索言灵】：在本存档和跨存档的所有言灵集中搜索指定言灵。
+- 【当前跨存档言灵集】：显示当前跨存档言灵集。
+- 【当前本存档言灵集】：显示当前本存档言灵集。
+- 【新建空白言灵集】：创建一个空白言灵集。
+- 【加载言灵集】：加载已导出的言灵集文件/已复制的文本框内容。
 
 <details>
-  <summary>点击查看图片 3.封面</summary>
+  <summary><strong>点击查看图片 3.封面</strong></summary>
 
   ![封面](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/3-cover.jpg)
 </details>

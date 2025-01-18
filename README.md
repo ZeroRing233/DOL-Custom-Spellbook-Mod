@@ -11,7 +11,7 @@
 （直接复制后输入即可）
 
 <details>
-  <summary style="font-size: 18px; font-weight: bold;">点击查看图片 1.输入密码</summary>
+  <summary><strong>点击查看图片 1.输入密码</strong></summary>
 
   ![输入密码](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/1-password.jpg)
 </details>
@@ -19,7 +19,7 @@
 加载成功后，魔法书将出现在游戏的侧边栏（收纳状态下），点击即可体验本模组~
 
 <details>
-  <summary style="font-size: 18px; font-weight: bold;">点击查看图片 2.魔法书位置</summary>
+  <summary>点击查看图片 2.魔法书位置</summary>
 
   ![魔法书位置](https://github.com/ZeroRing233/DOL-Custom-Spellbook-Mod/blob/master/assets/2-spellbook.jpg)
 </details>

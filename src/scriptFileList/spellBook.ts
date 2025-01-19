@@ -422,6 +422,10 @@ function handleSortEnd(evt) {
     }
     else {
         V.spellBook[T.uuid].content = tempContent;
+        // 重新赋值时手动同步
+        if (T.uuid === 'default') {
+            V.cccheat = V.spellBook[T.uuid].content;
+        }
     }
     // 重新渲染页面
     mutableSpellBookItem();
@@ -906,6 +910,10 @@ async function spellBookItemDeleteAll() {
         // 用户点击了确认按钮
         V.spellBook[T.uuid].content = V.spellBook[T.uuid].content.filter((element, index) =>
             !selectedItems.includes(index.toString()));
+        // 注意这里有重新赋值，所以需要手动同步一下
+        if (T.uuid === 'default') {
+            V.cccheat = V.spellBook[T.uuid].content;
+        }
         window.modSweetAlert2Mod.fire('操作成功', '指定言灵删除成功', 'success');
         // 重新渲染列表
         mutableSpellBookItem();

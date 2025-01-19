@@ -66,7 +66,7 @@
 <<widget "spellBookSearch">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            搜索言灵 <mouse class="tooltip linkBlue">(?)<span>搜索出结果后可直接执行，也可跳转到对应言灵集进行查看/编辑。</span></mouse>
+            搜索言灵 <mouse class="tooltip linkBlue">(?)<span>搜索结果可以直接执行，也可以跳转到对应言灵集进行查看/编辑。</span></mouse>
         </div>
 		 <div class="settingsToggleItemWide">
 		 	<div class="spellBookSearchTextbox">
@@ -150,7 +150,7 @@
 <<widget "createSpellBookItem">>
 	<div class="settingsGrid">
         <div class="settingsHeader options">
-            新建空白言灵集 <mouse class="tooltip linkBlue">(?)<span>暂时没有言灵集重名限制和字数限制，但起名时请尽量保证简洁且有区分度。</span></mouse>
+            新建空白言灵集 <mouse class="tooltip linkBlue">(?)<span>目前没有言灵集名称的长度或重名限制，但请确保名称简洁且具有辨识度。</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
         	请输入言灵集名称：
@@ -166,7 +166,7 @@
             加载言灵集 <mouse class="tooltip linkBlue">(?)<span>数据来源为在某一言灵集下导出的文件/复制的文本框内容</span></mouse>
         </div>
         <div class="settingsToggleItemWide">
-        	从文件导入（只支持txt和json格式）：
+        	从文件导入（支持txt和json格式）：
 			<br>
 			<input type="file" onchange="uploadSpellBookItem(this)" single accept="text/*, application/json" class="uploadFileInput" />
 			<br><br>
@@ -365,7 +365,7 @@
 			编辑言灵集
         </div>
     	<div class="settingsToggleItemWide">
-			* 本存档言灵集删除时不会影响对应的公共言灵集
+			* 删除本存档言灵集不会影响对应的公共言灵集
 			 <mouse class="tooltip linkBlue">(?)<span>在公共言灵集中点击【复制一份到当前存档】，或者在本存档言灵集中点击【直接保存】，都会形成两者间的对应关系</span></mouse>，
 			反之亦然。
 			<br>

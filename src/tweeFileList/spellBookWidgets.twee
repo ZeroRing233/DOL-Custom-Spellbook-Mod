@@ -423,16 +423,16 @@
 		言灵集内容为空。
 	<</if>>
 	<ol id="sortable-list">
-		<<for _i to 0; _i lt _content.length; _i++>>
-			<li @id="'content_'+T.i">
-				<input type="checkbox" @id="'checkbox_'+T.i" />
-				<<print _content[_i]>>
-				<i @id="'editIcon_'+T.i" class="spellBookItemEdit" onclick="spellBookItemEdit(this.id)"></i>
-				<i @id="'deleteIcon_'+T.i" class="SpellBookItemDelete" onclick="spellBookItemDelete(this.id)"></i>
-				<div @id="'showContent_'+T.i" style="display:none;">
-					<textarea @id="'contentTextArea_'+T.i" rows="3" cols="30" class="contentTextArea"></textarea><br>
-					<input @id="'hideTextArea_'+T.i" type="button" value="取消更改" class="saveMenuButton hideTextAreaButton" onclick="hideTextArea(this.id)">
-					<input @id="'saveTextArea_'+T.i" type="button" value="保存更改" class="saveMenuButton hideTextAreaButton" onclick="saveTextArea(this.id)">
+		<<for _spellBookIndex to 0; _spellBookIndex lt _content.length; _spellBookIndex++>>
+			<li @id="'content_'+T.spellBookIndex">
+				<input type="checkbox" @id="'checkbox_'+T.spellBookIndex" />
+				<<print _content[_spellBookIndex]>>
+				<i @id="'editIcon_'+T.spellBookIndex" class="spellBookItemEdit" onclick="spellBookItemEdit(this.id)"></i>
+				<i @id="'deleteIcon_'+T.spellBookIndex" class="SpellBookItemDelete" onclick="spellBookItemDelete(this.id)"></i>
+				<div @id="'showContent_'+T.spellBookIndex" style="display:none;">
+					<textarea @id="'contentTextArea_'+T.spellBookIndex" rows="3" cols="30" class="contentTextArea"></textarea><br>
+					<input @id="'hideTextArea_'+T.spellBookIndex" type="button" value="取消更改" class="saveMenuButton hideTextAreaButton" onclick="hideTextArea(this.id)">
+					<input @id="'saveTextArea_'+T.spellBookIndex" type="button" value="保存更改" class="saveMenuButton hideTextAreaButton" onclick="saveTextArea(this.id)">
 					<br><br>
 				</div>
 			</li>
@@ -441,20 +441,19 @@
 <</widget>>
 
 <<widget "immutableSpellBookItem">>
-	
 	<span class="gold">*如果当前言灵集为本存档言灵集，可以点击【编辑模式】对言灵进行添加/删除/编辑/排序等操作。</span>
 	<<if _content.length is 0>>
 		<br><br>
 		言灵集内容为空。
 	<</if>>
 	<ol>
-		<<for _i to 0; _i lt _content.length; _i++>>
-			<li @id="'content_'+T.i">
-				<<print _content[_i]>>
-				<i @id="'showViewIcon_'+T.i" class="spellBookItemShowView" onclick="spellBookItemShowView(this.id)"></i>
-				<div @id="'showContent_'+T.i" style="display:none;">
-					<textarea @id="'contentTextArea_'+T.i" rows="3" cols="30" class="contentTextArea"></textarea><br>
-					<input @id="'hideTextArea_'+T.i" type="button" value="收起文本框" class="saveMenuButton hideTextAreaButton" onclick="hideTextArea(this.id)">
+		<<for _spellBookIndex to 0; _spellBookIndex lt _content.length; _spellBookIndex++>>
+			<li @id="'content_'+T.spellBookIndex">
+				<<print _content[_spellBookIndex]>>
+				<i @id="'showViewIcon_'+T.spellBookIndex" class="spellBookItemShowView" onclick="spellBookItemShowView(this.id)"></i>
+				<div @id="'showContent_'+T.spellBookIndex" style="display:none;">
+					<textarea @id="'contentTextArea_'+T.spellBookIndex" rows="3" cols="30" class="contentTextArea"></textarea><br>
+					<input @id="'hideTextArea_'+T.spellBookIndex" type="button" value="收起文本框" class="saveMenuButton hideTextAreaButton" onclick="hideTextArea(this.id)">
 					<br><br>
 				</div>
 			</li>
